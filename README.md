@@ -11,7 +11,7 @@
 
 <img src="readme-assets/icons/name.png" alt="Project Icon" width="750">
 
-[desc]
+Use this module to convert a cli program to a gui
 
 ```python
 Cli2Gui(run_function, theme=None, darkTheme=None, sizes=None, image=None,
