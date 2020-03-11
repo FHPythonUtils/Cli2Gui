@@ -28,7 +28,7 @@ Use this module to convert a CLI program to a GUI
 	- [program_name (optional)](#programname-optional)
 	- [program_description (optional)](#programdescription-optional)
 	- [max_args_shown (optional)](#maxargsshown-optional)
-	- [Install With PIP](#install-with-pip)
+- [Install With PIP](#install-with-pip)
 - [Language information](#language-information)
 	- [Built for](#built-for)
 - [Install Python on Windows](#install-python-on-windows)
@@ -191,7 +191,7 @@ maximum number of args shown before using a scrollbar
 @Cli2Gui(max_args_shown=5)
 ```
 
-### Install With PIP
+## Install With PIP
 
 ```python
 pip install cli2gui
