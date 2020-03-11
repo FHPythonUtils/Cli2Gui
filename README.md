@@ -7,17 +7,102 @@
 [![Last commit](https://img.shields.io/github/last-commit/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](../../commits/master)
 [![PyPI](https://img.shields.io/pypi/dm/cli2gui.svg?style=for-the-badge)](https://pypi.org/project/cli2gui/)
 
+<!-- omit in toc -->
 # Python.Cli2Gui
 
 <img src="readme-assets/icons/name.png" alt="Project Icon" width="750">
 
-Use this module to convert a cli program to a gui
+Use this module to convert a CLI program to a GUI
 
+- [Comparison to similar projects](#comparison-to-similar-projects)
+- [Roadmap](#roadmap)
+- [Changelog](#changelog)
+- [Decorator](#decorator)
+- [Using the decorator in your project](#using-the-decorator-in-your-project)
+	- [run_function (required)](#runfunction-required)
+	- [argparser (optional)](#argparser-optional)
+	- [theme (optional)](#theme-optional)
+	- [darkTheme (optional)](#darktheme-optional)
+	- [sizes (optional)](#sizes-optional)
+	- [image (optional)](#image-optional)
+	- [program_name (optional)](#programname-optional)
+	- [program_description (optional)](#programdescription-optional)
+	- [max_args_shown (optional)](#maxargsshown-optional)
+	- [Install With PIP](#install-with-pip)
+- [Language information](#language-information)
+	- [Built for](#built-for)
+- [Install Python on Windows](#install-python-on-windows)
+	- [Chocolatey](#chocolatey)
+	- [Download](#download)
+- [Install Python on Linux](#install-python-on-linux)
+	- [Apt](#apt)
+- [How to run](#how-to-run)
+	- [With VSCode](#with-vscode)
+	- [From the Terminal](#from-the-terminal)
+- [Download](#download-1)
+	- [Clone](#clone)
+		- [Using The Command Line](#using-the-command-line)
+		- [Using GitHub Desktop](#using-github-desktop)
+	- [Download Zip File](#download-zip-file)
+- [Licence](#licence)
+- [Screenshots](#screenshots)
+	- [Desktop](#desktop)
+	- [Themes](#themes)
+
+## Comparison to similar projects
+Do let me know if any of these are incorrect. Some of the comparisons are
+based off documentation/ the readme
+
+|Argparser|Cli2Gui|Gooey|Quick|
+|---|---|---|---|
+|Argparse|:heavy_check_mark:|:heavy_check_mark:|X|
+|Optparse|X \[Planned\]|X|X|
+|DocOpt|X \[Planned\]|X|X|
+|Click|X \[Planned\]|X|:heavy_check_mark:|
+|GetOpt|:heavy_check_mark:|X|X|
+
+|Basic GUI|Cli2Gui|Gooey|Quick|
+|---|---|---|---|
+|Override name/ description|:heavy_check_mark:|:heavy_check_mark:|?|
+|Theming|:heavy_check_mark:|Limited|?|
+|DarkMode|:heavy_check_mark:|X|:heavy_check_mark:|
+|Window Size|:heavy_check_mark:|:heavy_check_mark:|X|
+|Element Size|:heavy_check_mark:|X|X|
+|Custom Images|:heavy_check_mark:|:heavy_check_mark:|?|
+
+Cli2Gui is pretty lacking in these features and will probably remain that way
+to ease maintainability - the primary aim is to support multiple argparse
+libraries over fancy widgets
+
+|Advanced GUI|Cli2Gui|Gooey|Quick|
+|---|---|---|---|
+|Dropdown|X|:heavy_check_mark:|:heavy_check_mark:|
+|Slider|X|:heavy_check_mark:|:heavy_check_mark:|
+|Tabs|X|:heavy_check_mark:|:heavy_check_mark:|
+|Menus|X|:heavy_check_mark:|X|
+|Max Args before Scroll|:heavy_check_mark:|X|X|
+
+## Roadmap
+For completed components, see the changelog (link below)
+
+|Feature|Description|Status|
+|---|---|---|
+|Optparse|Python Optparse module|Added TODO and optparse2json.py|
+|DocOpt|https://github.com/docopt/docopt|-|
+|Click|https://github.com/pallets/click|-|
+|Gui-Menus|Menu with help text and readme|-|
+
+## Changelog
+See the [CHANGELOG](/CHANGELOG.md) for more information.
+
+
+
+## Decorator
 ```python
-Cli2Gui(run_function, theme=None, darkTheme=None, sizes=None, image=None,
+Cli2Gui(run_function, argparser="argparse", theme=None, darkTheme=None, sizes=None, image=None,
 program_name=None, program_description=None, max_args_shown=5, **kwargs):
 ```
-## Using
+## Using the decorator in your project
 ### run_function (required)
 The name of the function to call func(args: argparse.Namespace())
 
@@ -32,6 +117,14 @@ def cli():
 		help="positional arg")
 	args = parser.parse_args()
 	main(args)
+```
+
+### argparser (optional)
+Override the argparser to use, defaults to argparse. Current options are:
+argparse, getopt
+
+```python
+@Cli2Gui(argparser="argparse")
 ```
 
 ### theme (optional)
@@ -137,9 +230,6 @@ Interpreter > Python 3.8)
 ```bash
 ./[file].py
 ```
-
-## Changelog
-See the [CHANGELOG](/CHANGELOG.md) for more information.
 
 ## Download
 ### Clone

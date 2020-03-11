@@ -22,11 +22,17 @@ def get_img_data(f, first=False):
 
 def stringTitlecase(string, splitStr="_"):
 	'''Convert a string to title case '''
-	return " ".join((part[0].upper() + part[1:]) for part in string.split(splitStr))
+	try:
+		return " ".join((part[0].upper() + part[1:]) for part in string.split(splitStr))
+	except IndexError:
+		return ""
 
 def stringSentencecase(string):
 	'''Convert a string to sentence case '''
-	return string[0].upper() + string[1:]
+	try:
+		return string[0].upper() + string[1:]
+	except IndexError:
+		return ""
 
 def inputText(key):
 	'''Return an input text field '''
@@ -52,9 +58,11 @@ def helpArgHelp(helpText):
 
 def title(text, image=None):
 	'''Return a set of widgets that make up the application header '''
-	return [sg.Column([[sg.Text(text, pad=BASE["padding"], font=("sans", BASE["title_size"]))]]),
-	sg.Column([[sg.Image(data=get_img_data(image, first=True))]]
-	if image is not None else [[sg.Text("")]])]
+	if image is not None:
+		return [sg.Image(data=get_img_data(image, first=True)), sg.Text(text, pad=BASE["padding"], font=("sans", BASE["title_size"]))]
+	else:
+		return [sg.Text(text, pad=BASE["padding"], font=("sans", BASE["title_size"]))]
+
 
 def helpFlagWidget(commands, helpText, dest):
 	'''Return a set of widgets that make up an arg with true/ false'''
@@ -145,7 +153,12 @@ def run(build_spec):
 	setSizes(build_spec["sizes"])
 
 	# Build window from args
-	sections = build_spec["widgets"].popitem()[1]["contents"]
+	sections = []
+	for widget in build_spec["widgets"]:
+		sectionToExtend = widget["contents"]
+		if len(sectionToExtend) > 0:
+			sections.extend(sectionToExtend)
+
 	argConstruct = []
 	for section in sections:
 		argConstruct.append([label(stringTitlecase(section["name"], " "), 14)])
@@ -174,16 +187,23 @@ def run(build_spec):
 	else:
 		layout.extend(argConstruct)
 	layout.append([button('Run'), button('Exit')])
-	window = sg.Window(build_spec["program_name"], layout, alpha_channel=.9,
+	window = sg.Window(build_spec["program_name"], layout, alpha_channel=.95,
 	icon=get_img_data(build_spec["image"], first=True))
 
 	# While the application is running
+	argparser = build_spec["argparser"]
 	while True:
 		event, values = window.read()
 		if event in (None, 'Exit'):
 			sys.exit(0)
 		try:
-			args = argparse.Namespace(**values)
+			if argparser == "argparse":
+				args = argparse.Namespace(**values)
+			elif argparser == "optparse":
+				# TODO
+				pass
+			elif argparser == "getopt":
+				args = [(key, values[key]) for key in values if values[key]]
 			build_spec["run_function"](args)
 		except Exception as e:
 			print(repr(e))
