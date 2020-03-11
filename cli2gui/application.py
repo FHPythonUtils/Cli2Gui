@@ -157,7 +157,10 @@ def run(build_spec):
 	for widget in build_spec["widgets"]:
 		sectionToExtend = widget["contents"]
 		if len(sectionToExtend) > 0:
-			sections.extend(sectionToExtend)
+			if isinstance(sectionToExtend, dict):
+				sections.append(sectionToExtend)
+			else:
+				sections.extend(sectionToExtend)
 
 	argConstruct = []
 	for section in sections:
@@ -181,7 +184,7 @@ def run(build_spec):
 		[label(stringSentencecase(build_spec["program_description"]))]
 	]
 	if len(argConstruct) > build_spec["max_args_shown"]:
-		layout.append([sg.Column(argConstruct, size=(850, build_spec["max_args_shown"]* 5 *
+		layout.append([sg.Column(argConstruct, size=(850, build_spec["max_args_shown"]* 4.5 *
 		(BASE["helpText_size"] + BASE["text_size"])), pad=(0, 0), scrollable=True,
 		vertical_scroll_only=True)])
 	else:
@@ -189,6 +192,7 @@ def run(build_spec):
 	layout.append([button('Run'), button('Exit')])
 	window = sg.Window(build_spec["program_name"], layout, alpha_channel=.95,
 	icon=get_img_data(build_spec["image"], first=True))
+
 
 	# While the application is running
 	argparser = build_spec["argparser"]
@@ -200,8 +204,9 @@ def run(build_spec):
 			if argparser == "argparse":
 				args = argparse.Namespace(**values)
 			elif argparser == "optparse":
-				# TODO
-				pass
+				args = {}
+				for key in values:
+					args[key] = values[key] if values[key] else  None
 			elif argparser == "getopt":
 				args = [(key, values[key]) for key in values if values[key]]
 			build_spec["run_function"](args)

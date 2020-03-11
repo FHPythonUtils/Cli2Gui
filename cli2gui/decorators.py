@@ -69,8 +69,7 @@ def create_from_parser(self_parser, args_parser, kwargs_parser, source_path, **k
 
 	# Select parser
 	if argparser == "optparse":
-		# TODO
-		pass
+		build_spec.update(optparse2json.convert(self_parser, **build_spec))
 	if argparser == "getopt":
 		build_spec.update(getopt2json.convert(args_parser, **build_spec))
 	if argparser == "argparse":

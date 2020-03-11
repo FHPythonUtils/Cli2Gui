@@ -6,6 +6,7 @@ patch-level version changes can be found in [commit messages](../../commits/mast
 - Updated readme
 - added images
 - added getopt parser
+- added optparse parser
 - Program icon is to left of title
 - Streamlined argparse2json
 

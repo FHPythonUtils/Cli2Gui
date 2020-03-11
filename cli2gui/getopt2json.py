@@ -66,7 +66,6 @@ def convert(parser, **kwargs):
 		'widgets': [
 			{
 				'name': "",
-				'help': "",
 				'contents': process(parser[0], "Short Args", cat_short) +
 				process(parser[1], "Long Args", cat_long)
 			}

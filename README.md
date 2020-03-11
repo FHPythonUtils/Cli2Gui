@@ -56,7 +56,7 @@ based off documentation/ the readme
 |Argparser|Cli2Gui|Gooey|Quick|
 |---|---|---|---|
 |Argparse|:heavy_check_mark:|:heavy_check_mark:|X|
-|Optparse|X \[Planned\]|X|X|
+|Optparse|:heavy_check_mark:|X|X|
 |DocOpt|X \[Planned\]|X|X|
 |Click|X \[Planned\]|X|:heavy_check_mark:|
 |GetOpt|:heavy_check_mark:|X|X|
@@ -87,10 +87,12 @@ For completed components, see the changelog (link below)
 
 |Feature|Description|Status|
 |---|---|---|
-|Optparse|Python Optparse module|Added TODO and optparse2json.py|
 |DocOpt|https://github.com/docopt/docopt|-|
 |Click|https://github.com/pallets/click|-|
 |Gui-Menus|Menu with help text and readme|-|
+|--disable-cli2gui|Implement auto-enabled with disable flag|-|
+|Theme file|Pass a base24 scheme file|-|
+|run_function=Null|Run once if a run function isn't specified|-|
 
 ## Changelog
 See the [CHANGELOG](/CHANGELOG.md) for more information.
@@ -121,7 +123,7 @@ def cli():
 
 ### argparser (optional)
 Override the argparser to use, defaults to argparse. Current options are:
-argparse, getopt
+argparse, getopt, optparse
 
 ```python
 @Cli2Gui(argparser="argparse")

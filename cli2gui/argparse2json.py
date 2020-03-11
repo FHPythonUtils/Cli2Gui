@@ -31,9 +31,6 @@ def choose_name(name, subparser):
 	'''Get the program name	'''
 	return name if is_default_progname(name, subparser) else subparser.prog
 
-def get_subparser_help(parser):
-	return getattr(parser, 'usage', '')
-
 def contains_actions(a, b):
 	''' check if any actions(a) are present in actions(b) '''
 	return set(a).intersection(set(b))
@@ -71,7 +68,6 @@ def extract_groups(action_group):
 	'''
 	return {
 		'name': action_group.title,
-		'description': action_group.description,
 		# List of items that are not help messages
 		'items': [action for action in action_group._group_actions
                     if not isinstance(action, _HelpAction)],
@@ -85,7 +81,6 @@ def action_to_json(action, widget):
 		'data': {
 			'display_name': action.metavar or action.dest,
 			'help': action.help,
-			'nargs': action.nargs or '',
 			'commands': action.option_strings,
 			'choices': list(map(str, action.choices)) if action.choices else [],
 			'dest': action.dest,
@@ -96,8 +91,6 @@ def action_to_json(action, widget):
 def build_radio_group(mutex_group, widget_group, options):
 	return {
 		'type': 'RadioGroup',
-		'group_name': 'Choose Option',
-		'required': mutex_group.required,
 		'data': {
 			'commands': [action.option_strings for action in mutex_group._group_actions],
 			'widgets': list(categorize(mutex_group._group_actions, widget_group, options))
@@ -153,7 +146,6 @@ def convert(parser, **kwargs):
 		'widgets': [
 			{
 				'name': choose_name(name, sub_parser),
-				'help': get_subparser_help(sub_parser),
 				'contents': process(sub_parser,
 					getattr(sub_parser, 'widgets', {}),
 					getattr(sub_parser, 'options', {}))
