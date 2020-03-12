@@ -1,11 +1,6 @@
 """Generate a dict for docopt
 """
 import re
-try:
-	import docopt
-except ImportError:
-	print("FATAL: requires docopt")
-
 
 def action_to_json(action, widget, is_pos):
 	'''Generate json for an action and set the widget - used by the application'''
