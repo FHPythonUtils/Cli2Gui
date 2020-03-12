@@ -29,6 +29,12 @@ def getoptFormat(values):
 	'''Format args for getopt '''
 	return [(key, values[key]) for key in values if values[key]]
 
+def docoptFormat(values):
+	args = {}
+	for key in values:
+		args[key] = values[key] if not (isinstance(values[key], str) and len(values[key]) == 0) else None
+	return args
+
 def argFormat(values, argument_parser):
 	"""Format the args for the desired parser
 
@@ -46,4 +52,6 @@ def argFormat(values, argument_parser):
 		formattedArgs = optparseFormat(values)
 	elif argument_parser == "getopt":
 		formattedArgs = getoptFormat(values)
+	elif argument_parser == "docopt":
+		formattedArgs = docoptFormat(values)
 	return formattedArgs

@@ -19,7 +19,7 @@ Use this module to convert a CLI program to a GUI
 - [Changelog](#changelog)
 - [Decorator](#decorator)
 - [Using the decorator in your project](#using-the-decorator-in-your-project)
-	- [run_function (required)](#runfunction-required)
+	- [run_function (optional)](#runfunction-optional)
 	- [auto_enable (optional)](#autoenable-optional)
 	- [argparser (optional)](#argparser-optional)
 	- [theme (optional)](#theme-optional)
@@ -58,7 +58,7 @@ based off documentation/ the readme
 |---|---|---|---|
 |Argparse|:heavy_check_mark:|:heavy_check_mark:|X|
 |Optparse|:heavy_check_mark:|X|X|
-|DocOpt|X \[Planned\]|X|X|
+|DocOpt|:heavy_check_mark:|X|X|
 |Click|X \[Planned\]|X|:heavy_check_mark:|
 |GetOpt|:heavy_check_mark:|X|X|
 
@@ -77,7 +77,7 @@ libraries over fancy widgets
 
 |Advanced GUI|Cli2Gui|Gooey|Quick|
 |---|---|---|---|
-|Dropdown|X|:heavy_check_mark:|:heavy_check_mark:|
+|Dropdown|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
 |Slider|X|:heavy_check_mark:|:heavy_check_mark:|
 |Tabs|X|:heavy_check_mark:|:heavy_check_mark:|
 |Menus|X|:heavy_check_mark:|X|
@@ -88,15 +88,11 @@ For completed components, see the changelog (link below)
 
 |Feature|Description|Status|
 |---|---|---|
-|DocOpt|https://github.com/docopt/docopt|Created file with TODO|
 |Click|https://github.com/pallets/click|Created file with TODO|
 |Gui-Menus|Menu with help text and readme|-|
-|Theme file|Pass a base24 scheme file|-|
-|run_function=Null|Run once if a run function isn't specified|-|
 
 ## Changelog
 See the [CHANGELOG](/CHANGELOG.md) for more information.
-
 
 
 ## Decorator
@@ -105,8 +101,9 @@ Cli2Gui(run_function, auto_enable=False, argparser="argparse", theme=None, darkT
 program_name=None, program_description=None, max_args_shown=5, **kwargs):
 ```
 ## Using the decorator in your project
-### run_function (required)
-The name of the function to call eg. func(args)
+### run_function (optional)
+The name of the function to call eg. main(args). Defaults to None. If not
+specified, program continues as normal (can only run once)
 
 ```python
 def main(args):
@@ -130,14 +127,14 @@ Enable the GUI by default. If enabled by default requires `--disable-cli2gui`, o
 
 ### argparser (optional)
 Override the argparser to use, defaults to argparse. Current options are:
-"argparse", "getopt", "optparse"
+"argparse", "getopt", "optparse", "docopt"
 
 ```python
 @Cli2Gui(argparser="argparse")
 ```
 
 ### theme (optional)
-Set a base24 theme
+Set a base24 theme. Can also pass a base24 scheme file. eg. one-light.yaml
 
 ```python
 @Cli2Gui(theme=["#e7e7e9", "#dfdfe1", "#cacace", "#a0a1a7", "#696c77",
@@ -148,7 +145,8 @@ Set a base24 theme
 ```
 
 ### darkTheme (optional)
-Set a base24 dark theme variant
+Set a base24 dark theme variant. Can also pass a base24 scheme file. eg.
+one-dark.yaml
 
 ```python
 @Cli2Gui(darkTheme=["#282c34", "#3f4451", "#4f5666", "#545862", "#9196a1",

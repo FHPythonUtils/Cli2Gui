@@ -1,20 +1,47 @@
 """Application here uses PySimpleGUI
 """
 import sys
+import yaml
 import PySimpleGUI as sg
 import getostheme
 
 from cli2gui.application.pysimplegui2args import argFormat
 from cli2gui.application.widgets import Widgets
 
+def get_yaml_dict(yaml_file):
+	"""Return a yaml_dict from reading yaml_file. If yaml_file is empty or
+	doesn't exist, return an empty dict instead."""
+	try:
+		with open(yaml_file, "r") as file_:
+			yaml_dict = yaml.safe_load(file_.read()) or {}
+		return yaml_dict
+	except FileNotFoundError:
+		return {}
+
+def themeFromFile(theme):
+	"""Set the base24 theme from a base24 scheme.yaml to the application
+
+	Args:
+		theme (str): path to file
+
+	Returns:
+		str[]: theme to set
+	"""
+	schemeDictTheme = get_yaml_dict(theme)
+	return ["#"+schemeDictTheme["base{:02X}".format(x)] for x in range(0, 24)]
+
 
 def setBase24Theme(theme, darkTheme):
-	"""Set the base24 theme to set to the application
+	"""Set the base24 theme to the application
 
 	Args:
 		theme (dict): base24 theme
 		darkTheme (dict): dark theme variant
 	"""
+	if isinstance(theme, str):
+		theme = themeFromFile(theme)
+	if isinstance(darkTheme, str):
+		theme = themeFromFile(darkTheme)
 	if theme is None:
 		BASE24 = {"oneDark": ["#282c34", "#3f4451", "#4f5666", "#545862", "#9196a1",
 		"#abb2bf", "#e6e6e6", "#ffffff", "#e06c75", "#d19a66", "#e5c07b",
@@ -145,6 +172,8 @@ def run(build_spec):
 			sys.exit(0)
 		try:
 			args = argFormat(values, build_spec["argparser"])
+			if build_spec["run_function"] is None:
+				return args
 			build_spec["run_function"](args)
 		except Exception as e:
 			print(repr(e))

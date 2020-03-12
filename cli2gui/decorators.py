@@ -80,27 +80,30 @@ def create_from_parser(self_parser, args_parser, kwargs_parser, source_path, **k
 		build_spec['program_description'] = self_parser.description
 		build_spec.update(argparse2json.convert(self_parser, **build_spec))
 	if argparser == "docopt":
-		build_spec.update(docopt2json.convert(args_parser, **build_spec))
+		build_spec.update(docopt2json.convert(self_parser, **build_spec))
 
 	return build_spec
 
 
-def Cli2Gui(run_function, auto_enable=False, argparser="argparse", theme=None, darkTheme=None, sizes=None, image=None,
+def Cli2Gui(run_function=None, auto_enable=False, argparser="argparse", theme=None, darkTheme=None, sizes=None, image=None,
 program_name=None, program_description=None, max_args_shown=5, **kwargs):
 	"""Decorator to use in the function that contains the argument parser
 	Serialises data to JSON and launches the Cli2Gui application
 
 	Args:
-		run_function (def): The name of the function to call eg. func(args)
+		run_function (def, optional): The name of the function to call eg.
+		main(args). Defaults to None. If not specified, program continues as
+		normal (can only run once)
 		auto_enable (bool, optional): Enable the GUI by default. If enabled by
 		default requires `--disable-cli2gui`, otherwise requires `--cli2gui`.
 		Defaults to False.
 		argparser (str, optional): Override the argparser to use, defaults to
-		argparse. Current options are:
-		"argparse", "getopt", "optparse". Defaults to "argparse".
-		theme (str[], optional): Set a base24 theme. Defaults to None.
-		darkTheme (str[], optional): Set a base24 dark theme variant. Defaults
-		to None.
+		argparse. Current options are: "argparse", "getopt", "optparse",
+		"docopt". Defaults to "argparse".
+		theme (str[], optional): Set a base24 theme. Can also pass a base24
+		scheme file. eg. one-light.yaml. Defaults to None.
+		darkTheme (str[], optional): Set a base24 dark theme variant. Can also
+		pass a base24 scheme file. eg. one-dark.yaml. Defaults to None.
 		sizes (dict, optional): Set the UI sizes such as the button size.
 		Defaults to None.
 		image (string, optional): Set the program icon. File extensions can be
@@ -131,7 +134,7 @@ program_name=None, program_description=None, max_args_shown=5, **kwargs):
 				source_path,
 				payload_name=calling_function.__name__,
 				**params)
-			application.run(build_spec)
+			return application.run(build_spec)
 
 		def inner(*args, **kwargs):
 			"""Replace the inner functions with run_cli2gui. eg. When
