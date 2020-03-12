@@ -12,12 +12,14 @@ import getopt
 from cli2gui import Cli2Gui
 
 def handle(args):
+	'''Handle the args '''
 	print(args)
 
 @Cli2Gui(run_function=handle, argparser="getopt")
 def cli():
-
-	options, _remainder = getopt.getopt(sys.argv[1:], 'ts:c:o', ['store-true', 'store=', 'count=', 'choice=',])
+	'''Cli entrypoint '''
+	options, _remainder = getopt.getopt(sys.argv[1:], 'ts:c:o',
+	['store-true', 'store=', 'count=', 'choice=',])
 	handle(options)
 
 cli()

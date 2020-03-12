@@ -1,6 +1,5 @@
 """Decorator and entry point for the program
 """
-import json
 from os import path
 import sys
 from functools import reduce
@@ -85,8 +84,9 @@ def create_from_parser(self_parser, args_parser, kwargs_parser, source_path, **k
 	return build_spec
 
 
-def Cli2Gui(run_function=None, auto_enable=False, argparser="argparse", theme=None, darkTheme=None, sizes=None, image=None,
-program_name=None, program_description=None, max_args_shown=5, **kwargs):
+def Cli2Gui(run_function=None, auto_enable=False, argparser="argparse",
+theme=None, darkTheme=None, sizes=None, image=None, program_name=None,
+program_description=None, max_args_shown=5, **kwargs):
 	"""Decorator to use in the function that contains the argument parser
 	Serialises data to JSON and launches the Cli2Gui application
 

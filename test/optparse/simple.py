@@ -12,12 +12,13 @@ import optparse
 from cli2gui import Cli2Gui
 
 def handle(args):
+	'''Handle the args '''
 	print(args)
 
 @Cli2Gui(run_function=handle, argparser="optparse")
 def cli():
+	'''Cli entrypoint '''
 	parser = optparse.OptionParser("Simple Parser")
-
 
 	parser.add_option("--optional", help="optional arg")
 
@@ -26,7 +27,8 @@ def cli():
 	parser.add_option("--store-false", action="store_false", help="optional arg store false")
 	parser.add_option("--store", action="store", help="optional arg store")
 	parser.add_option("--count", action="count", help="optional arg count")
-	parser.add_option("--choices", action="store", choices=["choice1", "choice2"], help="optional arg store with choices")
+	parser.add_option("--choices", action="store", choices=["choice1", "choice2"],
+	help="optional arg store with choices")
 
 	args = parser.parse_args()
 

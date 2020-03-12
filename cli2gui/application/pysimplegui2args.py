@@ -30,6 +30,7 @@ def getoptFormat(values):
 	return [(key, values[key]) for key in values if values[key]]
 
 def docoptFormat(values):
+	'''Format args for docopt '''
 	args = {}
 	for key in values:
 		args[key] = values[key] if not (isinstance(values[key], str) and len(values[key]) == 0) else None

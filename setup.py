@@ -1,3 +1,5 @@
+"""Do setup for uploading to pypi
+"""
 import setuptools
 
 with open("README.md", "r") as readme:

@@ -1,3 +1,5 @@
+"""Generate a dict for docopt
+"""
 import re
 try:
 	import docopt
@@ -5,14 +7,14 @@ except ImportError:
 	print("FATAL: requires docopt")
 
 
-def action_to_json(action, widget, ispos):
+def action_to_json(action, widget, is_pos):
 	'''Generate json for an action and set the widget - used by the application'''
-	if ispos:
+	if is_pos:
 		name = action[0]
 	else:
 		name = action[1].replace("--", "") if action[1] is not None else action[0].replace("-")
 
-	if ispos or action[1] is None:
+	if is_pos or action[1] is None:
 		commands = [action[0]]
 	elif action[0] is None:
 		commands = [action[1]]
@@ -24,23 +26,23 @@ def action_to_json(action, widget, ispos):
 		'data': {
 			'display_name': name,
 			'help': action[-1],
-			'nargs': action[2] if not ispos else '',
+			'nargs': action[2] if not is_pos else '',
 			'commands': commands,
 			'choices': [],
-			'dest': action[1] if not ispos and action[1] is not None else action[0],
+			'dest': action[1] if not is_pos and action[1] is not None else action[0],
 		},
 	}
 
 
 
-def categorise(actions, ispos=False):
+def categorise(actions, is_pos=False):
 	'''Catergorise each action and generate json '''
 	for action in actions:
 		# ('-h', '--help', 0, False, 'show this help message and exit')
-		if not ispos and action[3] in (True, False):
-			yield action_to_json(action, "Bool", ispos)
+		if not is_pos and action[3] in (True, False):
+			yield action_to_json(action, "Bool", is_pos)
 		else:
-			yield action_to_json(action, "TextBox", ispos)
+			yield action_to_json(action, "TextBox", is_pos)
 
 def extract(parser):
 	'''Get the actions as json for the parser '''
@@ -57,12 +59,14 @@ def extract(parser):
 
 
 def parse_section(name, source):
+	'''Taken from docopt '''
 	pattern = re.compile('^([^\n]*' + name + '[^\n]*\n?(?:[ \t].*?(?:\n|$))*)',
 						 re.IGNORECASE | re.MULTILINE)
 	return [s.strip() for s in pattern.findall(source)]
 
 
 def parse(option_description):
+	'''Parse an option help text, adapted from docopt '''
 	short, long, argcount, value = None, None, 0, False
 	options, _, description = option_description.strip().partition('  ')
 	options = options.replace(',', ' ').replace('=', ' ')
@@ -80,6 +84,7 @@ def parse(option_description):
 
 
 def parse_opt(doc):
+	'''Parse an option help text, adapted from docopt '''
 	defaults = []
 	for s in parse_section('options:', doc):
 		_, _, s = s.partition(':')
@@ -91,6 +96,7 @@ def parse_opt(doc):
 
 
 def parse_pos(doc):
+	'''Parse positional arguments from docstring '''
 	defaults = []
 	for s in parse_section('arguments:', doc):
 		_, _, s = s.partition(':')

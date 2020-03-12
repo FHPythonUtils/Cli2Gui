@@ -38,7 +38,7 @@ def cat_short(actions):
 			else:
 				yield action_to_json(actions[index], "Bool")
 				index += 1
-		except BaseException:
+		except IndexError:
 			yield action_to_json(actions[index], "Bool")
 			break
 
