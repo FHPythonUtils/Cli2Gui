@@ -1,7 +1,6 @@
 """Generate a dict describing argparse arguments
 """
 import argparse
-import json
 from os import path
 from sys import argv
 from argparse import (

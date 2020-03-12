@@ -1,6 +1,5 @@
 """Generate a dict for getopt
 """
-import json
 
 def action_to_json(action, widget, short=True):
 	"""Convert an arg to json, behave in the same way as argparse hence the large
