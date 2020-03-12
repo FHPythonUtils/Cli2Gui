@@ -20,6 +20,7 @@ Use this module to convert a CLI program to a GUI
 - [Decorator](#decorator)
 - [Using the decorator in your project](#using-the-decorator-in-your-project)
 	- [run_function (required)](#runfunction-required)
+	- [auto_enable (optional)](#autoenable-optional)
 	- [argparser (optional)](#argparser-optional)
 	- [theme (optional)](#theme-optional)
 	- [darkTheme (optional)](#darktheme-optional)
@@ -87,10 +88,9 @@ For completed components, see the changelog (link below)
 
 |Feature|Description|Status|
 |---|---|---|
-|DocOpt|https://github.com/docopt/docopt|-|
-|Click|https://github.com/pallets/click|-|
+|DocOpt|https://github.com/docopt/docopt|Created file with TODO|
+|Click|https://github.com/pallets/click|Created file with TODO|
 |Gui-Menus|Menu with help text and readme|-|
-|--disable-cli2gui|Implement auto-enabled with disable flag|-|
 |Theme file|Pass a base24 scheme file|-|
 |run_function=Null|Run once if a run function isn't specified|-|
 
@@ -101,12 +101,12 @@ See the [CHANGELOG](/CHANGELOG.md) for more information.
 
 ## Decorator
 ```python
-Cli2Gui(run_function, argparser="argparse", theme=None, darkTheme=None, sizes=None, image=None,
+Cli2Gui(run_function, auto_enable=False, argparser="argparse", theme=None, darkTheme=None, sizes=None, image=None,
 program_name=None, program_description=None, max_args_shown=5, **kwargs):
 ```
 ## Using the decorator in your project
 ### run_function (required)
-The name of the function to call func(args: argparse.Namespace())
+The name of the function to call eg. func(args)
 
 ```python
 def main(args):
@@ -121,16 +121,23 @@ def cli():
 	main(args)
 ```
 
+### auto_enable (optional)
+Enable the GUI by default. If enabled by default requires `--disable-cli2gui`, otherwise requires `--cli2gui`
+
+```python
+@Cli2Gui(auto_enable=False)
+```
+
 ### argparser (optional)
 Override the argparser to use, defaults to argparse. Current options are:
-argparse, getopt, optparse
+"argparse", "getopt", "optparse"
 
 ```python
 @Cli2Gui(argparser="argparse")
 ```
 
 ### theme (optional)
-Set a theme
+Set a base24 theme
 
 ```python
 @Cli2Gui(theme=["#e7e7e9", "#dfdfe1", "#cacace", "#a0a1a7", "#696c77",
@@ -141,7 +148,7 @@ Set a theme
 ```
 
 ### darkTheme (optional)
-Set a dark theme variant
+Set a base24 dark theme variant
 
 ```python
 @Cli2Gui(darkTheme=["#282c34", "#3f4451", "#4f5666", "#545862", "#9196a1",
@@ -152,7 +159,7 @@ Set a dark theme variant
 ```
 
 ### sizes (optional)
-Set the UI sizes
+Set the UI sizes such as the button size
 
 ```python
 @Cli2Gui(sizes={
@@ -187,7 +194,7 @@ Override the program description
 ```
 
 ### max_args_shown (optional)
-maximum number of args shown before using a scrollbar
+Maximum number of args shown before using a scrollbar
 
 ```python
 @Cli2Gui(max_args_shown=5)

@@ -76,6 +76,7 @@ def extract_groups(action_group):
 	}
 
 def action_to_json(action, widget):
+	'''Generate json for an action and set the widget - used by the application'''
 	return {
 		'type': widget,
 		'data': {
@@ -90,7 +91,7 @@ def action_to_json(action, widget):
 
 def build_radio_group(mutex_group, widget_group, options):
 	return {
-		'type': 'RadioGroup',
+		'type': 'Group',
 		'data': {
 			'commands': [action.option_strings for action in mutex_group._group_actions],
 			'widgets': list(categorize(mutex_group._group_actions, widget_group, options))
@@ -99,16 +100,18 @@ def build_radio_group(mutex_group, widget_group, options):
 
 
 def categorize(actions, widget_dict, options):
+	'''Catergorise each action and generate json '''
 	for action in actions:
-		# action is of type mutex group
 		if isinstance(action, _MutuallyExclusiveGroup):
 			yield build_radio_group(action, widget_dict, options)
-		# _actions which are either, store_bool, etc..
 		elif isinstance(action, (_StoreTrueAction, _StoreFalseAction)):
 			yield action_to_json(action, "Bool")
-		# _actions which are of type _CountAction
 		elif isinstance(action, _CountAction):
 			yield action_to_json(action, "Counter")
+		elif action.choices:
+			yield action_to_json(action, "Dropdown")
+		elif isinstance(action.type, argparse.FileType):
+			yield action_to_json(action, "File")
 		else:
 			yield action_to_json(action, "TextBox")
 

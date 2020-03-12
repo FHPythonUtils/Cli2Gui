@@ -9,6 +9,7 @@ patch-level version changes can be found in [commit messages](../../commits/mast
 - added optparse parser
 - Program icon is to left of title
 - Streamlined argparse2json
+- refactor
 
 ## 2020 - 2020/03/06
 - First release

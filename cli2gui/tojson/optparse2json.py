@@ -1,22 +1,25 @@
 """Generate a dict describing optparse arguments
 """
-import optparse
 
 def extract_options(option_group):
+	'''Get the actions as json for each item under a group '''
 	return {
 		'name': option_group.title,
 		# List of items that are not help messages
-		'items': list(categorize([action for action in option_group.option_list if action.action not in "help"])),
+		'items': list(categorize([action for action in option_group.option_list
+		if action.action not in "help"])),
 		'groups': [],
 	}
 
 def extract_groups(parser):
+	'''Get the actions as json for each item and group under the parser '''
 	items = list(categorize([action for action in parser.option_list if action.action not in "help"]))
 	for group in parser.option_groups:
-		items.extend(list(categorize([action for action in group.option_list if action.action not in "help"])))
+		items.extend(list(categorize([action for action in group.option_list
+		if action.action not in "help"])))
 
 	return {
-		'name': "foo",
+		'name': "Arguments",
 		'items': items,
 		'groups': [extract_options(group)
                     for group in parser.option_groups],
@@ -24,6 +27,7 @@ def extract_groups(parser):
 
 
 def action_to_json(action, widget):
+	'''Generate json for an action and set the widget - used by the application'''
 	return {
 		'type': widget,
 		'data': {
@@ -39,6 +43,7 @@ def action_to_json(action, widget):
 
 
 def categorize(actions):
+	'''Catergorise each action and generate json '''
 	for action in actions:
 		# _actions which are either, store_bool, etc..
 		if action.action in ("store_true", "store_false"):
