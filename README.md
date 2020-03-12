@@ -1,5 +1,5 @@
 [![Github top language](https://img.shields.io/github/languages/top/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](../../)
-[![Codacy grade](https://img.shields.io/codacy/grade/[codacy-proj-id].svg?style=for-the-badge)](https://www.codacy.com/manual/FredHappyface/Python.Cli2Gui)
+[![Codacy grade](https://img.shields.io/codacy/grade/6a1ebf45daa347c8a2ed26281e6370db.svg?style=for-the-badge)](https://www.codacy.com/manual/FredHappyface/Python.Cli2Gui)
 [![Repository size](https://img.shields.io/github/repo-size/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](../../)
 [![Issues](https://img.shields.io/github/issues/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](../../issues)
 [![License](https://img.shields.io/github/license/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](/LICENSE.md)
