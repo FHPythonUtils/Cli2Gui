@@ -5,7 +5,8 @@
 [![License](https://img.shields.io/github/license/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](/LICENSE.md)
 [![Commit activity](https://img.shields.io/github/commit-activity/m/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](../../commits/master)
 [![Last commit](https://img.shields.io/github/last-commit/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](../../commits/master)
-[![PyPI](https://img.shields.io/pypi/dm/cli2gui.svg?style=for-the-badge)](https://pypi.org/project/cli2gui/)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/cli2gui.svg?style=for-the-badge)](https://pypi.org/project/cli2gui/)
+[![PyPI Version](https://img.shields.io/pypi/v/cli2gui.svg?style=for-the-badge)](https://pypi.org/project/cli2gui/)
 
 <!-- omit in toc -->
 # Python.Cli2Gui
