@@ -114,8 +114,9 @@ See the [CHANGELOG](/CHANGELOG.md) for more information.
 
 ## Decorator
 ```python
-Cli2Gui(run_function, auto_enable=False, parser="argparse", theme=None, darkTheme=None, sizes=None, image=None,
-program_name=None, program_description=None, max_args_shown=5, **kwargs):
+@Cli2Gui(run_function, auto_enable=False, parser="argparse", gui="pysimplegui",
+		theme=None, darkTheme=None, sizes=None, image=None, program_name=None,
+		program_description=None, max_args_shown=5, **kwargs)
 ```
 ## Using the decorator in your project
 ### run_function (optional)
