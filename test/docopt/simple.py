@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 usage:
-  simple.py [-h] [--optional OPTIONAL] [--store-true] [--store-false] [--store STORE] [--count] [--choices {choice1,choice2}] PATH
+  simple.py [-h] [--optional OPTIONAL] [--store-true] [--store-false]
+  [--store STORE] [--count] [--choices {choice1,choice2}] PATH
 
 Arguments:
   PATH            positional arg
@@ -31,7 +32,7 @@ def handle(args):
 	'''Handle the args '''
 	print(args)
 
-@Cli2Gui(run_function=handle, argparser="docopt")
+@Cli2Gui(run_function=handle, parser="docopt")
 def cli():
 	'''Cli entrypoint '''
 	args = docopt.docopt(__doc__)

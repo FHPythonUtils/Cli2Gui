@@ -27,7 +27,7 @@ def optparseFormat(values):
 
 def getoptFormat(values):
 	'''Format args for getopt '''
-	return [(key, values[key]) for key in values if values[key]]
+	return ([(key, values[key]) for key in values if values[key]], [])
 
 def docoptFormat(values):
 	'''Format args for docopt '''

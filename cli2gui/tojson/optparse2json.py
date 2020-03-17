@@ -14,10 +14,6 @@ def extract_options(option_group):
 def extract_groups(parser):
 	'''Get the actions as json for each item and group under the parser '''
 	items = list(categorize([action for action in parser.option_list if action.action not in "help"]))
-	for group in parser.option_groups:
-		items.extend(list(categorize([action for action in group.option_list
-		if action.action not in "help"])))
-
 	return {
 		'name': "Arguments",
 		'items': items,
@@ -41,7 +37,6 @@ def action_to_json(action, widget):
 	}
 
 
-
 def categorize(actions):
 	'''Catergorise each action and generate json '''
 	for action in actions:
@@ -49,13 +44,15 @@ def categorize(actions):
 		if action.action in ("store_true", "store_false"):
 			yield action_to_json(action, "Bool")
 		# _actions which are of type _CountAction
+		elif action.choices:
+			yield action_to_json(action, "Dropdown")
 		elif action.action in "count":
 			yield action_to_json(action, "Counter")
 		else:
 			yield action_to_json(action, "TextBox")
 
 
-def convert(parser, **kwargs):
+def convert(parser):
 	"""Convert argparse to a dict
 
 	Args:
@@ -65,6 +62,7 @@ def convert(parser, **kwargs):
 		dict: dictionary representing parser object
 	"""
 	return {
+		'parser_description': "",
 		'widgets': [
 			{
 				'name': parser.get_prog_name(),

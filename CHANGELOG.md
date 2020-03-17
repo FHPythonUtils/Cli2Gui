@@ -2,6 +2,12 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2020.3 - 2020/03/17
+- can use pysimplegui, pysimpleguiqt, pysimpleguiweb
+- updated readme and added data structures documentation
+- bugfixes
+- lint fixes
+
 ## 2020.3 - 2020/03/12
 - added docopt parser
 - base24 scheme can be used as theme

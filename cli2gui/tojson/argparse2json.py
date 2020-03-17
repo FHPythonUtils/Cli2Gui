@@ -135,7 +135,7 @@ def process(parser, widget_dict, options):
 	return categorize2(strip_empty(corrected_action_groups), widget_dict, options)
 
 
-def convert(parser, **kwargs):
+def convert(parser):
 	"""Convert argparse to a dict
 
 	Args:
@@ -145,6 +145,7 @@ def convert(parser, **kwargs):
 		dict: dictionary representing parser object
 	"""
 	return {
+		'parser_description': parser.description,
 		'widgets': [
 			{
 				'name': choose_name(name, sub_parser),

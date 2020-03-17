@@ -15,13 +15,17 @@
 Use this module to convert a CLI program to a GUI
 
 - [Comparison to similar projects](#comparison-to-similar-projects)
+	- [Parser Support](#parser-support)
+	- [GUI Toolkit Support](#gui-toolkit-support)
+	- [GUI Feature Support](#gui-feature-support)
 - [Roadmap](#roadmap)
 - [Changelog](#changelog)
 - [Decorator](#decorator)
 - [Using the decorator in your project](#using-the-decorator-in-your-project)
 	- [run_function (optional)](#runfunction-optional)
 	- [auto_enable (optional)](#autoenable-optional)
-	- [argparser (optional)](#argparser-optional)
+	- [parser (optional)](#parser-optional)
+	- [gui (optional)](#gui-optional)
 	- [theme (optional)](#theme-optional)
 	- [darkTheme (optional)](#darktheme-optional)
 	- [sizes (optional)](#sizes-optional)
@@ -29,6 +33,7 @@ Use this module to convert a CLI program to a GUI
 	- [program_name (optional)](#programname-optional)
 	- [program_description (optional)](#programdescription-optional)
 	- [max_args_shown (optional)](#maxargsshown-optional)
+- [Data Structures](#data-structures)
 - [Install With PIP](#install-with-pip)
 - [Language information](#language-information)
 	- [Built for](#built-for)
@@ -54,7 +59,8 @@ Use this module to convert a CLI program to a GUI
 Do let me know if any of these are incorrect. Some of the comparisons are
 based off documentation/ the readme
 
-|Argparser|Cli2Gui|Gooey|Quick|
+### Parser Support
+|Parser|Cli2Gui|Gooey|Quick|
 |---|---|---|---|
 |Argparse|:heavy_check_mark:|:heavy_check_mark:|X|
 |Optparse|:heavy_check_mark:|X|X|
@@ -62,6 +68,17 @@ based off documentation/ the readme
 |Click|X \[Planned\]|X|:heavy_check_mark:|
 |GetOpt|:heavy_check_mark:|X|X|
 
+### GUI Toolkit Support
+|GUI Toolkits|Cli2Gui|Gooey|Quick|
+|---|---|---|---|
+|Tkinter|:heavy_check_mark:|X|X|
+|WxWidgets|X|:heavy_check_mark:|X|
+|Qt|:heavy_check_mark:|X|:heavy_check_mark:|
+|Gtk|X|X|X|
+|Web|:heavy_check_mark:|X|X|
+
+
+### GUI Feature Support
 |Basic GUI|Cli2Gui|Gooey|Quick|
 |---|---|---|---|
 |Override name/ description|:heavy_check_mark:|:heavy_check_mark:|?|
@@ -97,7 +114,7 @@ See the [CHANGELOG](/CHANGELOG.md) for more information.
 
 ## Decorator
 ```python
-Cli2Gui(run_function, auto_enable=False, argparser="argparse", theme=None, darkTheme=None, sizes=None, image=None,
+Cli2Gui(run_function, auto_enable=False, parser="argparse", theme=None, darkTheme=None, sizes=None, image=None,
 program_name=None, program_description=None, max_args_shown=5, **kwargs):
 ```
 ## Using the decorator in your project
@@ -125,35 +142,45 @@ Enable the GUI by default. If enabled by default requires `--disable-cli2gui`, o
 @Cli2Gui(auto_enable=False)
 ```
 
-### argparser (optional)
-Override the argparser to use, defaults to argparse. Current options are:
+### parser (optional)
+Override the parser to use, defaults to argparse. Current options are:
 "argparse", "getopt", "optparse", "docopt"
 
 ```python
-@Cli2Gui(argparser="argparse")
+@Cli2Gui(parser="argparse")
+```
+
+### gui (optional)
+Override the gui to use. Current options are:
+"pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to "pysimplegui".
+
+pysimplegui is the recommended option
+
+```python
+@Cli2Gui(gui="pysimplegui")
 ```
 
 ### theme (optional)
-Set a base24 theme. Can also pass a base24 scheme file. eg. one-light.yaml
+Set a base24 theme. Can also pass a base24 scheme file. eg. `one-light.yaml`
 
 ```python
 @Cli2Gui(theme=["#e7e7e9", "#dfdfe1", "#cacace", "#a0a1a7", "#696c77",
 		"#383a42", "#202227", "#090a0b", "#ca1243", "#c18401", "#febb2a",
 		"#50a14f", "#0184bc", "#4078f2", "#a626a4", "#986801", "#f0f0f1",
 		"#fafafa", "#ec2258", "#f4a701", "#6db76c", "#01a7ef", "#709af5",
-		"#d02fcd",])
+		"#d02fcd"])
 ```
 
 ### darkTheme (optional)
 Set a base24 dark theme variant. Can also pass a base24 scheme file. eg.
-one-dark.yaml
+`one-dark.yaml`
 
 ```python
 @Cli2Gui(darkTheme=["#282c34", "#3f4451", "#4f5666", "#545862", "#9196a1",
 		"#abb2bf", "#e6e6e6", "#ffffff", "#e06c75", "#d19a66", "#e5c07b",
 		"#98c379", "#56b6c2", "#61afef", "#c678dd", "#be5046", "#21252b",
 		"#181a1f", "#ff7b86", "#efb074", "#b1e18b", "#63d4e0", "#67cdff",
-		"#e48bff",])
+		"#e48bff"])
 ```
 
 ### sizes (optional)
@@ -161,14 +188,13 @@ Set the UI sizes such as the button size
 
 ```python
 @Cli2Gui(sizes={
-			"title_size": 28,
-			"label_size": (30, None),
-			"input_size": (30, 1),
-			"button":(10, 1),
-			"padding":(5, 10),
-			"helpText_size": 14,
-			"text_size": 11
-		})
+		"title_size": 28,
+		"label_size": (30, None),
+		"input_size": (30, 1),
+		"button":(10, 1),
+		"padding":(5, 10),
+		"helpText_size": 14,
+		"text_size": 11})
 ```
 ### image (optional)
 Set the program icon. File extensions can be any that PIL supports
@@ -197,6 +223,10 @@ Maximum number of args shown before using a scrollbar
 ```python
 @Cli2Gui(max_args_shown=5)
 ```
+
+## Data Structures
+See the [DATA_STRUCTURES](/DATA_STRUCTURES.md) for more information.
+
 
 ## Install With PIP
 

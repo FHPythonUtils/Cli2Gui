@@ -15,7 +15,7 @@ def handle(args):
 	'''Handle the args '''
 	print(args)
 
-@Cli2Gui(run_function=handle, argparser="optparse")
+@Cli2Gui(run_function=handle, parser="optparse")
 def cli():
 	'''Cli entrypoint '''
 	parser = optparse.OptionParser("Simple Parser")

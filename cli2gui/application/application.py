@@ -2,7 +2,6 @@
 """
 import sys
 import yaml
-import PySimpleGUI as sg
 import getostheme
 
 from cli2gui.application.pysimplegui2args import argFormat
@@ -31,7 +30,7 @@ def themeFromFile(theme):
 	return ["#"+schemeDictTheme["base{:02X}".format(x)] for x in range(0, 24)]
 
 
-def setBase24Theme(theme, darkTheme):
+def setBase24Theme(theme, darkTheme, sg):
 	"""Set the base24 theme to the application
 
 	Args:
@@ -70,25 +69,77 @@ def setBase24Theme(theme, darkTheme):
 	sg.theme("theme")
 
 
-def setupWidgets(sizes):
+def setupWidgets(gui, sizes, sg):
 	"""Set the widget sizes to the application
 
 	Args:
 		sizes (dict): dict containing the sizes
 	"""
-	return Widgets(sizes) if sizes is not None else Widgets({
-			"title_size": 28,
-			"label_size": (30, None),
-			"input_size": (30, 1),
-			"button":(10, 1),
-			"padding":(5, 10),
-			"helpText_size": 14,
-			"text_size": 11
-		})
+	widgetSizes = sizes
+	if sizes is None:
+		if gui in ["pysimpleguiqt", "pysimpleguiweb"]:
+			widgetSizes = {
+				"title_size": 28,
+				"label_size": (600, None),
+				"input_size": (30, 1),
+				"button":(10, 1),
+				"padding":(5, 10),
+				"helpText_size": 14,
+				"text_size": 11
+			}
+		else:
+			widgetSizes = {
+				"title_size": 28,
+				"label_size": (30, None),
+				"input_size": (30, 1),
+				"button":(10, 1),
+				"padding":(5, 10),
+				"helpText_size": 14,
+				"text_size": 11
+			}
+	return Widgets(widgetSizes, sg)
 
 
-def createLayout(build_spec, widgets):
-	"""Create the pysimple gui layout from the build spec
+def addItemsAndGroups(section, argConstruct, widgets):
+	"""Add items and groups to the argConstruct list
+
+	Args:
+		section (dict): contents/ section containing name, items and groups
+		argConstruct (list): list of widgets to add to the program window
+		widgets (obj): widgets object used to generate widgets to add to
+		argConstruct
+
+	Returns:
+		list: updated argConstruct
+	"""
+	argConstruct.append([widgets.label(widgets.stringTitlecase(section["name"], " "), 14)])
+	for item in section["items"]:
+		itemData = item["data"]
+		if item["type"] == "Group":
+			rGroup = itemData["widgets"]
+			for rElement in rGroup:
+				rElementData = rElement["data"]
+				argConstruct.append(widgets.helpFlagWidget(rElementData['display_name'],
+				rElementData['commands'], rElementData['help'], rElementData['dest']))
+		elif item["type"] == "Bool":
+			argConstruct.append(widgets.helpFlagWidget(itemData['display_name'], itemData['commands'],
+			itemData['help'], itemData['dest']))
+		elif item["type"] == "File":
+			argConstruct.append(widgets.helpFileWidget(itemData['display_name'], itemData['commands'],
+			itemData['help'], itemData['dest']))
+		elif item["type"] == "Dropdown":
+			argConstruct.append(widgets.helpDropdownWidget(itemData['display_name'], itemData['commands'],
+			itemData['help'], itemData['dest'], itemData["choices"]))
+		else:
+			argConstruct.append(widgets.helpTextWidget(itemData['display_name'], itemData['commands'],
+			itemData['help'], itemData['dest']))
+	for group in section["groups"]:
+		argConstruct = addItemsAndGroups(group, argConstruct, widgets)
+	return argConstruct
+
+
+def createLayout(build_spec, widgets, sg):
+	"""Create the pysimplegui layout from the build spec
 
 	Args:
 		build_spec (dict): build spec containing widget descriptions, program
@@ -98,6 +149,7 @@ def createLayout(build_spec, widgets):
 	Returns:
 		list: list of widgets (layout list)
 	"""
+
 	sections = []
 	for widget in build_spec["widgets"]:
 		sectionToExtend = widget["contents"]
@@ -109,34 +161,15 @@ def createLayout(build_spec, widgets):
 
 	argConstruct = []
 	for section in sections:
-		argConstruct.append([widgets.label(widgets.stringTitlecase(section["name"], " "), 14)])
-		for item in section["items"]:
-			itemData = item["data"]
-			if item["type"] == "Group":
-				rGroup = itemData["widgets"]
-				for rElement in rGroup:
-					rElementData = rElement["data"]
-					argConstruct.append(widgets.helpFlagWidget(rElementData['display_name'],
-					rElementData['commands'], rElementData['help'], rElementData['dest']))
-			elif item["type"] == "Bool":
-				argConstruct.append(widgets.helpFlagWidget(itemData['display_name'], itemData['commands'],
-				itemData['help'], itemData['dest']))
-			elif item["type"] == "File":
-				argConstruct.append(widgets.helpFileWidget(itemData['display_name'], itemData['commands'],
-				itemData['help'], itemData['dest']))
-			elif item["type"] == "Dropdown":
-				argConstruct.append(widgets.helpDropdownWidget(itemData['display_name'], itemData['commands'],
-				itemData['help'], itemData['dest'], itemData["choices"]))
-			else:
-				argConstruct.append(widgets.helpTextWidget(itemData['display_name'], itemData['commands'],
-				itemData['help'], itemData['dest']))
+		argConstruct = addItemsAndGroups(section, argConstruct, widgets)
 
 	# Set the layout
 	layout = [
 		widgets.title(build_spec["program_name"], build_spec["image"]),
-		[widgets.label(widgets.stringSentencecase(build_spec["program_description"]))]
+		[widgets.label(widgets.stringSentencecase(build_spec["program_description"]
+		if build_spec["program_description"] is not None else build_spec["parser_description"]))]
 	]
-	if len(argConstruct) > build_spec["max_args_shown"]:
+	if len(argConstruct) > build_spec["max_args_shown"] and build_spec["gui"] == "pysimplegui":
 		layout.append([sg.Column(argConstruct, size=(850, build_spec["max_args_shown"]* 4.5 *
 		(widgets.SIZES["helpText_size"] + widgets.SIZES["text_size"])), pad=(0, 0), scrollable=True,
 		vertical_scroll_only=True)])
@@ -153,14 +186,21 @@ def run(build_spec):
 		build_spec (dict): args that customise the application such as the theme
 		or the function to run
 	"""
+	if build_spec["gui"] == "pysimpleguiqt":
+		import PySimpleGUIQt as sg
+	elif build_spec["gui"] == "pysimpleguiweb":
+		import PySimpleGUIWeb as sg
+	else:
+		import PySimpleGUI as sg
+
 	# Set the theme
-	setBase24Theme(build_spec["theme"], build_spec["darkTheme"])
+	setBase24Theme(build_spec["theme"], build_spec["darkTheme"], sg)
 
 	# Set sizes
-	widgets = setupWidgets(build_spec["sizes"])
+	widgets = setupWidgets(build_spec["gui"], build_spec["sizes"], sg)
 
 	# Build window from args
-	layout = createLayout(build_spec, widgets)
+	layout = createLayout(build_spec, widgets, sg)
 	window = sg.Window(build_spec["program_name"], layout, alpha_channel=.95,
 	icon=widgets.get_img_data(build_spec["image"], first=True) if build_spec["image"] else None)
 
@@ -171,7 +211,7 @@ def run(build_spec):
 		if event in (None, 'Exit'):
 			sys.exit(0)
 		try:
-			args = argFormat(values, build_spec["argparser"])
+			args = argFormat(values, build_spec["parser"])
 			if build_spec["run_function"] is None:
 				return args
 			build_spec["run_function"](args)

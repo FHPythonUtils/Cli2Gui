@@ -15,10 +15,10 @@ def handle(args):
 	'''Handle the args '''
 	print(args)
 
-@Cli2Gui(run_function=handle, argparser="getopt")
+@Cli2Gui(run_function=handle, parser="getopt")
 def cli():
 	'''Cli entrypoint '''
-	options, _remainder = getopt.getopt(sys.argv[1:], 'ts:c:o',
+	options = getopt.getopt(sys.argv[1:], 'ts:c:o',
 	['store-true', 'store=', 'count=', 'choice=',])
 	handle(options)
 

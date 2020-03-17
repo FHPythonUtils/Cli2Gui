@@ -73,7 +73,7 @@ def parse(option_description):
 		else:
 			argcount = 1
 	if argcount:
-		matched = re.findall('\[default: (.*)\]', description, flags=re.I)
+		matched = re.findall(r'\[default: (.*)\]', description, flags=re.I)
 		value = matched[0] if matched else None
 	return (short, long, argcount, value, description.strip())
 
@@ -83,7 +83,7 @@ def parse_opt(doc):
 	defaults = []
 	for s in parse_section('options:', doc):
 		_, _, s = s.partition(':')
-		split = re.split('\n[ \t]*(-\S+?)', '\n' + s)[1:]
+		split = re.split(r'\n[ \t]*(-\S+?)', '\n' + s)[1:]
 		split = [s1 + s2 for s1, s2 in zip(split[::2], split[1::2])]
 		options = [parse(s) for s in split if s.startswith('-')]
 		defaults += options
@@ -99,7 +99,7 @@ def parse_pos(doc):
 	return defaults
 
 
-def convert(parser, **kwargs):
+def convert(parser):
 	"""Convert getopt to a dict
 
 	Args:
@@ -110,6 +110,7 @@ def convert(parser, **kwargs):
 	"""
 
 	return {
+		'parser_description': "",
 		'widgets': [
 			{
 				'name': "",

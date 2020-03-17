@@ -51,7 +51,7 @@ def process(group, group_name, categorize):
 		'groups': [],
 	}]
 
-def convert(parser, **kwargs):
+def convert(parser):
 	"""Convert getopt to a dict
 
 	Args:
@@ -62,6 +62,7 @@ def convert(parser, **kwargs):
 	"""
 
 	return {
+		'parser_description': "",
 		'widgets': [
 			{
 				'name': "",

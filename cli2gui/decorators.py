@@ -54,39 +54,37 @@ def create_from_parser(self_parser, args_parser, kwargs_parser, source_path, **k
 		else:
 			run_cmd = '{} -u {}'.format(quote(sys.executable), quote(source_path))
 
-	argparser = kwargs.get("argparser", "argparse")
+	parser = kwargs.get("parser", "argparse")
 
 	build_spec = {
 		'run_function': kwargs.get('run_function'),
-		"argparser": argparser,
+		"parser": parser,
+		"gui": kwargs.get('gui'),
 		"theme": kwargs.get("theme", None),
 		"darkTheme": kwargs.get("darkTheme", None),
 		"sizes": kwargs.get("sizes", None),
 		'image': kwargs.get('image', None),
 		'program_name':	kwargs.get('program_name') or path.basename(sys.argv[0]).replace('.py', ''),
-		'program_description': kwargs.get('program_description') or '',
+		'program_description': kwargs.get('program_description', None),
 		'max_args_shown':	kwargs.get('max_args_shown', 5),
 	}
 
-	build_spec['program_description'] = build_spec['program_description']
-
 	# Select parser
-	if argparser == "optparse":
-		build_spec.update(optparse2json.convert(self_parser, **build_spec))
-	if argparser == "getopt":
-		build_spec.update(getopt2json.convert(args_parser, **build_spec))
-	if argparser == "argparse":
-		build_spec['program_description'] = self_parser.description
-		build_spec.update(argparse2json.convert(self_parser, **build_spec))
-	if argparser == "docopt":
-		build_spec.update(docopt2json.convert(self_parser, **build_spec))
+	if parser == "optparse":
+		build_spec.update(optparse2json.convert(self_parser))
+	if parser == "getopt":
+		build_spec.update(getopt2json.convert(args_parser))
+	if parser == "argparse":
+		build_spec.update(argparse2json.convert(self_parser))
+	if parser == "docopt":
+		build_spec.update(docopt2json.convert(self_parser))
 
 	return build_spec
 
 
-def Cli2Gui(run_function=None, auto_enable=False, argparser="argparse",
-theme=None, darkTheme=None, sizes=None, image=None, program_name=None,
-program_description=None, max_args_shown=5, **kwargs):
+def Cli2Gui(run_function=None, auto_enable=False, parser="argparse",
+gui="pysimplegui", theme=None, darkTheme=None, sizes=None, image=None,
+program_name=None, program_description=None, max_args_shown=5, **kwargs):
 	"""Decorator to use in the function that contains the argument parser
 	Serialises data to JSON and launches the Cli2Gui application
 
@@ -97,9 +95,12 @@ program_description=None, max_args_shown=5, **kwargs):
 		auto_enable (bool, optional): Enable the GUI by default. If enabled by
 		default requires `--disable-cli2gui`, otherwise requires `--cli2gui`.
 		Defaults to False.
-		argparser (str, optional): Override the argparser to use, defaults to
-		argparse. Current options are: "argparse", "getopt", "optparse",
-		"docopt". Defaults to "argparse".
+		parser (str, optional): Override the parser to use. Current
+		options are: "argparse", "getopt", "optparse", "docopt". Defaults to
+		"argparse".
+		gui (str, optional): Override the gui to use. Current options are:
+		"pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
+		"pysimplegui".
 		theme (str[], optional): Set a base24 theme. Can also pass a base24
 		scheme file. eg. one-light.yaml. Defaults to None.
 		darkTheme (str[], optional): Set a base24 dark theme variant. Can also
