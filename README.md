@@ -1,15 +1,15 @@
-[![Github top language](https://img.shields.io/github/languages/top/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](../../)
-[![Codacy grade](https://img.shields.io/codacy/grade/6a1ebf45daa347c8a2ed26281e6370db.svg?style=for-the-badge)](https://www.codacy.com/manual/FredHappyface/Python.Cli2Gui)
-[![Repository size](https://img.shields.io/github/repo-size/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](../../)
-[![Issues](https://img.shields.io/github/issues/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](../../issues)
-[![License](https://img.shields.io/github/license/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](/LICENSE.md)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](../../commits/master)
-[![Last commit](https://img.shields.io/github/last-commit/FredHappyface/Python.Cli2Gui.svg?style=for-the-badge)](../../commits/master)
+[![Github top language](https://img.shields.io/github/languages/top/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../)
+[![Codacy grade](https://img.shields.io/codacy/grade/6a1ebf45daa347c8a2ed26281e6370db.svg?style=for-the-badge)](https://www.codacy.com/manual/FHPythonUtils/Cli2Gui)
+[![Repository size](https://img.shields.io/github/repo-size/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../)
+[![Issues](https://img.shields.io/github/issues/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../issues)
+[![License](https://img.shields.io/github/license/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](/LICENSE.md)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../commits/master)
+[![Last commit](https://img.shields.io/github/last-commit/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../commits/master)
 [![PyPI Downloads](https://img.shields.io/pypi/dm/cli2gui.svg?style=for-the-badge)](https://pypi.org/project/cli2gui/)
 [![PyPI Version](https://img.shields.io/pypi/v/cli2gui.svg?style=for-the-badge)](https://pypi.org/project/cli2gui/)
 
 <!-- omit in toc -->
-# Python.Cli2Gui
+# Cli2Gui
 
 <img src="readme-assets/icons/name.png" alt="Project Icon" width="750">
 
@@ -279,7 +279,7 @@ Interpreter > Python 3.8)
 clone to
 4. Type 'git clone' followed by URL in step 2
 ```bash
-$ git clone https://github.com/FredHappyface/Python.Cli2Gui
+$ git clone https://github.com/FHPythonUtils/Cli2Gui
 ```
 
 More information can be found at
