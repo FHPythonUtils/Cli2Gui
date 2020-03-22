@@ -34,6 +34,7 @@ Use this module to convert a CLI program to a GUI
 	- [program_name (optional)](#programname-optional)
 	- [program_description (optional)](#programdescription-optional)
 	- [max_args_shown (optional)](#maxargsshown-optional)
+	- [menu (optional)](#menu-optional)
 - [Data Structures](#data-structures)
 - [Install With PIP](#install-with-pip)
 - [Language information](#language-information)
@@ -98,7 +99,7 @@ libraries over fancy widgets
 |Dropdown|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
 |Slider|X|:heavy_check_mark:|:heavy_check_mark:|
 |Tabs|X|:heavy_check_mark:|:heavy_check_mark:|
-|Menus|X|:heavy_check_mark:|X|
+|Menus|:heavy_check_mark:|:heavy_check_mark:|X|
 |Max Args before Scroll|:heavy_check_mark:|X|X|
 
 ## Roadmap
@@ -107,7 +108,9 @@ For completed components, see the changelog (link below)
 |Feature|Description|Status|
 |---|---|---|
 |Click|https://github.com/pallets/click|Created file with TODO|
-|Gui-Menus|Menu with help text and readme|-|
+|Python Fire|https://github.com/google/python-fire|Under consideration|
+
+
 
 ## Changelog
 See the [CHANGELOG](/CHANGELOG.md) for more information.
@@ -225,6 +228,20 @@ Maximum number of args shown before using a scrollbar
 ```python
 @Cli2Gui(max_args_shown=5)
 ```
+
+### menu (optional)
+Add a menu to the program. Defaults to None. eg.
+```python
+THIS_DIR = str(Path(__file__).resolve().parent)
+menu={"File": THIS_DIR + "/file.md"}
+```
+
+Works significantly better with pysimplegui than pysimpleguiqt
+
+```python
+@Cli2Gui(menu={"File": THIS_DIR + "/file.md", "Another File": THIS_DIR + "/another_file.md", })
+```
+
 
 ## Data Structures
 See the [DATA_STRUCTURES](/DATA_STRUCTURES.md) for more information.

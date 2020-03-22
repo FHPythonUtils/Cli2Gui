@@ -1,9 +1,11 @@
 """Application here uses PySimpleGUI
 """
 import sys
+import json
 import yaml
 import getostheme
-
+import pypandoc
+from cli2gui.application import pandoc2plain
 from cli2gui.application.pysimplegui2args import argFormat
 from cli2gui.application.widgets import Widgets
 
@@ -138,7 +140,42 @@ def addItemsAndGroups(section, argConstruct, widgets):
 	return argConstruct
 
 
-def createLayout(build_spec, widgets, sg):
+def generatePopup(build_spec, values, widgets, sg):
+	"""Create the popup window
+
+	Args:
+		build_spec ([type]): [description]
+		values ([type]): Returned when a button is clicked. Such as the menu
+		widgets ([type]): [description]
+		sg (object): PySimpleGui class
+
+	Returns:
+		sg.Window: A PySimpleGui Window
+	"""
+	output = json.loads(pypandoc.convert_file(build_spec["menu"][values[0]], 'json'))
+	pandoc = pandoc2plain.Pandoc2Plain()
+	for block in output["blocks"]:
+		pandoc2plain.processBlock(block, pandoc)
+	lines = pandoc.genOutput().split("\n")
+	MAXLINES = 30 if build_spec["gui"] == "pysimpleguiqt" else 200
+	if len(lines) > MAXLINES:
+		popupText = "\n".join(lines[:MAXLINES]) + "\n\nMORE TEXT IN SRC FILE"
+	else:
+		popupText = "\n".join(lines)
+	if build_spec["gui"] == "pysimplegui":
+		popupLayout = [widgets.title(values[0]),
+		[sg.Column([[sg.Text(text=popupText, size=(850, MAXLINES + 10),
+		font=("Monaco", widgets.SIZES["text_size"]))]],
+		size=(850, 400), pad=(0, 0), scrollable=True, vertical_scroll_only=True)]]
+	else:
+		popupLayout = [widgets.title(values[0]),
+		[sg.Text(text=popupText, size=(850, (widgets.SIZES["text_size"]) * (2 * MAXLINES + 10)),
+		font=("Monaco", widgets.SIZES["text_size"]))]]
+	return sg.Window(values[0], popupLayout, alpha_channel=.95,
+	icon=widgets.get_img_data(build_spec["image"], first=True) if build_spec["image"] else None)
+
+
+def createLayout(build_spec, widgets, sg, menu):
 	"""Create the pysimplegui layout from the build spec
 
 	Args:
@@ -164,11 +201,12 @@ def createLayout(build_spec, widgets, sg):
 		argConstruct = addItemsAndGroups(section, argConstruct, widgets)
 
 	# Set the layout
-	layout = [
+	layout = [[sg.Menu([['Menu', menu],], tearoff=True)]] if menu is not None else []
+	layout.extend([
 		widgets.title(build_spec["program_name"], build_spec["image"]),
 		[widgets.label(widgets.stringSentencecase(build_spec["program_description"]
 		if build_spec["program_description"] is not None else build_spec["parser_description"]))]
-	]
+	])
 	if len(argConstruct) > build_spec["max_args_shown"] and build_spec["gui"] == "pysimplegui":
 		layout.append([sg.Column(argConstruct, size=(850, build_spec["max_args_shown"]* 4.5 *
 		(widgets.SIZES["helpText_size"] + widgets.SIZES["text_size"])), pad=(0, 0), scrollable=True,
@@ -200,7 +238,8 @@ def run(build_spec):
 	widgets = setupWidgets(build_spec["gui"], build_spec["sizes"], sg)
 
 	# Build window from args
-	layout = createLayout(build_spec, widgets, sg)
+	menu = list(build_spec["menu"]) if build_spec["menu"] is not None else None
+	layout = createLayout(build_spec, widgets, sg, menu)
 	window = sg.Window(build_spec["program_name"], layout, alpha_channel=.95,
 	icon=widgets.get_img_data(build_spec["image"], first=True) if build_spec["image"] else None)
 
@@ -211,7 +250,15 @@ def run(build_spec):
 		if event in (None, 'Exit'):
 			sys.exit(0)
 		try:
-			args = argFormat(values, build_spec["parser"])
+			# Create and open the popup window for the menu item
+			if values[0] is not None:
+				popup = generatePopup(build_spec, values, widgets, sg)
+				popup.read()
+			args = {}
+			for key in values:
+				if key != 0:
+					args[key] = values[key]
+			args = argFormat(args, build_spec["parser"])
 			if build_spec["run_function"] is None:
 				return args
 			build_spec["run_function"](args)

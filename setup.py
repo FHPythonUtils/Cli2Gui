@@ -7,7 +7,7 @@ with open("README.md", "r") as readme:
 
 setuptools.setup(
 	name="cli2gui",
-	version="2020.4",
+	version="2020.5",
 	author="FredHappyface",
 	description="Use this module to convert a cli program to a gui",
 	long_description=long_description,

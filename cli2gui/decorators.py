@@ -67,6 +67,7 @@ def create_from_parser(self_parser, args_parser, kwargs_parser, source_path, **k
 		'program_name':	kwargs.get('program_name') or path.basename(sys.argv[0]).replace('.py', ''),
 		'program_description': kwargs.get('program_description', None),
 		'max_args_shown':	kwargs.get('max_args_shown', 5),
+		'menu': kwargs.get('menu', None),
 	}
 
 	# Select parser
@@ -84,7 +85,8 @@ def create_from_parser(self_parser, args_parser, kwargs_parser, source_path, **k
 
 def Cli2Gui(run_function=None, auto_enable=False, parser="argparse",
 gui="pysimplegui", theme=None, darkTheme=None, sizes=None, image=None,
-program_name=None, program_description=None, max_args_shown=5, **kwargs):
+program_name=None, program_description=None, max_args_shown=5, menu=None,
+**kwargs):
 	"""Decorator to use in the function that contains the argument parser
 	Serialises data to JSON and launches the Cli2Gui application
 
@@ -115,6 +117,9 @@ program_name=None, program_description=None, max_args_shown=5, **kwargs):
 		description. Defaults to None.
 		max_args_shown (int, optional): Maximum number of args shown before
 		using a scrollbar. Defaults to 5.
+		menu (dict, optional): Add a menu to the program. Defaults to None. eg.
+		THIS_DIR = str(Path(__file__).resolve().parent)
+		menu={"File": THIS_DIR + "/file.md"}
 
 	Returns:
 		void: Runs the application
