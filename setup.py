@@ -12,7 +12,7 @@ setuptools.setup(
 	description="Use this module to convert a cli program to a gui",
 	long_description=long_description,
     long_description_content_type="text/markdown",
-	url="https://github.com/FredHappyface/Python.Cli2Gui",
+	url="https://github.com/FHPythonUtils/Cli2Gui",
 	packages=setuptools.find_packages(),
 	classifiers=[
         "Programming Language :: Python :: 3",
