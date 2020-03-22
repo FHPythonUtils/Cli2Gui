@@ -165,12 +165,12 @@ def generatePopup(build_spec, values, widgets, sg):
 	if build_spec["gui"] == "pysimplegui":
 		popupLayout = [widgets.title(values[0]),
 		[sg.Column([[sg.Text(text=popupText, size=(850, MAXLINES + 10),
-		font=("Monaco", widgets.SIZES["text_size"]))]],
+		font=("Courier", widgets.SIZES["text_size"]))]],
 		size=(850, 400), pad=(0, 0), scrollable=True, vertical_scroll_only=True)]]
 	else:
 		popupLayout = [widgets.title(values[0]),
 		[sg.Text(text=popupText, size=(850, (widgets.SIZES["text_size"]) * (2 * MAXLINES + 10)),
-		font=("Monaco", widgets.SIZES["text_size"]))]]
+		font=("Courier", widgets.SIZES["text_size"]))]]
 	return sg.Window(values[0], popupLayout, alpha_channel=.95,
 	icon=widgets.get_img_data(build_spec["image"], first=True) if build_spec["image"] else None)
 
