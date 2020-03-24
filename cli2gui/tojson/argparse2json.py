@@ -1,5 +1,6 @@
 """Generate a dict describing argparse arguments
 """
+# pylint: disable=protected-access
 import argparse
 from os import path
 from sys import argv
@@ -18,11 +19,12 @@ def iter_parsers(parser):
 		# Get the actions from the subparser
 		return [action for action in parser._actions if isinstance(
 			action, _SubParsersAction)][0].choices.items()
-	except BaseException:
+	except IndexError:
 		# There is no subparser
 		return list([('::cli2gui/default', parser)])
 
 def is_default_progname(name, subparser):
+	'''Identify if the passed name is the default program name '''
 	return subparser.prog == '{} {}'.format(path.split(argv[0])[-1], name)
 
 
@@ -35,14 +37,16 @@ def contains_actions(a, b):
 	return set(a).intersection(set(b))
 
 def reapply_mutex_groups(mutex_groups, action_groups):
-	# argparse stores mutually exclusive groups independently
-	# of all other groups. So, they must be manually re-combined
-	# with the groups/subgroups to which they were originally declared
-	# in order to have them appear in the correct location in the UI.
-	#
-	# Order is attempted to be preserved by inserting the MutexGroup
-	# into the _actions list at the first occurrence of any item
-	# where the two groups intersect
+	'''
+	argparse stores mutually exclusive groups independently
+	of all other groups. So, they must be manually re-combined
+	with the groups/subgroups to which they were originally declared
+	in order to have them appear in the correct location in the UI.
+
+	Order is attempted to be preserved by inserting the MutexGroup
+	into the _actions list at the first occurrence of any item
+	where the two groups intersect
+	'''
 	def swap_actions(actions):
 		for mutexgroup in mutex_groups:
 			mutex_actions = mutexgroup._group_actions
@@ -88,21 +92,22 @@ def action_to_json(action, widget):
 	}
 
 
-def build_radio_group(mutex_group, widget_group, options):
+def build_radio_group(mutex_group):
+	'''Create a radio group for a mutex group of arguments '''
 	return {
 		'type': 'Group',
 		'data': {
 			'commands': [action.option_strings for action in mutex_group._group_actions],
-			'widgets': list(categorize(mutex_group._group_actions, widget_group, options))
+			'widgets': list(categorizeItems(mutex_group._group_actions))
 		}
   	}
 
 
-def categorize(actions, widget_dict, options):
+def categorizeItems(actions):
 	'''Catergorise each action and generate json '''
 	for action in actions:
 		if isinstance(action, _MutuallyExclusiveGroup):
-			yield build_radio_group(action, widget_dict, options)
+			yield build_radio_group(action)
 		elif isinstance(action, (_StoreTrueAction, _StoreFalseAction)):
 			yield action_to_json(action, "Bool")
 		elif isinstance(action, _CountAction):
@@ -115,24 +120,28 @@ def categorize(actions, widget_dict, options):
 			yield action_to_json(action, "TextBox")
 
 
-def categorize2(groups, widget_dict, options):
+def categorizeGroups(groups):
+	'''Categorize the parser groups and items '''
 	return [{
 		'name': group['name'],
-		'items': list(categorize(group['items'], widget_dict, options)),
-		'groups': categorize2(group['groups'], widget_dict, options),
+		'items': list(categorizeItems(group['items'])),
+		'groups': categorizeGroups(group['groups']),
 	} for group in groups]
 
 
 def strip_empty(groups):
+	'''Remove groups where group['items'] is false '''
 	return [group for group in groups if group['items']]
 
 
-def process(parser, widget_dict, options):
+def process(parser):
+	'''Reapply the mutex groups and then categorise them and the items under
+	the parser '''
 	mutex_groups = parser._mutually_exclusive_groups
 	raw_action_groups = [extract_groups(group) for group in parser._action_groups
                       if group._group_actions]
 	corrected_action_groups = reapply_mutex_groups(mutex_groups, raw_action_groups)
-	return categorize2(strip_empty(corrected_action_groups), widget_dict, options)
+	return categorizeGroups(strip_empty(corrected_action_groups))
 
 
 def convert(parser):
@@ -149,9 +158,7 @@ def convert(parser):
 		'widgets': [
 			{
 				'name': choose_name(name, sub_parser),
-				'contents': process(sub_parser,
-					getattr(sub_parser, 'widgets', {}),
-					getattr(sub_parser, 'options', {}))
+				'contents': process(sub_parser)
 			} for name, sub_parser in iter_parsers(parser)
 		]
 	}

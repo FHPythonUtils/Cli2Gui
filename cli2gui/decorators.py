@@ -1,5 +1,7 @@
 """Decorator and entry point for the program
 """
+# pylint: disable=import-outside-toplevel
+
 from os import path
 import sys
 from functools import reduce

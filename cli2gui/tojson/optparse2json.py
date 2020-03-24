@@ -1,5 +1,6 @@
 """Generate a dict describing optparse arguments
 """
+# pylint: disable=protected-access
 
 def extract_options(option_group):
 	'''Get the actions as json for each item under a group '''

@@ -1,5 +1,7 @@
 """Application here uses PySimpleGUI
 """
+# pylint: disable=import-outside-toplevel
+
 import sys
 import json
 import yaml
@@ -251,7 +253,7 @@ def run(build_spec):
 			sys.exit(0)
 		try:
 			# Create and open the popup window for the menu item
-			if values[0] is not None:
+			if 0 in values and values[0] is not None:
 				popup = generatePopup(build_spec, values, widgets, sg)
 				popup.read()
 			args = {}
