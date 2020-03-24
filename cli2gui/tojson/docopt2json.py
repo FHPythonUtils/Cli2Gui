@@ -30,7 +30,7 @@ def action_to_json(action, widget, is_pos):
 
 
 
-def categorise(actions, is_pos=False):
+def categorize(actions, is_pos=False):
 	'''Catergorise each action and generate json '''
 	for action in actions:
 		# ('-h', '--help', 0, False, 'show this help message and exit')
@@ -43,11 +43,11 @@ def extract(parser):
 	'''Get the actions as json for the parser '''
 	return [{
 		'name': "Positional Arguments",
-		'items':list(categorise(parse_pos(parser), True)),
+		'items':list(categorize(parse_pos(parser), True)),
 		'groups': [],
 	}, {
 		'name': "Optional Arguments",
-		'items': list(categorise(parse_opt(parser))),
+		'items': list(categorize(parse_opt(parser))),
 		'groups': [],
 	}]
 

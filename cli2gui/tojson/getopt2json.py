@@ -17,7 +17,7 @@ def action_to_json(action, widget, short=True):
 	}
 
 def cat_long(actions):
-	"""Categorise long args """
+	"""categorize long args """
 	for action in actions:
 		# True/ false
 		if "=" in action:
@@ -26,7 +26,7 @@ def cat_long(actions):
 			yield action_to_json(action, "Bool", short=False)
 
 def cat_short(actions):
-	"""Categorise short args """
+	"""categorize short args """
 	index = 0
 	while index < len(actions):
 		try:

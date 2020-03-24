@@ -135,7 +135,7 @@ def strip_empty(groups):
 
 
 def process(parser):
-	'''Reapply the mutex groups and then categorise them and the items under
+	'''Reapply the mutex groups and then categorize them and the items under
 	the parser '''
 	mutex_groups = parser._mutually_exclusive_groups
 	raw_action_groups = [extract_groups(group) for group in parser._action_groups

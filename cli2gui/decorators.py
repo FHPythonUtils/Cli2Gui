@@ -17,7 +17,8 @@ from cli2gui.tojson import (
 	argparse2json,
 	getopt2json,
 	optparse2json,
-	docopt2json)
+	docopt2json
+)
 from cli2gui.application import application
 
 DO_COMMAND = '--cli2gui'
@@ -167,8 +168,11 @@ program_name=None, program_description=None, max_args_shown=5, menu=None,
 		return inner
 
 
-	def run_without_cli2gui(func):
-		return lambda *args, **kwargs: func(*args, **kwargs)
+	def run_without_cli2gui(calling_function):
+		def inner(*args, **kwargs):
+			return calling_function(*args, **kwargs)
+		inner.__name__ = calling_function.__name__
+		return inner
 
 	"""If enabled by default requires do_not_command, otherwise requires do_command """
 	if (not auto_enable and DO_COMMAND not in sys.argv) or (auto_enable
@@ -176,7 +180,6 @@ program_name=None, program_description=None, max_args_shown=5, menu=None,
 		if DO_NOT_COMMAND in sys.argv:
 			sys.argv.remove(DO_NOT_COMMAND)
 		return run_without_cli2gui
-
 	return build
 
 if __name__ == '__main__':
