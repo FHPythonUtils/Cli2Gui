@@ -17,7 +17,8 @@ from cli2gui.tojson import (
 	argparse2json,
 	getopt2json,
 	optparse2json,
-	docopt2json
+	docopt2json,
+	click2json
 )
 from cli2gui.application import application
 
@@ -82,8 +83,54 @@ def create_from_parser(self_parser, args_parser, kwargs_parser, source_path, **k
 		build_spec.update(argparse2json.convert(self_parser))
 	if parser == "docopt":
 		build_spec.update(docopt2json.convert(self_parser))
+	if parser == "click":
+		build_spec.update(click2json.convert(build_spec["run_function"]))
 
 	return build_spec
+
+
+def Click2Gui(run_function, gui="pysimplegui", theme=None, darkTheme=None,
+ sizes=None, image=None, program_name=None, program_description=None,
+ max_args_shown=5, menu=None, **kwargs):
+	"""Decorator to use in the function that contains the argument parser
+	Serialises data to JSON and launches the Cli2Gui application
+
+	Args:
+		run_function (def, optional): The name of the function to call eg.
+		main(args). Defaults to None. If not specified, program continues as
+		normal (can only run once)
+		gui (str, optional): Override the gui to use. Current options are:
+		"pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
+		"pysimplegui".
+		theme (str[], optional): Set a base24 theme. Can also pass a base24
+		scheme file. eg. one-light.yaml. Defaults to None.
+		darkTheme (str[], optional): Set a base24 dark theme variant. Can also
+		pass a base24 scheme file. eg. one-dark.yaml. Defaults to None.
+		sizes (dict, optional): Set the UI sizes such as the button size.
+		Defaults to None.
+		image (string, optional): Set the program icon. File extensions can be
+		any that PIL supports. Defaults to None.
+		program_name (string, optional): Override the program name. Defaults to
+		None.
+		program_description (string, optional): Override the program
+		description. Defaults to None.
+		max_args_shown (int, optional): Maximum number of args shown before
+		using a scrollbar. Defaults to 5.
+		menu (dict, optional): Add a menu to the program. Defaults to None. eg.
+		THIS_DIR = str(Path(__file__).resolve().parent)
+		menu={"File": THIS_DIR + "/file.md"}
+
+	Returns:
+		void: Runs the application
+	"""
+	parser = "click"
+	params = merge(locals(), locals()['kwargs'])
+	build_spec = create_from_parser(
+		None, None, kwargs,
+		sys.argv[0],
+		**params
+	)
+	return application.run(build_spec)
 
 
 def Cli2Gui(run_function=None, auto_enable=False, parser="argparse",

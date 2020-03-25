@@ -36,6 +36,15 @@ def docoptFormat(values):
 		args[key] = values[key] if not (isinstance(values[key], str) and len(values[key]) == 0) else None
 	return args
 
+def clickFormat(values):
+	'''Format args for click '''
+	args = []
+	for key in values:
+		if not callable(key) and len(values[key]) > 0:
+			args.extend([key, values[key]])
+	return args
+
+
 def argFormat(values, argument_parser):
 	"""Format the args for the desired parser
 
@@ -55,4 +64,6 @@ def argFormat(values, argument_parser):
 		formattedArgs = getoptFormat(values)
 	elif argument_parser == "docopt":
 		formattedArgs = docoptFormat(values)
+	elif argument_parser == "click":
+		formattedArgs = clickFormat(values)
 	return formattedArgs

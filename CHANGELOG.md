@@ -2,6 +2,9 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2020.6 - 2020/03/24
+- added rudimentary click support
+
 ## 2020.5 - 2020/03/22
 - added menu
 - included part of catpandoc to achieve this (excluding catimage as this leads

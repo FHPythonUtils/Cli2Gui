@@ -35,6 +35,9 @@ Use this module to convert a CLI program to a GUI
 	- [program_description (optional)](#programdescription-optional)
 	- [max_args_shown (optional)](#maxargsshown-optional)
 	- [menu (optional)](#menu-optional)
+- [Click](#click)
+	- [run_function (required)](#runfunction-required)
+	- [parser (not applicable)](#parser-not-applicable)
 - [Data Structures](#data-structures)
 - [Install With PIP](#install-with-pip)
 - [Language information](#language-information)
@@ -67,8 +70,14 @@ based off documentation/ the readme
 |Argparse|:heavy_check_mark:|:heavy_check_mark:|X|
 |Optparse|:heavy_check_mark:|X|X|
 |DocOpt|:heavy_check_mark:|X|X|
-|Click|X \[Planned\]|X|:heavy_check_mark:|
+|Click|:heavy_check_mark: * |X|:heavy_check_mark:|
 |GetOpt|:heavy_check_mark:|X|X|
+
+```none
+* Partial support (use Click2Gui)
+
+This works for simpler programs but sadly falls flat for more complex programs
+```
 
 ### GUI Toolkit Support
 |GUI Toolkits|Cli2Gui|Gooey|Quick|
@@ -107,9 +116,7 @@ For completed components, see the changelog (link below)
 
 |Feature|Description|Status|
 |---|---|---|
-|Click|https://github.com/pallets/click|Created file with TODO|
 |Python Fire|https://github.com/google/python-fire|Under consideration|
-
 
 
 ## Changelog
@@ -241,6 +248,22 @@ Works significantly better with pysimplegui than pysimpleguiqt
 ```python
 @Cli2Gui(menu={"File": THIS_DIR + "/file.md", "Another File": THIS_DIR + "/another_file.md", })
 ```
+
+## Click
+```python
+def Click2Gui(run_function, gui="pysimplegui", theme=None, darkTheme=None,
+		sizes=None, image=None, program_name=None, program_description=None,
+		max_args_shown=5, menu=None, **kwargs):
+```
+
+Very similar to the decorator but with the following differences...
+
+### run_function (required)
+Specify the click function to use. (attempts were made to offer full program
+support however this behaved very poorly)
+
+### parser (not applicable)
+As this is exclusively for click, this option is not present
 
 
 ## Data Structures
