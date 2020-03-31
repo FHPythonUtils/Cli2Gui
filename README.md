@@ -67,11 +67,11 @@ based off documentation/ the readme
 ### Parser Support
 |Parser|Cli2Gui|Gooey|Quick|
 |---|---|---|---|
-|Argparse|:heavy_check_mark:|:heavy_check_mark:|X|
-|Optparse|:heavy_check_mark:|X|X|
-|DocOpt|:heavy_check_mark:|X|X|
-|Click|:heavy_check_mark: * |X|:heavy_check_mark:|
-|GetOpt|:heavy_check_mark:|X|X|
+|Argparse|:heavy_check_mark:|:heavy_check_mark:|:x:|
+|Optparse|:heavy_check_mark:|:x:|:x:|
+|DocOpt|:heavy_check_mark:|:x:|:x:|
+|Click|:heavy_check_mark: * |:x:|:heavy_check_mark:|
+|GetOpt|:heavy_check_mark:|:x:|:x:|
 
 ```none
 * Partial support (use Click2Gui)
@@ -82,22 +82,22 @@ This works for simpler programs but sadly falls flat for more complex programs
 ### GUI Toolkit Support
 |GUI Toolkits|Cli2Gui|Gooey|Quick|
 |---|---|---|---|
-|Tkinter|:heavy_check_mark:|X|X|
-|WxWidgets|X|:heavy_check_mark:|X|
-|Qt|:heavy_check_mark:|X|:heavy_check_mark:|
-|Gtk|X|X|X|
-|Web|:heavy_check_mark:|X|X|
+|Tkinter|:heavy_check_mark:|:x:|:x:|
+|WxWidgets|:x:|:heavy_check_mark:|:x:|
+|Qt|:heavy_check_mark:|:x:|:heavy_check_mark:|
+|Gtk|:x:|:x:|:x:|
+|Web|:heavy_check_mark:|:x:|:x:|
 
 
 ### GUI Feature Support
 |Basic GUI|Cli2Gui|Gooey|Quick|
 |---|---|---|---|
-|Override name/ description|:heavy_check_mark:|:heavy_check_mark:|?|
-|Theming|:heavy_check_mark:|Limited|?|
-|DarkMode|:heavy_check_mark:|X|:heavy_check_mark:|
-|Window Size|:heavy_check_mark:|:heavy_check_mark:|X|
-|Element Size|:heavy_check_mark:|X|X|
-|Custom Images|:heavy_check_mark:|:heavy_check_mark:|?|
+|Override name/ description|:heavy_check_mark:|:heavy_check_mark:|:x:|
+|Theming|:heavy_check_mark:|:warning: Limited|:warning: Limited|
+|DarkMode|:heavy_check_mark:|:x:|:heavy_check_mark:|
+|Window Size|:heavy_check_mark:|:heavy_check_mark:|:x:|
+|Element Size|:heavy_check_mark:|:x:|:x:|
+|Custom Images|:heavy_check_mark:|:heavy_check_mark:|:x:|
 
 Cli2Gui is pretty lacking in these features and will probably remain that way
 to ease maintainability - the primary aim is to support multiple argparse
@@ -106,10 +106,10 @@ libraries over fancy widgets
 |Advanced GUI|Cli2Gui|Gooey|Quick|
 |---|---|---|---|
 |Dropdown|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
-|Slider|X|:heavy_check_mark:|:heavy_check_mark:|
-|Tabs|X|:heavy_check_mark:|:heavy_check_mark:|
-|Menus|:heavy_check_mark:|:heavy_check_mark:|X|
-|Max Args before Scroll|:heavy_check_mark:|X|X|
+|Slider|:x:|:heavy_check_mark:|:heavy_check_mark:|
+|Tabs|:x:|:heavy_check_mark:|:heavy_check_mark:|
+|Menus|:heavy_check_mark:|:heavy_check_mark:|:x:|
+|Max Args before Scroll|:heavy_check_mark:|:x:|:x:|
 
 ## Roadmap
 For completed components, see the changelog (link below)
