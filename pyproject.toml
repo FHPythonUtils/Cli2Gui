@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "cli2gui"
+version = "2020.7"
+description = "Use this module to convert a cli program to a gui"
+authors = ["FredHappyface"]
+classifiers = ["Programming Language :: Python :: 3.5","Programming Language :: Python :: 3.6", "Programming Language :: Python :: 3.7", "Programming Language :: Python :: 3.8", "Operating System :: OS Independent"]
+homepage = "https://github.com/FHPythonUtils/Cli2Gui"
+repository = "https://github.com/FHPythonUtils/Cli2Gui"
+documentation = "https://github.com/FHPythonUtils/Cli2Gui/blob/master/README.md"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.5"
+emoji = "^0.5.4"
+getostheme = "^2020.2"
+pypandoc = "^1.5"
+art = "^4.6"
+Pillow = "^7.1.1"
+PySimpleGui = "^4.18.2"
+PyYaml = "^5.3.1"
+
+
+[tool.dephell.main]
+from = "pyproject.toml"
+to = "requirements.txt"
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

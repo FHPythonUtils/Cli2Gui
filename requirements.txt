@@ -1,7 +1,7 @@
-emoji==0.5.4
-getostheme==2020.2
-pypandoc==1.4
-art==4.5
-Pillow==7.0.0
-PySimpleGUI==4.16.0
-PyYAML==5.3.1
+art==4.*,>=4.6.0
+emoji==0.*,>=0.5.4
+getostheme==2020.*,>=2020.2.0
+pillow==7.*,>=7.1.1
+pypandoc==1.*,>=1.5.0
+pysimplegui==4.*,>=4.18.2
+pyyaml==5.*,>=5.3.1
