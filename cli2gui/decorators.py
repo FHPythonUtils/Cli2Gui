@@ -4,6 +4,7 @@
 
 from os import path
 import sys
+import warnings
 from functools import reduce
 from copy import deepcopy
 
@@ -208,8 +209,10 @@ program_name=None, program_description=None, max_args_shown=5, menu=None,
 				docopt.docopt = run_cli2gui
 			except ImportError:
 				pass
-
-			return calling_function(*args, **kwargs)
+			# Using type=argparse.FileType('r') leads to a resource warning
+			with warnings.catch_warnings():
+				warnings.filterwarnings("ignore", category=ResourceWarning)
+				return calling_function(*args, **kwargs)
 
 		inner.__name__ = calling_function.__name__
 		return inner
@@ -217,7 +220,10 @@ program_name=None, program_description=None, max_args_shown=5, menu=None,
 
 	def run_without_cli2gui(calling_function):
 		def inner(*args, **kwargs):
-			return calling_function(*args, **kwargs)
+			# Using type=argparse.FileType('r') leads to a resource warning
+			with warnings.catch_warnings():
+				warnings.filterwarnings("ignore", category=ResourceWarning)
+				return calling_function(*args, **kwargs)
 		inner.__name__ = calling_function.__name__
 		return inner
 
