@@ -21,7 +21,7 @@ if os.path.exists(readme_path):
 setup(
     long_description=readme,
     name='cli2gui',
-    version='2020.7.1',
+    version='2020.8',
     description='Use this module to convert a cli program to a gui',
     python_requires='==3.*,>=3.5.0',
     project_urls={

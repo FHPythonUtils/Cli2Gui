@@ -80,7 +80,7 @@ def create_from_parser(self_parser, args_parser, kwargs_parser, source_path, **k
 		build_spec.update(optparse2json.convert(self_parser))
 	if parser == "getopt":
 		build_spec.update(getopt2json.convert(args_parser))
-	if parser == "argparse":
+	if parser in ["argparse", "dephell_argparse"]:
 		build_spec.update(argparse2json.convert(self_parser))
 	if parser == "docopt":
 		build_spec.update(docopt2json.convert(self_parser))
@@ -149,8 +149,8 @@ program_name=None, program_description=None, max_args_shown=5, menu=None,
 		default requires `--disable-cli2gui`, otherwise requires `--cli2gui`.
 		Defaults to False.
 		parser (str, optional): Override the parser to use. Current
-		options are: "argparse", "getopt", "optparse", "docopt". Defaults to
-		"argparse".
+		options are: "argparse", "getopt", "optparse", "docopt",
+		"dephell_argparse". Defaults to "argparse".
 		gui (str, optional): Override the gui to use. Current options are:
 		"pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
 		"pysimplegui".
@@ -207,6 +207,11 @@ program_name=None, program_description=None, max_args_shown=5, menu=None,
 			try:
 				import docopt
 				docopt.docopt = run_cli2gui
+			except ImportError:
+				pass
+			try:
+				import dephell_argparse
+				dephell_argparse.Parser.parse_args = run_cli2gui
 			except ImportError:
 				pass
 			# Using type=argparse.FileType('r') leads to a resource warning

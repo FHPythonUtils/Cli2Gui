@@ -56,7 +56,7 @@ def argFormat(values, argument_parser):
 		args: args
 	"""
 	formattedArgs = None
-	if argument_parser == "argparse":
+	if argument_parser in ["argparse", "dephell_argparse"]:
 		formattedArgs = argparseFormat(values)
 	elif argument_parser == "optparse":
 		formattedArgs = optparseFormat(values)

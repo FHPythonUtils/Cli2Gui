@@ -73,6 +73,7 @@ based off documentation/ the readme
 |DocOpt|:heavy_check_mark:|:x:|:x:|
 |Click|:heavy_check_mark: * |:x:|:heavy_check_mark:|
 |GetOpt|:heavy_check_mark:|:x:|:x:|
+|Dephell Argparse|:heavy_check_mark:|:x:|:x:|
 
 ```none
 * Partial support (use Click2Gui)
@@ -157,7 +158,7 @@ Enable the GUI by default. If enabled by default requires `--disable-cli2gui`, o
 
 ### parser (optional)
 Override the parser to use, defaults to argparse. Current options are:
-"argparse", "getopt", "optparse", "docopt"
+"argparse", "getopt", "optparse", "docopt", "dephell_argparse"
 
 ```python
 @Cli2Gui(parser="argparse")
