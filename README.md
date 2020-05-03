@@ -1,5 +1,5 @@
 [![Github top language](https://img.shields.io/github/languages/top/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../)
-[![Codacy grade](https://img.shields.io/codacy/grade/6a1ebf45daa347c8a2ed26281e6370db.svg?style=for-the-badge)](https://www.codacy.com/manual/FHPythonUtils/Cli2Gui)
+[![Codacy grade](https://img.shields.io/codacy/grade/ff714fa09a7141ef9f0466073971d853.svg?style=for-the-badge)](https://www.codacy.com/manual/FHPythonUtils/Cli2Gui)
 [![Repository size](https://img.shields.io/github/repo-size/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../)
 [![Issues](https://img.shields.io/github/issues/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../issues)
 [![License](https://img.shields.io/github/license/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](/LICENSE.md)
