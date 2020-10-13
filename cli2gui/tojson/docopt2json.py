@@ -1,15 +1,21 @@
 """Generate a dict for docopt
 """
+from __future__ import annotations
 import re
+from typing import Any, Iterator
 
-def action_to_json(action, widget, is_pos):
+from cli2gui import c2gtypes
+
+
+def actionToJson(action: tuple[str, str, str, Any, str], widget: str,
+isPos: bool) -> c2gtypes.Item:
 	'''Generate json for an action and set the widget - used by the application'''
-	if is_pos:
+	if isPos:
 		name = action[0]
 	else:
-		name = action[1].replace("--", "") if action[1] is not None else action[0].replace("-")
+		name = action[1].replace("--", "") if action[1] is not None else action[0].replace("-", "")
 
-	if is_pos or action[1] is None:
+	if isPos or action[1] is None:
 		commands = [action[0]]
 	elif action[0] is None:
 		commands = [action[1]]
@@ -18,103 +24,96 @@ def action_to_json(action, widget, is_pos):
 
 	return {
 		'type': widget,
-		'data': {
-			'display_name': name,
-			'help': action[-1],
-			'nargs': action[2] if not is_pos else '',
-			'commands': commands,
-			'choices': [],
-			'dest': action[1] if not is_pos and action[1] is not None else action[0],
-		},
+		'display_name': name,
+		'help': action[-1],
+		'commands': commands,
+		'choices': [],
+		'dest': action[1] if not isPos and action[1] is not None else action[0],
+		'_other': {	'nargs': action[2] if not isPos else ''}
 	}
 
 
 
-def categorize(actions, is_pos=False):
+def categorize(actions: list[tuple[str, str, str, Any, str]], isPos: bool=False) -> Iterator[c2gtypes.Item]:
 	'''Catergorise each action and generate json '''
 	for action in actions:
 		# ('-h', '--help', 0, False, 'show this help message and exit')
-		if not is_pos and action[3] in (True, False):
-			yield action_to_json(action, "Bool", is_pos)
+		if not isPos and action[3] in (True, False):
+			yield actionToJson(action, "Bool", isPos)
 		else:
-			yield action_to_json(action, "TextBox", is_pos)
+			yield actionToJson(action, "TextBox", isPos)
 
-def extract(parser):
+def extract(parser: Any) -> list[c2gtypes.Group]:
 	'''Get the actions as json for the parser '''
 	return [{
 		'name': "Positional Arguments",
-		'items':list(categorize(parse_pos(parser), True)),
+		'arg_items':list(categorize(parsePos(parser), True)),
 		'groups': [],
 	}, {
 		'name': "Optional Arguments",
-		'items': list(categorize(parse_opt(parser))),
+		'arg_items': list(categorize(parseOpt(parser))),
 		'groups': [],
 	}]
 
 
 
-def parse_section(name, source):
+def parseSection(name: str, source: Any) -> list[str]:
 	'''Taken from docopt '''
 	pattern = re.compile('^([^\n]*' + name + '[^\n]*\n?(?:[ \t].*?(?:\n|$))*)',
 						 re.IGNORECASE | re.MULTILINE)
 	return [s.strip() for s in pattern.findall(source)]
 
 
-def parse(option_description):
+def parse(optionDescription: str) -> tuple[str, str, str, Any, str]:
 	'''Parse an option help text, adapted from docopt '''
-	short, long, argcount, value = None, None, 0, False
-	options, _, description = option_description.strip().partition('  ')
+	short, long, argcount, value = "", "", 0, False
+	options, _, description = optionDescription.strip().partition('  ')
 	options = options.replace(',', ' ').replace('=', ' ')
-	for s in options.split():
-		if s.startswith('--'):
-			long = s
-		elif s.startswith('-'):
-			short = s
+	for section in options.split():
+		if section.startswith('--'):
+			long = section
+		elif section.startswith('-'):
+			short = section
 		else:
 			argcount = 1
-	if argcount:
+	if argcount > 0:
 		matched = re.findall(r'\[default: (.*)\]', description, flags=re.I)
-		value = matched[0] if matched else None
-	return (short, long, argcount, value, description.strip())
+		value = matched[0] if matched else ""
+	return (short, long, str(argcount), value, description.strip())
 
 
-def parse_opt(doc):
+def parseOpt(doc: Any) -> list[tuple[str, str, str, Any, str]]:
 	'''Parse an option help text, adapted from docopt '''
 	defaults = []
-	for s in parse_section('options:', doc):
-		_, _, s = s.partition(':')
-		split = re.split(r'\n[ \t]*(-\S+?)', '\n' + s)[1:]
+	for section in parseSection('options:', doc):
+		_, _, section = section.partition(':')
+		split = re.split(r'\n[ \t]*(-\S+?)', '\n' + section)[1:]
 		split = [s1 + s2 for s1, s2 in zip(split[::2], split[1::2])]
 		options = [parse(s) for s in split if s.startswith('-')]
 		defaults += options
 	return defaults
 
 
-def parse_pos(doc):
+def parsePos(doc: Any) -> list[tuple[str, str, str, Any, str]]:
 	'''Parse positional arguments from docstring '''
 	defaults = []
-	for s in parse_section('arguments:', doc):
-		_, _, s = s.partition(':')
-		defaults.append(tuple([col.strip() for col in s.strip().partition('  ') if len(col.strip()) > 0]))
+	for section in parseSection('arguments:', doc):
+		_, _, section = section.partition(':')
+		defaults.append(tuple([col.strip() for col in section.strip().partition('  ') if len(col.strip()) > 0]))
 	return defaults
 
 
-def convert(parser):
+def convert(parser: Any) -> c2gtypes.ParserRep:
 	"""Convert getopt to a dict
 
 	Args:
-		parser (argparse): argparse parser
+		parser (Any): docopt parser
 
 	Returns:
-		dict: dictionary representing parser object
+		c2gtypes.ParserRep: dictionary representing parser object
 	"""
 
 	return {
 		'parser_description': "",
-		'widgets': [
-			{
-				'name': "",
-				'contents': extract(parser)
-			}
-		]
+		'widgets': extract(parser)
 	}

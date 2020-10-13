@@ -2,6 +2,16 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2020.9 - 2020/10/13
+- Added typing (drop py < 3.7)
+- Update docstrings
+- Update internal representation (tidy up)
+- Use flavours for additional pysimplegui modules install `cli2gui[web]` and
+  `cli2gui[qt]` for the respective versions
+- Modernize parts of the codebase (eg. decorators.py)
+- Use camelCase for variables
+
+
 ## 2020.8.1 - 2020/05/06
 - Updated classifiers
 

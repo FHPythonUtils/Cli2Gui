@@ -1,5 +1,7 @@
 Pillow==7.*,>=7.2.0
 PySimpleGUI==4.*,>=4.29.0
+PySimpleGUIQt==0.*,>=0.35.0
+PySimpleGUIWeb==0.*,>=0.39.0
 PyYAML==5.*,>=5.3.1
 catpandoc==2020.*,>=2020.3.0
 getostheme==2020.*,>=2020.4.0

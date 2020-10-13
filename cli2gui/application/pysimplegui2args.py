@@ -1,10 +1,12 @@
 """Functions to create args from pysimplegui values
 """
+from __future__ import annotations
 
 import argparse
+from typing import Any
 
 
-def argparseFormat(values):
+def argparseFormat(values: dict[str, Any]) -> argparse.Namespace:
 	'''Format args for argparse '''
 	args = {}
 	for key in values:
@@ -17,7 +19,7 @@ def argparseFormat(values):
 	return argparse.Namespace(**args)
 
 
-def optparseFormat(values):
+def optparseFormat(values: dict[str, Any]) -> dict[str, Any]:
 	'''Format args for optparse '''
 	args = {}
 	for key in values:
@@ -25,18 +27,18 @@ def optparseFormat(values):
 	return args
 
 
-def getoptFormat(values):
+def getoptFormat(values: dict[str, Any]) -> tuple[list[Any], list[Any]]:
 	'''Format args for getopt '''
 	return ([(key, values[key]) for key in values if values[key]], [])
 
-def docoptFormat(values):
+def docoptFormat(values: dict[str, Any]) -> dict[str, Any]:
 	'''Format args for docopt '''
 	args = {}
 	for key in values:
 		args[key] = values[key] if not (isinstance(values[key], str) and len(values[key]) == 0) else None
 	return args
 
-def clickFormat(values):
+def clickFormat(values: dict[str, Any]) -> list[Any]:
 	'''Format args for click '''
 	args = []
 	for key in values:
@@ -45,25 +47,25 @@ def clickFormat(values):
 	return args
 
 
-def argFormat(values, argument_parser):
+def argFormat(values: dict[str, Any], argumentParser: str) -> Any:
 	"""Format the args for the desired parser
 
 	Args:
-		values (dict): values from simple gui
+		values (dict[str, Any]): values from simple gui
 		argument_parser (str): argument parser to use
 
 	Returns:
-		args: args
+		Any: args
 	"""
 	formattedArgs = None
-	if argument_parser in ["argparse", "dephell_argparse"]:
+	if argumentParser in ["argparse", "dephell_argparse"]:
 		formattedArgs = argparseFormat(values)
-	elif argument_parser == "optparse":
+	elif argumentParser == "optparse":
 		formattedArgs = optparseFormat(values)
-	elif argument_parser == "getopt":
+	elif argumentParser == "getopt":
 		formattedArgs = getoptFormat(values)
-	elif argument_parser == "docopt":
+	elif argumentParser == "docopt":
 		formattedArgs = docoptFormat(values)
-	elif argument_parser == "click":
+	elif argumentParser == "click":
 		formattedArgs = clickFormat(values)
 	return formattedArgs

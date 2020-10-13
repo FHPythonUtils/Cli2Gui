@@ -1,30 +1,35 @@
 """Generate a dict describing optparse arguments
 """
 # pylint: disable=protected-access
+from __future__ import annotations
+from typing import Any, Generator
+
 from os import path
 from sys import argv
 
+from cli2gui import c2gtypes
 
-def extract(parser):
+
+def extract(parser: Any) -> list[c2gtypes.Group]:
 	'''Get the actions as json for the parser '''
 	try:
 		argumentList = [{
 			'name': "Positional Arguments",
-			'items':list(categorizeCommand([parser.commands[key] for key in parser.commands])),
+			'arg_items':list(categorizeCommand([parser.commands[key] for key in parser.commands])),
 			'groups': [],
 		}]
 	except AttributeError:
-		argumentList = []
+		argumentList: list[c2gtypes.Group] = []
 	argumentList.append({
 		'name': "Optional Arguments",
-		'items': list(categorize(parser.params)),
+		'arg_items': list(categorize(parser.params)),
 		'groups': [],
 	})
 	return argumentList
 
 
 
-def action_to_json(action, widget):
+def actionToJson(action: Any, widget: str) -> c2gtypes.Item:
 	'''Generate json for an action and set the widget - used by the application'''
 	nargs = ""
 	try:
@@ -33,42 +38,35 @@ def action_to_json(action, widget):
 		pass
 	return {
 		'type': widget,
-		'data': {
-			'display_name': action.name,
-			'help': action.help,
-			'nargs': nargs,
-			'commands': ("--" if len(action.name) > 1 else "-") + action.name,
-			'choices': [],
-			'dest': action.callback or ("--" if len(action.name) > 1 else "-") + action.name,
-		},
+		'display_name': action.name,
+		'help': action.help,
+		'commands': ("--" if len(action.name) > 1 else "-") + action.name,
+		'choices': [],
+		'dest': action.callback or ("--" if len(action.name) > 1 else "-") + action.name,
+		'_other': {'nargs': nargs}
 	}
 
-def categorize(actions):
+def categorize(actions: list[Any]) -> Generator[c2gtypes.Item, None, None]:
 	'''Catergorise each action and generate json '''
 	for action in actions:
-		yield action_to_json(action, "TextBox")
+		yield actionToJson(action, "TextBox")
 
-def categorizeCommand(actions):
+def categorizeCommand(actions: list[Any]) -> Generator[c2gtypes.Item, None, None]:
 	'''Catergorise each action and generate json '''
 	for action in actions:
-		yield action_to_json(action, "Bool")
+		yield actionToJson(action, "Bool")
 
 
-def convert(parser):
-	"""Convert argparse to a dict
+def convert(parser: Any) -> c2gtypes.ParserRep:
+	"""Convert click to a dict
 
 	Args:
-		parser (argparse): argparse parser
+		parser (click.core.Command): click parser
 
 	Returns:
-		dict: dictionary representing parser object
+		c2gtypes.ParserRep: dictionary representing parser object
 	"""
 	return {
 		'parser_description': "",
-		'widgets': [
-			{
-				'name': path.split(argv[0])[-1],
-				'contents': extract(parser)
-			}
-		]
+		'widgets': extract(parser)
 	}

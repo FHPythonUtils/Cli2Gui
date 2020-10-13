@@ -5,10 +5,10 @@ and add print statements.
 
 For instance, in the case of *parser*2json. To understand the structure of the
 JSON object add a print to application/application.py and run an example. See
-below for an example for `build_spec["widgets"]`:
+below for an example for `buildSpec["widgets"]`:
 
 ```python
-def createLayout(build_spec, widgets):
+def createLayout(buildSpec, widgets):
 	"""Create the pysimple gui layout from the build spec
 	[...]
 
@@ -16,10 +16,10 @@ def createLayout(build_spec, widgets):
 		list: list of widgets (layout list)
 	"""
 	# Add print ⬇️
-	print(build_spec["widgets"])
+	print(buildSpec["widgets"])
 
 	sections = []
-	for widget in build_spec["widgets"]:
+	for widget in buildSpec["widgets"]:
 		[...]
 ```
 
@@ -27,111 +27,120 @@ Following the above and running `python3.8 test/argparse/advanced.py --cli2gui`
 will print
 
 ```python
-[{'name': 'Simple Parser', 'contents': [{'name': 'positional arguments',
-'items': [{'type': 'TextBox', 'data': {'display_name': 'positional',
-'help': 'positional arg', 'commands': [], 'choices': [], 'dest': 'positional'}},
-{'type': 'File', 'data': {'display_name': 'positional-file', 'help':
-'positional arg for a file', 'commands': [], 'choices': [], 'dest':
-'positional-file'}}], 'groups': []}, {'name': 'optional arguments', 'items':
-[{'type': 'TextBox', 'data': {'display_name': 'optional', 'help':
-'optional arg', 'commands': ['--optional'], 'choices': [], 'dest': 'optional'}},
-{'type': 'Bool', 'data': {'display_name': 'store_true', 'help':
-'optional arg store true', 'commands': ['--store-true'], 'choices': [], 'dest':
-'store_true'}}, {'type': 'Bool', 'data': {'display_name': 'store_false', 'help':
-'optional arg store false', 'commands': ['--store-false'], 'choices': [],
-'dest': 'store_false'}}, {'type': 'TextBox', 'data': {'display_name': 'store',
-'help': 'optional arg store', 'commands': ['--store'], 'choices': [], 'dest':
-'store'}}, {'type': 'Counter', 'data': {'display_name': 'count', 'help':
-'optional arg count', 'commands': ['--count'], 'choices': [], 'dest': 'count'}},
-{'type': 'Dropdown', 'data': {'display_name': 'choices', 'help':
-'optional arg store with choices', 'commands': ['--choices'], 'choices':
-['choice1', 'choice2'], 'dest': 'choices'}}], 'groups': []}, {'name':
-'choose one of the following', 'items': [{'type': 'Group', 'data': {'commands':
-[['--mxg-true'], ['--mxg-false'], ['--mxg'], ['--mxg-count'],
-['--mxg-choices']], 'widgets': [{'type': 'Bool', 'data': {'display_name':
-'mxg_true', 'help': 'mutually exclusive arg store true', 'commands':
-['--mxg-true'], 'choices': [], 'dest': 'mxg_true'}}, {'type': 'Bool', 'data':
-{'display_name': 'mxg_false', 'help': 'mutually exclusive arg store false',
-'commands': ['--mxg-false'], 'choices': [], 'dest': 'mxg_false'}}, {'type':
-'TextBox', 'data': {'display_name': 'mxg', 'help':
-'mutually exclusive arg store', 'commands': ['--mxg'], 'choices': [], 'dest':
-'mxg'}}, {'type': 'Counter', 'data': {'display_name': 'mxg_count', 'help':
-'mutually exclusive arg count', 'commands': ['--mxg-count'], 'choices': [],
-'dest': 'mxg_count'}}, {'type': 'Dropdown', 'data': {'display_name':
+[{'name': 'positional arguments', 'arg_items': [{'type': 'TextBox',
+'display_name': 'positional', 'help': 'positional arg', 'commands': [],
+'choices': [], 'dest': 'positional', '_other': {}}, {'type': 'File',
+'display_name': 'positional-file', 'help': 'positional arg for a file',
+'commands': [], 'choices': [], 'dest': 'positional-file', '_other': {}}],
+'groups': []}, {'name': 'optional arguments', 'arg_items': [{'type': 'TextBox',
+'display_name': 'optional', 'help': 'optional arg', 'commands': ['--optional'],
+'choices': [], 'dest': 'optional', '_other': {}}, {'type': 'Bool',
+'display_name': 'store_true', 'help': 'optional arg store true', 'commands':
+['--store-true'], 'choices': [], 'dest': 'store_true', '_other': {}}, {'type':
+'Bool', 'display_name': 'store_false', 'help': 'optional arg store false',
+'commands': ['--store-false'], 'choices': [], 'dest': 'store_false', '_other':
+{}}, {'type': 'TextBox', 'display_name': 'store', 'help': 'optional arg store',
+'commands': ['--store'], 'choices': [], 'dest': 'store', '_other': {}},
+{'type': 'Counter', 'display_name': 'count', 'help': 'optional arg count',
+'commands': ['--count'], 'choices': [], 'dest': 'count', '_other': {}}, {'type':
+'Dropdown', 'display_name': 'choices', 'help': 'optional arg store with choices',
+'commands': ['--choices'], 'choices': ['choice1', 'choice2'], 'dest': 'choices',
+'_other': {}}], 'groups': []}, {'name': 'choose one of the following',
+'arg_items': [{'type': 'Group', 'commands': [['--mxg-true'], ['--mxg-false'],
+['--mxg'], ['--mxg-count'], ['--mxg-choices']], 'radio': [{'type': 'Bool',
+'display_name': 'mxg_true', 'help': 'mutually exclusive arg store true',
+'commands': ['--mxg-true'], 'choices': [], 'dest': 'mxg_true', '_other': {}},
+{'type': 'Bool', 'display_name': 'mxg_false', 'help':
+'mutually exclusive arg store false', 'commands': ['--mxg-false'], 'choices': [],
+'dest': 'mxg_false', '_other': {}}, {'type': 'TextBox', 'display_name': 'mxg',
+'help': 'mutually exclusive arg store', 'commands': ['--mxg'], 'choices': [],
+'dest': 'mxg', '_other': {}}, {'type': 'Counter', 'display_name': 'mxg_count',
+'help': 'mutually exclusive arg count', 'commands': ['--mxg-count'], 'choices':
+[], 'dest': 'mxg_count', '_other': {}}, {'type': 'Dropdown', 'display_name':
 'mxg_choices', 'help': 'mutually exclusive arg store with choices', 'commands':
-['--mxg-choices'], 'choices': ['choice1', 'choice2'], 'dest':
-'mxg_choices'}}]}}], 'groups': []}]}]
+['--mxg-choices'], 'choices': ['choice1', 'choice2'], 'dest': 'mxg_choices',
+'_other': {}}]}], 'groups': []}]
 ```
 
 The rest of the document includes documentation on several data structures. Note
 that this may be more outdated than using the aforementioned method (as this
 will have to be updated as features are added and code is streamlined)
 
-## build_spec
+## buildSpec
+
+Contains the initial data set by the end user
+
+```python
+class BuildSpec(typing.TypedDict):
+	""" representation for the BuildSpec """
+	run_function: Callable[..., Any]
+	parser: str
+	gui: str
+	theme: Union[str, list[str], None]
+	darkTheme: Union[str, list[str], None]
+	sizes: Union[dict[str, Any], None]
+	image: Union[str, None]
+	program_name: Union[str, None]
+	program_description: Union[str, None]
+	max_args_shown:	int
+	menu: Union[dict[str, Any], None]
+```
+
+
+## fullBuildSpec
 
 Contains all the data needed to build the GUI such as the theme, name,
 description and so on.
 
-```none
-"run_function": Func|None
-"argparser": Str"argparse|optparse|docopt|getopt"
-"gui": Str"pysimplegui|pysimpleguiqt|pysimpleguiweb"
-"Theme" : None|Str|Str[]
-"darkTheme" : None|Str|Str[]
-"sizes": None|
-	"title_size": Int
-	"label_size": (Int|None, Int|None)
-	"input_size": (Int|None, Int|None)
-	"button": (Int|None, Int|None)
-	"padding": (Int|None, Int|None)
-	"helpText_size": Int
-	"text_size": Int
-"image": None|Str
-"program_name: None|Str
-"program_description": None|Str
-"max_args_shown": Int
-"menu": Dict{Str: Str}
-"parser_description": (see below - generated by *parser*2json)
-"widgets": (see below - generated by *parser*2json)
-
+```python
+class FullBuildSpec(typing.TypedDict):
+	""" representation for the FullBuildSpec (BuildSpec + ParserRep) """
+	run_function: Callable[..., Any]
+	parser: str
+	gui: str
+	theme: Union[str, list[str], None]
+	darkTheme: Union[str, list[str], None]
+	sizes: Union[dict[str, Any], None]
+	image: Union[str, None]
+	program_name: Union[str, None]
+	program_description: Union[str, None]
+	max_args_shown:	int
+	menu: Union[dict[str, Any], None]
+	parser_description: str
+	widgets: list[Widgets]
 ```
 
-## *parser*2json
+
+## parserRep
 
 Each *parser*2json.py provides a JSON object that is used to build the GUI.
-They provide `build_spec["widgets"]` and `build_spec["parser_description"]`
 
-### *parser*2json["widgets"] - AKA `build_spec["widgets"]`
-
-Create a dict in this form
-
-```none
-[
-	"name": Str
-	"contents": [
-		"name": Str
-		"items": [
-			"type": Str"TextBox|Bool|Counter|DropDown|File"
-			"data":
-				"display_name": Str
-				"help": Str
-				"commands": Str[]
-				"choices": Str[]
-				"dest": Str
-		]
-		"groups": [
-			"name": (see contents->name)
-			"items": (see contents->items)
-			"groups": (see contents->groups - note that multilevel groups should be very uncommon)
-		]
-	]
-]
+```python
+class ParserRep(typing.TypedDict):
+	""" representation for a parser """
+	parser_description: Union[str, None]
+	widgets: list[Group]
 ```
 
-### *parser*2json["parser_description"] - AKA `build_spec["parser_description"]`
 
-Use this if the program_description is null. Not all parsers support this
 
-```none
-None|Str
+```python
+class Group(typing.TypedDict):
+	""" representation for an argument group """
+	name: str
+	arg_items: list[Item]
+	groups: Union[list[Group], list[Any]]
+```
+
+
+```python
+class Item(typing.TypedDict):
+	""" representation for an arg_item """
+	type: str
+	display_name: str
+	help: str
+	commands: list[Any]
+	choices: Union[list[Any], list[str]]
+	dest: str
+	_other: dict[Any, Any]
 ```
