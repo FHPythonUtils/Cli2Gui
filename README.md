@@ -23,20 +23,20 @@ Use this module to convert a CLI program to a GUI
 - [Changelog](#changelog)
 - [Decorator](#decorator)
 - [Using the decorator in your project](#using-the-decorator-in-your-project)
-	- [run_function (optional)](#runfunction-optional)
-	- [auto_enable (optional)](#autoenable-optional)
+	- [run_function (optional)](#run_function-optional)
+	- [auto_enable (optional)](#auto_enable-optional)
 	- [parser (optional)](#parser-optional)
 	- [gui (optional)](#gui-optional)
 	- [theme (optional)](#theme-optional)
 	- [darkTheme (optional)](#darktheme-optional)
 	- [sizes (optional)](#sizes-optional)
 	- [image (optional)](#image-optional)
-	- [program_name (optional)](#programname-optional)
-	- [program_description (optional)](#programdescription-optional)
-	- [max_args_shown (optional)](#maxargsshown-optional)
+	- [program_name (optional)](#program_name-optional)
+	- [program_description (optional)](#program_description-optional)
+	- [max_args_shown (optional)](#max_args_shown-optional)
 	- [menu (optional)](#menu-optional)
 - [Click](#click)
-	- [run_function (required)](#runfunction-required)
+	- [run_function (required)](#run_function-required)
 	- [parser (not applicable)](#parser-not-applicable)
 - [Data Structures](#data-structures)
 - [Install With PIP](#install-with-pip)
@@ -50,13 +50,19 @@ Use this module to convert a CLI program to a GUI
 - [How to run](#how-to-run)
 	- [With VSCode](#with-vscode)
 	- [From the Terminal](#from-the-terminal)
-- [How to update, build and publish](#how-to-update-build-and-publish)
 - [Download](#download-1)
 	- [Clone](#clone)
 		- [Using The Command Line](#using-the-command-line)
 		- [Using GitHub Desktop](#using-github-desktop)
 	- [Download Zip File](#download-zip-file)
-- [Licence](#licence)
+- [Community Files](#community-files)
+	- [Licence](#licence)
+	- [Changelog](#changelog-1)
+	- [Code of Conduct](#code-of-conduct)
+	- [Contributing](#contributing)
+	- [Security](#security)
+	- [Support](#support)
+	- [Rationale](#rationale)
 - [Screenshots](#screenshots)
 	- [Desktop](#desktop)
 	- [Themes](#themes)
@@ -312,33 +318,6 @@ Interpreter > Python 3.8)
 ./[file].py
 ```
 
-## How to update, build and publish
-
-1. Ensure you have installed the following dependencies
-	Linux
-	```bash
-	wget dephell.org/install | python3.8
-	wget https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3.8
-	```
-	Windows
-	```powershell
-	(wget dephell.org/install -UseBasicParsing).Content | python
-	(wget https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python
-	```
-2. Use poetry for the heavy lifting and dephell to generate requirements
-	```bash
-	poetry update
-	dephell deps convert
-	```
-3. Build/ Publish
-	```bash
-	poetry build
-	poetry publish
-	```
-	or
-	```bash
-	poetry publish --build
-	```
 
 ## Download
 ### Clone
@@ -369,9 +348,46 @@ More information can be found at
 2. Extract the zip archive
 3. Copy/ move to the desired location
 
-## Licence
+
+## Community Files
+### Licence
 MIT License
+Copyright (c) FredHappyface
 (See the [LICENSE](/LICENSE.md) for more information.)
+
+### Changelog
+See the [Changelog](/CHANGELOG.md) for more information.
+
+### Code of Conduct
+Online communities include people from many backgrounds. The *Project*
+contributors are committed to providing a friendly, safe and welcoming
+environment for all. Please see the
+[Code of Conduct](https://github.com/FHPythonUtils/.github/blob/master/CODE_OF_CONDUCT.md)
+ for more information.
+
+### Contributing
+Contributions are welcome, please see the
+[Contributing Guidelines](https://github.com/FHPythonUtils/.github/blob/master/CONTRIBUTING.md)
+for more information.
+
+### Security
+Thank you for improving the security of the project, please see the
+[Security Policy](https://github.com/FHPythonUtils/.github/blob/master/SECURITY.md)
+for more information.
+
+### Support
+Thank you for using this project, I hope it is of use to you. Please be aware that
+those involved with the project often do so for fun along with other commitments
+(such as work, family, etc). Please see the
+[Support Policy](https://github.com/FHPythonUtils/.github/blob/master/SUPPORT.md)
+for more information.
+
+### Rationale
+The rationale acts as a guide to various processes regarding projects such as
+the versioning scheme and the programming styles used. Please see the
+[Rationale](https://github.com/FHPythonUtils/.github/blob/master/RATIONALE.md)
+for more information.
+
 
 ## Screenshots
 
