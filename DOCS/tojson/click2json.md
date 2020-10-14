@@ -10,11 +10,11 @@ Functions
 :   Generate json for an action and set the widget - used by the application
 
     
-`categorize(actions: list[Any]) ‑> Generator[c2gtypes.Item, None, None]`
+`categorize(actions: list[Any]) ‑> Generator[cli2gui.c2gtypes.Item, NoneType, NoneType]`
 :   Catergorise each action and generate json
 
     
-`categorizeCommand(actions: list[Any]) ‑> Generator[c2gtypes.Item, None, None]`
+`categorizeCommand(actions: list[Any]) ‑> Generator[cli2gui.c2gtypes.Item, NoneType, NoneType]`
 :   Catergorise each action and generate json
 
     
@@ -28,5 +28,5 @@ Functions
             c2gtypes.ParserRep: dictionary representing parser object
 
     
-`extract(parser: Any) ‑> list[c2gtypes.Group]`
+`extract(parser: Any) ‑> list`
 :   Get the actions as json for the parser

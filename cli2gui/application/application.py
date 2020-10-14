@@ -44,13 +44,13 @@ def themeFromFile(theme: str) -> list[str]:
 
 
 def setBase24Theme(theme: Union[str, list[str], None], darkTheme: Union[str,
-list[str], None], pySimpleGui: pySimpleGuiType) -> None:
+list[str], None], pySimpleGui: Any) -> None:
 	"""Set the base24 theme to the application
 
 	Args:
 		theme (Union[str, list[str], None]): the light theme
 		darkTheme (Union[str, list[str], None]): the dark theme
-		pySimpleGui (pySimpleGuiType): pysimplegui module
+		pySimpleGui (Any): pysimplegui module
 	"""
 	if isinstance(theme, str):
 		theme = themeFromFile(theme)
@@ -84,13 +84,13 @@ list[str], None], pySimpleGui: pySimpleGuiType) -> None:
 
 
 def setupWidgets(gui: str, sizes: Union[dict[str, Any], None],
-pySimpleGui: pySimpleGuiType) -> Widgets:
+pySimpleGui: Any) -> Widgets:
 	"""Set the widget sizes to the application
 
 	Args:
 		gui (str): user selected gui eg. pysimpleguiqt
 		sizes (Union[dict[str, Any], None]): widget sizes
-		pySimpleGui (pySimpleGuiType): pysimplegui module
+		pySimpleGui (Any): pysimplegui module
 
 	Returns:
 		Widgets: widgets object all set up nicely
@@ -156,7 +156,7 @@ argConstruct: list[list[pySimpleGuiType.Element]], widgets: Widgets):
 
 def generatePopup(buildSpec: c2gtypes.FullBuildSpec, values: Union[dict[Any, Any],
 list[Any]], widgets: Widgets,
-pySimpleGui: pySimpleGuiType) -> pySimpleGuiType.Window:
+pySimpleGui: Any) -> pySimpleGuiType.Window:
 	"""Create the popup window
 
 	Args:
@@ -164,7 +164,7 @@ pySimpleGui: pySimpleGuiType) -> pySimpleGuiType.Window:
 		values (Union[dict[Any, Any]): Returned when a button is clicked. Such
 		as the menu
 		widgets (Widgets): class to build widgets
-		pySimpleGui (pySimpleGuiType): PySimpleGui class
+		pySimpleGui (Any): PySimpleGui class
 
 	Returns:
 		pySimpleGui.Window: A PySimpleGui Window
@@ -201,7 +201,7 @@ pySimpleGui: pySimpleGuiType) -> pySimpleGuiType.Window:
 
 
 def createLayout(buildSpec: c2gtypes.FullBuildSpec, widgets: Widgets,
-pySimpleGui: pySimpleGuiType, menu: Union[list[str], None]) -> list[list[Element]]:
+pySimpleGui: Any, menu: Union[list[str], None]) -> list[list[Element]]:
 	"""Create the pysimplegui layout from the build spec
 
 	Args:
@@ -250,7 +250,7 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 		import PySimpleGUIQt as psg
 	elif buildSpec["gui"] == "pysimpleguiweb":
 		import PySimpleGUIWeb as psg
-	pySimpleGui: pySimpleGuiType = psg # type: ignore
+	pySimpleGui: Any = psg # type: ignore
 
 	# Set the theme
 	setBase24Theme(buildSpec["theme"], buildSpec["darkTheme"], pySimpleGui)

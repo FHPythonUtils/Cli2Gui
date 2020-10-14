@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cli2gui"
-version = "2020.9.0"
+version = "2020.9.1"
 description = "Use this module to convert a cli program to a gui"
 authors = ["FredHappyface"]
 classifiers = [
@@ -30,7 +30,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.7"
 getostheme = "^2020.4.0"
-Pillow = "^7.2.0"
+Pillow = ">7.0.0"
 PySimpleGUI = "^4.29.0"
 PyYAML = "^5.3.1"
 catpandoc = "^2020.3.0"

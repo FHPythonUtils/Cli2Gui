@@ -6,11 +6,11 @@ Functions
 ---------
 
     
-`actionToJson(action: tuple[str, str, str, Any, str], widget: str, isPos: bool) ‑> c2gtypes.Item`
+`actionToJson(action: tuple[str, str, str, Any, str], widget: str, isPos: bool) ‑> cli2gui.c2gtypes.Item`
 :   Generate json for an action and set the widget - used by the application
 
     
-`categorize(actions: list[tuple[str, str, str, Any, str]], isPos: bool = False) ‑> Iterator[c2gtypes.Item]`
+`categorize(actions: list[tuple[str, str, str, Any, str]], isPos: bool = False) ‑> Iterator[cli2gui.c2gtypes.Item]`
 :   Catergorise each action and generate json
 
     
@@ -24,21 +24,21 @@ Functions
             c2gtypes.ParserRep: dictionary representing parser object
 
     
-`extract(parser: Any) ‑> list[c2gtypes.Group]`
+`extract(parser: Any) ‑> list`
 :   Get the actions as json for the parser
 
     
-`parse(optionDescription: str) ‑> tuple[str, str, str, Any, str]`
+`parse(optionDescription: str) ‑> tuple`
 :   Parse an option help text, adapted from docopt
 
     
-`parseOpt(doc: Any) ‑> list[tuple[str, str, str, Any, str]]`
+`parseOpt(doc: Any) ‑> list`
 :   Parse an option help text, adapted from docopt
 
     
-`parsePos(doc: Any) ‑> list[tuple[str, str, str, Any, str]]`
+`parsePos(doc: Any) ‑> list`
 :   Parse positional arguments from docstring
 
     
-`parseSection(name: str, source: Any) ‑> list[str]`
+`parseSection(name: str, source: Any) ‑> list`
 :   Taken from docopt

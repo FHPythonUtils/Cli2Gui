@@ -78,7 +78,7 @@ Functions
             Any: Runs the application
 
     
-`createFromParser(selfParser: Union[object, None], argsParser: Union[tuple[Any, Any], None], kwargsParser: Union[dict[Any, Any], None], sourcePath: str, buildSpec: c2gtypes.BuildSpec, **kwargs: dict[Any, Any]) ‑> c2gtypes.FullBuildSpec`
+`createFromParser(selfParser: Union[object, None], argsParser: Union[tuple[Any, Any], None], kwargsParser: Union[dict[Any, Any], None], sourcePath: str, buildSpec: c2gtypes.BuildSpec, **kwargs: dict[Any, Any]) ‑> cli2gui.c2gtypes.FullBuildSpec`
 :   Generate a buildSpec from a parser
     
     Args:

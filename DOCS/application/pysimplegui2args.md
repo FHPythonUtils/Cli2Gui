@@ -21,17 +21,17 @@ Functions
 :   Format args for argparse
 
     
-`clickFormat(values: dict[str, Any]) ‑> list[Any]`
+`clickFormat(values: dict[str, Any]) ‑> list`
 :   Format args for click
 
     
-`docoptFormat(values: dict[str, Any]) ‑> dict[str, Any]`
+`docoptFormat(values: dict[str, Any]) ‑> dict`
 :   Format args for docopt
 
     
-`getoptFormat(values: dict[str, Any]) ‑> tuple[list[Any], list[Any]]`
+`getoptFormat(values: dict[str, Any]) ‑> tuple`
 :   Format args for getopt
 
     
-`optparseFormat(values: dict[str, Any]) ‑> dict[str, Any]`
+`optparseFormat(values: dict[str, Any]) ‑> dict`
 :   Format args for optparse

@@ -16,11 +16,11 @@ Functions
 :   Create a radio group for a mutex group of arguments
 
     
-`categorizeGroups(groups: list[ArgparseGroup]) ‑> list[c2gtypes.Group]`
+`categorizeGroups(groups: list[ArgparseGroup]) ‑> list`
 :   Categorize the parser groups and arg_items
 
     
-`catergorizeItems(actions: list[argparse.Action]) ‑> Generator[c2gtypes.Item, None, None]`
+`catergorizeItems(actions: list[argparse.Action]) ‑> Generator[cli2gui.c2gtypes.Item, NoneType, NoneType]`
 :   Catergorise each action and generate json
 
     
@@ -51,11 +51,11 @@ Functions
 :   Identify if the passed name is the default program name
 
     
-`iterParsers(parser: argparse.ArgumentParser) ‑> list[tuple[str, argparse.ArgumentParser]]`
+`iterParsers(parser: argparse.ArgumentParser) ‑> list`
 :   Iterate over name, parser pairs
 
     
-`process(parser: argparse.ArgumentParser) ‑> list[c2gtypes.Group]`
+`process(parser: argparse.ArgumentParser) ‑> list`
 :   Reapply the mutex groups and then categorize them and the arg_items under
     the parser
 
@@ -94,10 +94,10 @@ Classes
 
     ### Class variables
 
-    `arg_items: list[argparse.Action]`
+    `arg_items: list`
     :
 
-    `groups: Union[list[ArgparseGroup], list[Any]]`
+    `groups: Union[list, list]`
     :
 
     `name: str`

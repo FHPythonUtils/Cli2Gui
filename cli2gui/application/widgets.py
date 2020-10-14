@@ -16,7 +16,7 @@ class Widgets():
 	attribute that can be overridden to provide the end user with customisation
 	over the size of the gui
 	"""
-	def __init__(self, sizes: dict[str, Any], pySimpleGui: pySimpleGuiType):
+	def __init__(self, sizes: dict[str, Any], pySimpleGui: Any):
 		self.sizes = sizes
 		self.pySimpleGui = pySimpleGui
 

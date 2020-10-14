@@ -14,37 +14,37 @@ Classes
 
     ### Class variables
 
-    `darkTheme: Union[str, list[str], None]`
+    `darkTheme: Union[str, list, NoneType]`
     :
 
     `gui: str`
     :
 
-    `image: Union[str, None]`
+    `image: Optional[str]`
     :
 
     `max_args_shown: int`
     :
 
-    `menu: Union[dict[str, Any], None]`
+    `menu: Optional[dict]`
     :
 
     `parser: str`
     :
 
-    `program_description: Union[str, None]`
+    `program_description: Optional[str]`
     :
 
-    `program_name: Union[str, None]`
+    `program_name: Optional[str]`
     :
 
-    `run_function: Union[Callable[..., Any], None]`
+    `run_function: Optional[collections.abc.Callable]`
     :
 
-    `sizes: Union[dict[str, Any], None]`
+    `sizes: Optional[dict]`
     :
 
-    `theme: Union[str, list[str], None]`
+    `theme: Union[str, list, NoneType]`
     :
 
 `FullBuildSpec(*args, **kwargs)`
@@ -104,10 +104,10 @@ Classes
 
     ### Class variables
 
-    `arg_items: list[Item]`
+    `arg_items: list`
     :
 
-    `groups: Union[list[Group], list[Any]]`
+    `groups: Union[list, list]`
     :
 
     `name: str`
@@ -122,10 +122,10 @@ Classes
 
     ### Class variables
 
-    `choices: Union[list[Any], list[str]]`
+    `choices: Union[list, list]`
     :
 
-    `commands: list[Any]`
+    `commands: list`
     :
 
     `dest: str`
@@ -149,8 +149,8 @@ Classes
 
     ### Class variables
 
-    `parser_description: Union[str, None]`
+    `parser_description: Optional[str]`
     :
 
-    `widgets: list[Group]`
+    `widgets: list`
     :

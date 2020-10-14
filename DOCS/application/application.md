@@ -21,7 +21,7 @@ Functions
             list: updated argConstruct
 
     
-`createLayout(buildSpec: c2gtypes.FullBuildSpec, widgets: Widgets, pySimpleGui: pySimpleGuiType, menu: Union[list[str], None]) ‑> list[list[Element]]`
+`createLayout(buildSpec: c2gtypes.FullBuildSpec, widgets: Widgets, pySimpleGui: Any, menu: Union[list[str], None]) ‑> list`
 :   Create the pysimplegui layout from the build spec
     
     Args:
@@ -33,7 +33,7 @@ Functions
             list[list[Element]]: list of widgets (layout list)
 
     
-`generatePopup(buildSpec: c2gtypes.FullBuildSpec, values: Union[dict[Any, Any], list[Any]], widgets: Widgets, pySimpleGui: pySimpleGuiType) ‑> pySimpleGuiType.Window`
+`generatePopup(buildSpec: c2gtypes.FullBuildSpec, values: Union[dict[Any, Any], list[Any]], widgets: Widgets, pySimpleGui: Any) ‑> PySimpleGUI.PySimpleGUI.Window`
 :   Create the popup window
     
     Args:
@@ -41,13 +41,13 @@ Functions
             values (Union[dict[Any, Any]): Returned when a button is clicked. Such
             as the menu
             widgets (Widgets): class to build widgets
-            pySimpleGui (pySimpleGuiType): PySimpleGui class
+            pySimpleGui (Any): PySimpleGui class
     
     Returns:
             pySimpleGui.Window: A PySimpleGui Window
 
     
-`getYamlDict(yamlFileName: str) ‑> dict[str, str]`
+`getYamlDict(yamlFileName: str) ‑> dict`
 :   Return a yaml_dict from reading yaml_file. If yaml_file is empty or
     doesn't exist, return an empty dict instead.
 
@@ -60,28 +60,28 @@ Functions
             or the function to run
 
     
-`setBase24Theme(theme: Union[str, list[str], None], darkTheme: Union[str, list[str], None], pySimpleGui: pySimpleGuiType) ‑> None`
+`setBase24Theme(theme: Union[str, list[str], None], darkTheme: Union[str, list[str], None], pySimpleGui: Any) ‑> NoneType`
 :   Set the base24 theme to the application
     
     Args:
             theme (Union[str, list[str], None]): the light theme
             darkTheme (Union[str, list[str], None]): the dark theme
-            pySimpleGui (pySimpleGuiType): pysimplegui module
+            pySimpleGui (Any): pysimplegui module
 
     
-`setupWidgets(gui: str, sizes: Union[dict[str, Any], None], pySimpleGui: pySimpleGuiType) ‑> Widgets`
+`setupWidgets(gui: str, sizes: Union[dict[str, Any], None], pySimpleGui: Any) ‑> cli2gui.application.widgets.Widgets`
 :   Set the widget sizes to the application
     
     Args:
             gui (str): user selected gui eg. pysimpleguiqt
             sizes (Union[dict[str, Any], None]): widget sizes
-            pySimpleGui (pySimpleGuiType): pysimplegui module
+            pySimpleGui (Any): pysimplegui module
     
     Returns:
             Widgets: widgets object all set up nicely
 
     
-`themeFromFile(theme: str) ‑> list[str]`
+`themeFromFile(theme: str) ‑> list`
 :   Set the base24 theme from a base24 scheme.yaml to the application
     
     Args:

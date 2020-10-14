@@ -19,7 +19,7 @@ Functions
 :   categorize short args
 
     
-`convert(parser: tuple[list[str], list[str]]) ‑> c2gtypes.ParserRep`
+`convert(parser: tuple[list[str], list[str]]) ‑> cli2gui.c2gtypes.ParserRep`
 :   Convert getopt to a dict
     
     Args:
@@ -29,5 +29,5 @@ Functions
             c2gtypes.ParserRep: dictionary representing parser object
 
     
-`process(group: list[str], groupName: str, categorize: Callable[[list[str]], Generator[c2gtypes.Item, None, None]]) ‑> list[c2gtypes.Group]`
+`process(group: list[str], groupName: str, categorize: Callable[[list[str]], Generator[c2gtypes.Item, None, None]]) ‑> list`
 :   Generate a group (or section)
