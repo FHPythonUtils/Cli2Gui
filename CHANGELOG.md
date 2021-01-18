@@ -2,6 +2,11 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+
+## 2021 - 2021/01/18
+- Modelled the radio groups
+
+
 ## 2020.9.1 - 2020/10/14
 - New Pillow release
 - Typing fixes as recommended here https://github.com/microsoft/pylance-release/issues/485

@@ -10,13 +10,13 @@ from PySimpleGUI.PySimpleGUI import Element
 import yaml
 import getostheme
 import pypandoc
+from catpandoc import pandoc2plain, processpandoc
 
 import PySimpleGUI as pySimpleGuiType
-from cli2gui import c2gtypes
-
-from catpandoc import pandoc2plain, processpandoc
 from cli2gui.application.pysimplegui2args import argFormat
 from cli2gui.application.widgets import Widgets
+from cli2gui import c2gtypes
+
 
 
 def getYamlDict(yamlFileName: str) -> dict[str, str]:
@@ -127,12 +127,11 @@ argConstruct: list[list[pySimpleGuiType.Element]], widgets: Widgets):
 	widgets.label(widgets.stringTitlecase(section["name"], " "), 14)])
 	for item in section["arg_items"]:
 		if item["type"] == "Group":
-			# TODO model the group type
-			rGroup = item["radio"] # type: ignore
-			for rElement in rGroup: # type: ignore
+			rGroup = item["radio"]
+			for rElement in rGroup:
 				argConstruct.append(
-				widgets.helpFlagWidget(rElement['display_name'], rElement['commands'], # type: ignore
-				rElement['help'], rElement['dest'])) # type: ignore
+				widgets.helpFlagWidget(rElement['display_name'], rElement['commands'],
+				rElement['help'], rElement['dest']))
 		elif item["type"] == "Bool":
 			argConstruct.append(
 			widgets.helpFlagWidget(item['display_name'], item['commands'], item['help'],

@@ -31,6 +31,7 @@ class Item(typing.TypedDict):
 	commands: list[Any]
 	choices: Union[list[Any], list[str]]
 	dest: str
+	radio: list[Item]
 	_other: dict[Any, Any]
 
 
