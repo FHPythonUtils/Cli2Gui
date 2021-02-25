@@ -277,7 +277,7 @@ See the [DATA_STRUCTURES](/DATA_STRUCTURES.md) for more information.
 
 
 ## Documentation
-See the [Docs](/DOCS/README.md) for more information.
+See the [Docs](/DOCS/) for more information.
 
 
 
