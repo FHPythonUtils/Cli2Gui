@@ -1,12 +1,12 @@
-[![Github top language](https://img.shields.io/github/languages/top/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../)
-[![Codacy grade](https://img.shields.io/codacy/grade/ff714fa09a7141ef9f0466073971d853.svg?style=for-the-badge)](https://www.codacy.com/gh/FHPythonUtils/Cli2Gui)
+[![GitHub top language](https://img.shields.io/github/languages/top/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../)
 [![Repository size](https://img.shields.io/github/repo-size/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../)
 [![Issues](https://img.shields.io/github/issues/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../issues)
 [![License](https://img.shields.io/github/license/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](/LICENSE.md)
 [![Commit activity](https://img.shields.io/github/commit-activity/m/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../commits/master)
 [![Last commit](https://img.shields.io/github/last-commit/FHPythonUtils/Cli2Gui.svg?style=for-the-badge)](../../commits/master)
-[![PyPI Downloads](https://img.shields.io/pypi/dm/cli2gui.svg?style=for-the-badge)](https://pypi.org/project/cli2gui/)
-[![PyPI Version](https://img.shields.io/pypi/v/cli2gui.svg?style=for-the-badge)](https://pypi.org/project/cli2gui/)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/cli2gui.svg?style=for-the-badge)](https://pypistats.org/packages/cli2gui)
+[![PyPI Total Downloads](https://img.shields.io/badge/dynamic/json?style=for-the-badge&label=total%20downloads&query=%24.total_downloads&url=https%3A%2F%2Fapi.pepy.tech%2Fapi%2Fprojects%2Fcli2gui)](https://pepy.tech/project/cli2gui)
+[![PyPI Version](https://img.shields.io/pypi/v/cli2gui.svg?style=for-the-badge)](https://pypi.org/project/cli2gui)
 
 <!-- omit in toc -->
 # Cli2Gui
@@ -20,7 +20,6 @@ Use this module to convert a CLI program to a GUI
 	- [GUI Toolkit Support](#gui-toolkit-support)
 	- [GUI Feature Support](#gui-feature-support)
 - [Roadmap](#roadmap)
-- [Changelog](#changelog)
 - [Decorator](#decorator)
 - [Using the decorator in your project](#using-the-decorator-in-your-project)
 	- [run_function (optional)](#run_function-optional)
@@ -39,6 +38,7 @@ Use this module to convert a CLI program to a GUI
 	- [run_function (required)](#run_function-required)
 	- [parser (not applicable)](#parser-not-applicable)
 - [Data Structures](#data-structures)
+- [Documentation](#documentation)
 - [Install With PIP](#install-with-pip)
 - [Language information](#language-information)
 	- [Built for](#built-for)
@@ -50,14 +50,14 @@ Use this module to convert a CLI program to a GUI
 - [How to run](#how-to-run)
 	- [With VSCode](#with-vscode)
 	- [From the Terminal](#from-the-terminal)
-- [Download](#download-1)
+- [Download Project](#download-project)
 	- [Clone](#clone)
 		- [Using The Command Line](#using-the-command-line)
 		- [Using GitHub Desktop](#using-github-desktop)
 	- [Download Zip File](#download-zip-file)
 - [Community Files](#community-files)
 	- [Licence](#licence)
-	- [Changelog](#changelog-1)
+	- [Changelog](#changelog)
 	- [Code of Conduct](#code-of-conduct)
 	- [Contributing](#contributing)
 	- [Security](#security)
@@ -126,9 +126,6 @@ For completed components, see the changelog (link below)
 |---|---|---|
 |Python Fire|https://github.com/google/python-fire|Under consideration|
 
-
-## Changelog
-See the [CHANGELOG](/CHANGELOG.md) for more information.
 
 
 ## Decorator
@@ -278,6 +275,12 @@ As this is exclusively for click, this option is not present
 See the [DATA_STRUCTURES](/DATA_STRUCTURES.md) for more information.
 
 
+
+## Documentation
+See the [Docs](/DOCS/README.md) for more information.
+
+
+
 ## Install With PIP
 
 ```python
@@ -290,7 +293,7 @@ Head to https://pypi.org/project/cli2gui/ for more info
 ## Language information
 ### Built for
 This program has been written for Python 3 and has been tested with
-Python version 3.8.0 <https://www.python.org/downloads/release/python-380/>.
+Python version 3.9.0 <https://www.python.org/downloads/release/python-380/>.
 
 ## Install Python on Windows
 ### Chocolatey
@@ -304,14 +307,14 @@ version.
 ## Install Python on Linux
 ### Apt
 ```bash
-sudo apt install python3.8
+sudo apt install python3.9
 ```
 
 ## How to run
 ### With VSCode
 1. Open the .py file in vscode
-2. Ensure a python 3.8 interpreter is selected (Ctrl+Shift+P > Python:Select
-Interpreter > Python 3.8)
+2. Ensure a python 3.9 interpreter is selected (Ctrl+Shift+P > Python:Select
+Interpreter > Python 3.9)
 3. Run by pressing Ctrl+F5 (if you are prompted to install any modules, accept)
 ### From the Terminal
 ```bash
@@ -319,7 +322,7 @@ Interpreter > Python 3.8)
 ```
 
 
-## Download
+## Download Project
 ### Clone
 #### Using The Command Line
 1. Press the Clone or download button in the top right
@@ -347,7 +350,6 @@ More information can be found at
 1. Download this GitHub repository
 2. Extract the zip archive
 3. Copy/ move to the desired location
-
 
 ## Community Files
 ### Licence
