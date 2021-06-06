@@ -2,7 +2,7 @@
 
 > Auto-generated documentation for [cli2gui.application.application](../../../cli2gui/application/application.py) module.
 
-Application here uses PySimpleGUI
+Application here uses PySimpleGUI.
 
 - [Cli2gui](../../README.md#cli2gui-index) / [Modules](../../README.md#cli2gui-modules) / [cli2gui](../index.md#cli2gui) / [application](index.md#application) / application
     - [addItemsAndGroups](#additemsandgroups)
@@ -16,23 +16,23 @@ Application here uses PySimpleGUI
 
 ## addItemsAndGroups
 
-[[find in source code]](../../../cli2gui/application/application.py#L111)
+[[find in source code]](../../../cli2gui/application/application.py#L180)
 
 ```python
 def addItemsAndGroups(
     section: c2gtypes.Group,
-    argConstruct: list[list[pySimpleGuiType.Element]],
+    argConstruct: list[list[Element]],
     widgets: Widgets,
 ):
 ```
 
-Add arg_items and groups to the argConstruct list
+Add arg_items and groups to the argConstruct list.
 
 #### Arguments
 
 - `section` *c2gtypes.Group* - contents/ section containing name, arg_items
 and groups
-- `argConstruct` *list[list[pySimpleGuiType.Element]]* - list of widgets to
+- `argConstruct` *list[list[Element]]* - list of widgets to
 add to the program window
 - `widgets` *Widgets* - widgets object used to generate widgets to add to
 argConstruct
@@ -41,13 +41,9 @@ argConstruct
 
 - `list` - updated argConstruct
 
-#### See also
-
-- [Widgets](widgets.md#widgets)
-
 ## createLayout
 
-[[find in source code]](../../../cli2gui/application/application.py#L202)
+[[find in source code]](../../../cli2gui/application/application.py#L312)
 
 ```python
 def createLayout(
@@ -58,25 +54,22 @@ def createLayout(
 ) -> list[list[Element]]:
 ```
 
-Create the pysimplegui layout from the build spec
+Create the pysimplegui layout from the build spec.
 
 #### Arguments
 
-- `build_spec` *c2gtypes.FullBuildSpec* - build spec containing widget
-descriptions, program name, description etc.
+- `buildSpec` *c2gtypes.FullBuildSpec* - build spec containing widget
 - `widgets` *Widgets* - class to build widgets
+- `pySimpleGui` *Any* - version of PySimpleGui to use
+menu (Union[list[str], None]): menu data
 
 #### Returns
 
 - `list[list[Element]]` - list of widgets (layout list)
 
-#### See also
-
-- [Widgets](widgets.md#widgets)
-
 ## generatePopup
 
-[[find in source code]](../../../cli2gui/application/application.py#L156)
+[[find in source code]](../../../cli2gui/application/application.py#L244)
 
 ```python
 def generatePopup(
@@ -84,10 +77,10 @@ def generatePopup(
     values: Union[(dict[(Any, Any)], list[Any])],
     widgets: Widgets,
     pySimpleGui: Any,
-) -> pySimpleGuiType.Window:
+) -> Window:
 ```
 
-Create the popup window
+Create the popup window.
 
 #### Arguments
 
@@ -101,30 +94,27 @@ as the menu
 
 - `pySimpleGui.Window` - A PySimpleGui Window
 
-#### See also
-
-- [Widgets](widgets.md#widgets)
-
 ## getYamlDict
 
-[[find in source code]](../../../cli2gui/application/application.py#L22)
+[[find in source code]](../../../cli2gui/application/application.py#L21)
 
 ```python
 def getYamlDict(yamlFileName: str) -> dict[(str, str)]:
 ```
 
-Return a yaml_dict from reading yaml_file. If yaml_file is empty or
+Return a yaml_dict from reading yaml_file. If yaml_file is empty or...
+
 doesn't exist, return an empty dict instead.
 
 ## run
 
-[[find in source code]](../../../cli2gui/application/application.py#L240)
+[[find in source code]](../../../cli2gui/application/application.py#L385)
 
 ```python
 def run(buildSpec: c2gtypes.FullBuildSpec):
 ```
 
-Main entry point for the application
+Main entry point for the application.
 
 #### Arguments
 
@@ -133,7 +123,7 @@ or the function to run
 
 ## setBase24Theme
 
-[[find in source code]](../../../cli2gui/application/application.py#L46)
+[[find in source code]](../../../cli2gui/application/application.py#L47)
 
 ```python
 def setBase24Theme(
@@ -143,7 +133,7 @@ def setBase24Theme(
 ) -> None:
 ```
 
-Set the base24 theme to the application
+Set the base24 theme to the application.
 
 #### Arguments
 
@@ -153,7 +143,7 @@ darkTheme (Union[str, list[str], None]): the dark theme
 
 ## setupWidgets
 
-[[find in source code]](../../../cli2gui/application/application.py#L86)
+[[find in source code]](../../../cli2gui/application/application.py#L140)
 
 ```python
 def setupWidgets(
@@ -163,7 +153,7 @@ def setupWidgets(
 ) -> Widgets:
 ```
 
-Set the widget sizes to the application
+Set the widget sizes to the application.
 
 #### Arguments
 
@@ -175,19 +165,15 @@ sizes (Union[dict[str, Any], None]): widget sizes
 
 - `Widgets` - widgets object all set up nicely
 
-#### See also
-
-- [Widgets](widgets.md#widgets)
-
 ## themeFromFile
 
-[[find in source code]](../../../cli2gui/application/application.py#L33)
+[[find in source code]](../../../cli2gui/application/application.py#L34)
 
 ```python
 def themeFromFile(theme: str) -> list[str]:
 ```
 
-Set the base24 theme from a base24 scheme.yaml to the application
+Set the base24 theme from a base24 scheme.yaml to the application.
 
 #### Arguments
 

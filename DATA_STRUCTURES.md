@@ -72,7 +72,7 @@ Contains the initial data set by the end user
 
 ```python
 class BuildSpec(typing.TypedDict):
-	""" representation for the BuildSpec """
+	"""Representation for the BuildSpec."""
 	run_function: Callable[..., Any]
 	parser: str
 	gui: str
@@ -94,7 +94,7 @@ description and so on.
 
 ```python
 class FullBuildSpec(typing.TypedDict):
-	""" representation for the FullBuildSpec (BuildSpec + ParserRep) """
+	"""Representation for the FullBuildSpec (BuildSpec + ParserRep)."""
 	run_function: Callable[..., Any]
 	parser: str
 	gui: str
@@ -117,7 +117,7 @@ Each *parser*2json.py provides a JSON object that is used to build the GUI.
 
 ```python
 class ParserRep(typing.TypedDict):
-	""" representation for a parser """
+	"""Representation for a parser."""
 	parser_description: Union[str, None]
 	widgets: list[Group]
 ```
@@ -126,7 +126,7 @@ class ParserRep(typing.TypedDict):
 
 ```python
 class Group(typing.TypedDict):
-	""" representation for an argument group """
+	""" representation for an argument group."""
 	name: str
 	arg_items: list[Item]
 	groups: Union[list[Group], list[Any]]
@@ -135,7 +135,7 @@ class Group(typing.TypedDict):
 
 ```python
 class Item(typing.TypedDict):
-	""" representation for an arg_item """
+	""" representation for an arg_item."""
 	type: str
 	display_name: str
 	help: str

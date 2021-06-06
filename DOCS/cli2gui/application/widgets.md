@@ -2,9 +2,7 @@
 
 > Auto-generated documentation for [cli2gui.application.widgets](../../../cli2gui/application/widgets.py) module.
 
-Widgets class holding methods to create widgets in addition to a sizes
-attribute that can be overridden to provide the end user with customisation over
-the size of the gui
+Widgets class holding methods to create widgets in addition to a sizes...
 
 - [Cli2gui](../../README.md#cli2gui-index) / [Modules](../../README.md#cli2gui-modules) / [cli2gui](../index.md#cli2gui) / [application](index.md#application) / widgets
     - [Widgets](#widgets)
@@ -26,62 +24,66 @@ the size of the gui
         - [Widgets().stringTitlecase](#widgetsstringtitlecase)
         - [Widgets().title](#widgetstitle)
 
+attribute that can be overridden to provide the end user with customisation over
+the size of the gui.
+
 ## Widgets
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L14)
+[[find in source code]](../../../cli2gui/application/widgets.py#L15)
 
 ```python
 class Widgets():
     def __init__(sizes: dict[(str, Any)], pySimpleGui: Any):
 ```
 
-Widgets class holding methods to create widgets in addition to a sizes
+Widgets class holding methods to create widgets in addition to a sizes...
+
 attribute that can be overridden to provide the end user with customisation
-over the size of the gui
+over the size of the gui.
 
 ### Widgets().button
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L69)
+[[find in source code]](../../../cli2gui/application/widgets.py#L84)
 
 ```python
-def button(text: str) -> pySimpleGuiType.Element:
+def button(text: str) -> Element:
 ```
 
-Return a button
+Return a button.
 
 ### Widgets().check
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L65)
+[[find in source code]](../../../cli2gui/application/widgets.py#L78)
 
 ```python
-def check(key: str) -> pySimpleGuiType.Element:
+def check(key: str) -> Element:
 ```
 
-Return a checkbox
+Return a checkbox.
 
 ### Widgets().dropdown
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L77)
+[[find in source code]](../../../cli2gui/application/widgets.py#L105)
 
 ```python
-def dropdown(key: str, arg_items: list[str]) -> pySimpleGuiType.Element:
+def dropdown(key: str, argItems: list[str]) -> Element:
 ```
 
-Return a dropdown
+Return a dropdown.
 
 ### Widgets().fileBrowser
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L81)
+[[find in source code]](../../../cli2gui/application/widgets.py#L114)
 
 ```python
-def fileBrowser(key: str) -> list[pySimpleGuiType.Element]:
+def fileBrowser(key: str) -> list[Element]:
 ```
 
-Return a fileBrowser button and field
+Return a fileBrowser button and field.
 
 ### Widgets().getImgData
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L25)
+[[find in source code]](../../../cli2gui/application/widgets.py#L29)
 
 ```python
 def getImgData(
@@ -90,48 +92,45 @@ def getImgData(
 ) -> Union[(bytes, None)]:
 ```
 
-Generate image data using PIL
+Generate image data using PIL.
 
 ### Widgets().helpArgHelp
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L94)
+[[find in source code]](../../../cli2gui/application/widgets.py#L139)
 
 ```python
-def helpArgHelp(helpText: str) -> pySimpleGuiType.Element:
+def helpArgHelp(helpText: str) -> Element:
 ```
 
-Return a label for the arg help text
+Return a label for the arg help text.
 
 ### Widgets().helpArgName
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L91)
+[[find in source code]](../../../cli2gui/application/widgets.py#L135)
 
 ```python
-def helpArgName(
-    displayName: str,
-    commands: list[str],
-) -> pySimpleGuiType.Element:
+def helpArgName(displayName: str, commands: list[str]) -> Element:
 ```
 
-Return a label for the arg name
+Return a label for the arg name.
 
 ### Widgets().helpArgNameAndHelp
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L97)
+[[find in source code]](../../../cli2gui/application/widgets.py#L143)
 
 ```python
 def helpArgNameAndHelp(
     commands: list[str],
     helpText: str,
     displayName: str,
-) -> pySimpleGuiType.Element:
+) -> Element:
 ```
 
-Return a column containing the argument name and help text
+Return a column containing the argument name and help text.
 
 ### Widgets().helpDropdownWidget
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L128)
+[[find in source code]](../../../cli2gui/application/widgets.py#L200)
 
 ```python
 def helpDropdownWidget(
@@ -140,14 +139,14 @@ def helpDropdownWidget(
     helpText: str,
     dest: str,
     choices: list[str],
-) -> list[pySimpleGuiType.Element]:
+) -> list[Element]:
 ```
 
-Return a set of widgets that make up an arg with a choice
+Return a set of widgets that make up an arg with a choice.
 
 ### Widgets().helpFileWidget
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L123)
+[[find in source code]](../../../cli2gui/application/widgets.py#L191)
 
 ```python
 def helpFileWidget(
@@ -155,14 +154,14 @@ def helpFileWidget(
     commands: list[str],
     helpText: str,
     dest: str,
-) -> list[pySimpleGuiType.Element]:
+) -> list[Element]:
 ```
 
-Return a set of widgets that make up an arg with a file
+Return a set of widgets that make up an arg with a file.
 
 ### Widgets().helpFlagWidget
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L113)
+[[find in source code]](../../../cli2gui/application/widgets.py#L173)
 
 ```python
 def helpFlagWidget(
@@ -170,14 +169,14 @@ def helpFlagWidget(
     commands: list[str],
     helpText: str,
     dest: str,
-) -> list[pySimpleGuiType.Element]:
+) -> list[Element]:
 ```
 
-Return a set of widgets that make up an arg with true/ false
+Return a set of widgets that make up an arg with true/ false.
 
 ### Widgets().helpTextWidget
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L118)
+[[find in source code]](../../../cli2gui/application/widgets.py#L182)
 
 ```python
 def helpTextWidget(
@@ -185,60 +184,57 @@ def helpTextWidget(
     commands: list[str],
     helpText: str,
     dest: str,
-) -> list[pySimpleGuiType.Element]:
+) -> list[Element]:
 ```
 
-Return a set of widgets that make up an arg with text
+Return a set of widgets that make up an arg with text.
 
 ### Widgets().inputText
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L60)
+[[find in source code]](../../../cli2gui/application/widgets.py#L69)
 
 ```python
-def inputText(key: str) -> pySimpleGuiType.Element:
+def inputText(key: str) -> Element:
 ```
 
-Return an input text field
+Return an input text field.
 
 ### Widgets().label
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L73)
+[[find in source code]](../../../cli2gui/application/widgets.py#L93)
 
 ```python
-def label(text: str, font: int = 11) -> pySimpleGuiType.Element:
+def label(text: str, font: int = 11) -> Element:
 ```
 
-Return a label
+Return a label.
 
 ### Widgets().stringSentencecase
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L50)
+[[find in source code]](../../../cli2gui/application/widgets.py#L58)
 
 ```python
 def stringSentencecase(string: Union[(str, None)]) -> str:
 ```
 
-Convert a string to sentence case
+Convert a string to sentence case.
 
 ### Widgets().stringTitlecase
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L37)
+[[find in source code]](../../../cli2gui/application/widgets.py#L42)
 
 ```python
 def stringTitlecase(string: Union[(str, None)], splitStr: str = 'ALL'):
 ```
 
-Convert a string to title case
+Convert a string to title case.
 
 ### Widgets().title
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L102)
+[[find in source code]](../../../cli2gui/application/widgets.py#L152)
 
 ```python
-def title(
-    text: str,
-    image: Union[(str, None)] = None,
-) -> list[pySimpleGuiType.Element]:
+def title(text: str, image: Union[(str, None)] = None) -> list[Element]:
 ```
 
-Return a set of widgets that make up the application header
+Return a set of widgets that make up the application header.

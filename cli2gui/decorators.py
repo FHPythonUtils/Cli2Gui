@@ -1,54 +1,41 @@
-"""Decorator and entry point for the program
+"""Decorator and entry point for the program.
 """
-# pylint: disable=import-outside-toplevel
+# pylint: disable=import-outside-toplevel, deprecated-module
 from __future__ import annotations
-from typing import Union
-from collections.abc import Callable
 
-from os import path
+import getopt  # Parser
 import sys
-from typing import Any
 import warnings
+from argparse import ArgumentParser  # Parser
+from collections.abc import Callable
+from optparse import OptionParser  # Parser
+from os import path
+from shlex import quote
+from typing import Any
 
-# Parsers - these are all default so will not crash everything
-from argparse import ArgumentParser
-from optparse import OptionParser
-import getopt
+from . import c2gtypes
+from .application import application
+from .tojson import (argparse2json, click2json, docopt2json, getopt2json,
+                     optparse2json)
 
-from cli2gui import c2gtypes
-
-
-# Import module
-from cli2gui.tojson import (
-	argparse2json,
-	getopt2json,
-	optparse2json,
-	docopt2json,
-	click2json
-)
-from cli2gui.application import application
-
-DO_COMMAND = '--cli2gui'
-DO_NOT_COMMAND = '--disable-cli2gui'
-
-if sys.platform.startswith("win"):
-	def quote(value: str):
-		""" quote """
-		return u'"{}"'.format(u'{}'.format(value).replace(u'"', u'""'))
-else:	# POSIX shell
-	def quote(value: str):
-		""" quote """
-		return u"'{}'".format(u'{}'.format(value).replace(u"'", u"'\\''"))
+DO_COMMAND = "--cli2gui"
+DO_NOT_COMMAND = "--disable-cli2gui"
 
 
-def createFromParser(selfParser: Union[object, None],
-argsParser: Union[tuple[Any, Any], None], kwargsParser: Union[dict[Any, Any], None],
-sourcePath: str, buildSpec: c2gtypes.BuildSpec, **kwargs: dict[Any, Any]) -> c2gtypes.FullBuildSpec:
-	"""Generate a buildSpec from a parser
+def createFromParser(
+	selfParser: object | None,
+	argsParser: tuple[Any, ...] | None,
+	kwargsParser: dict[Any, Any] | None,
+	sourcePath: str,
+	buildSpec: c2gtypes.BuildSpec,
+	**kwargs: dict[Any, Any],
+) -> c2gtypes.FullBuildSpec:
+	"""Generate a buildSpec from a parser.
 
 	Args:
 		selfParser (Union[object, None]): A parser that acts on self. eg. ArgumentParser.parse_args
-		argsParser (Union[tuple[Any, Any], None]): A parser that acts on function arguments. eg. getopt.getopt
+		argsParser (Union[tuple[Any, Any], None]): A parser that acts on function
+		arguments. eg. getopt.getopt
 		kwargsParser (Union[dict[Any, Any], None]): A parser that acts on named params
 		sourcePath (str): Program source path
 		buildSpec (c2gtypes.BuildSpec): Build spec
@@ -57,13 +44,17 @@ sourcePath: str, buildSpec: c2gtypes.BuildSpec, **kwargs: dict[Any, Any]) -> c2g
 	Returns:
 		c2gtypes.FullBuildSpec: buildSpec to be used by the application
 	"""
-	runCmd = kwargs.get('target')
+	runCmd = kwargs.get("target")
 	if runCmd is None:
-		if hasattr(sys, 'frozen'):
+		if hasattr(sys, "frozen"):
 			runCmd = quote(sourcePath)
 		else:
-			runCmd = '{} -u {}'.format(quote(sys.executable), quote(sourcePath))
-	buildSpec["program_name"] = (buildSpec["program_name"] if buildSpec["program_name"] is not None else path.basename(sys.argv[0]).replace(".py", ""))
+			runCmd = f"{quote(sys.executable)} -u {quote(sourcePath)}"
+	buildSpec["program_name"] = (
+		buildSpec["program_name"]
+		if buildSpec["program_name"] is not None
+		else path.basename(sys.argv[0]).replace(".py", "")
+	)
 
 	parser = buildSpec["parser"]
 	# Select parser
@@ -79,14 +70,25 @@ sourcePath: str, buildSpec: c2gtypes.BuildSpec, **kwargs: dict[Any, Any]) -> c2g
 			buildSpec = {**getopt2json.convert(argsParser), **buildSpec}
 	if parser == "click":
 		buildSpec = {**click2json.convert(buildSpec["run_function"]), **buildSpec}
-	return buildSpec # type: ignore
+	return buildSpec  # type: ignore
 
 
-def Click2Gui(run_function: Callable[..., Any], gui: str="pysimplegui", theme: Union[str, list[str], None]=None, darkTheme: Union[str, list[str], None]=None,
- sizes: Union[dict[str, int], None]=None, image: Union[str, None]=None, program_name: Union[str, None]=None, program_description: Union[str, None]=None,
- max_args_shown: int=5, menu: Union[dict[str, Any], None]=None, **kwargs: dict[str, Any]) -> Any:
-	"""Decorator to use in the function that contains the argument parser
-	Serialises data to JSON and launches the Cli2Gui application
+def Click2Gui(  # pylint: disable=invalid-name
+	run_function: Callable[..., Any],
+	gui: str = "pysimplegui",
+	theme: str | list[str] | None = None,
+	darkTheme: str | list[str] | None = None,
+	sizes: dict[str, int] | None = None,
+	image: str | None = None,
+	program_name: str | None = None,
+	program_description: str | None = None,
+	max_args_shown: int = 5,
+	menu: dict[str, Any] | None = None,
+	**kwargs: dict[str, Any],
+) -> Any:
+	"""Decorator to use in the function that contains the argument parser...
+
+	Serialises data to JSON and launches the Cli2Gui application.
 
 	Args:
 		run_function (Callable[..., Any]): The name of the function to call eg.
@@ -117,33 +119,43 @@ def Click2Gui(run_function: Callable[..., Any], gui: str="pysimplegui", theme: U
 		Any: Runs the application
 	"""
 	bSpec: c2gtypes.BuildSpec = {
-		'run_function': run_function,
+		"run_function": run_function,
 		"parser": "click",
 		"gui": gui,
 		"theme": theme,
 		"darkTheme": darkTheme,
 		"sizes": sizes,
-		'image': image,
-		'program_name':	program_name,
-		'program_description': program_description,
-		'max_args_shown':	max_args_shown,
-		'menu': menu,
+		"image": image,
+		"program_name": program_name,
+		"program_description": program_description,
+		"max_args_shown": max_args_shown,
+		"menu": menu,
 	}
 
 	buildSpec = createFromParser(
-		None, None, kwargs,
-		sys.argv[0],
-		bSpec,
-		**{**locals(), **locals()['kwargs']}
+		None, None, kwargs, sys.argv[0], bSpec, **{**locals(), **locals()["kwargs"]}
 	)
 	return application.run(buildSpec)
 
 
-def Cli2Gui(run_function: Union[Callable[..., Any], None], auto_enable: bool=False, parser: str="argparse", gui: str="pysimplegui", theme: Union[str, list[str], None]=None, darkTheme: Union[str, list[str], None]=None,
- sizes: Union[dict[str, int], None]=None, image: Union[str, None]=None, program_name: Union[str, None]=None, program_description: Union[str, None]=None,
- max_args_shown: int=5, menu: Union[dict[str, Any], None]=None, **kwargs: dict[str, Any]) -> Any:
-	"""Decorator to use in the function that contains the argument parser
-	Serialises data to JSON and launches the Cli2Gui application
+def Cli2Gui(  # pylint: disable=invalid-name
+	run_function: Callable[..., Any] | None,
+	auto_enable: bool = False,
+	parser: str = "argparse",
+	gui: str = "pysimplegui",
+	theme: str | list[str] | None = None,
+	darkTheme: str | list[str] | None = None,
+	sizes: dict[str, int] | None = None,
+	image: str | None = None,
+	program_name: str | None = None,
+	program_description: str | None = None,
+	max_args_shown: int = 5,
+	menu: dict[str, Any] | None = None,
+	**kwargs: dict[str, Any],
+) -> Any:
+	"""Decorator to use in the function that contains the argument parser...
+
+	Serialises data to JSON and launches the Cli2Gui application.
 
 	Args:
 		run_function (Callable[..., Any]): The name of the function to call eg.
@@ -180,41 +192,57 @@ def Cli2Gui(run_function: Union[Callable[..., Any], None], auto_enable: bool=Fal
 		Any: Runs the application
 	"""
 	bSpec: c2gtypes.BuildSpec = {
-		'run_function': run_function,
+		"run_function": run_function,
 		"parser": parser,
 		"gui": gui,
 		"theme": theme,
 		"darkTheme": darkTheme,
 		"sizes": sizes,
-		'image': image,
-		'program_name':	program_name,
-		'program_description': program_description,
-		'max_args_shown':	max_args_shown,
-		'menu': menu,
+		"image": image,
+		"program_name": program_name,
+		"program_description": program_description,
+		"max_args_shown": max_args_shown,
+		"menu": menu,
 	}
 
 	def build(callingFunction: Callable[..., Any]) -> Callable[..., Any]:
-		def runCli2Gui(self, *args: tuple[Any, Any], **kwargs: dict[Any, Any]):
-			"""Generate the buildspec and run the GUI
+		"""Generate the buildspec and run the GUI.
+
+		Args:
+			callingFunction (Callable[..., Any]): The calling function eg.
+			ArgumentParser.parse_args
+
+		Returns:
+			Callable[..., Any]: some calling function
+		"""
+
+		def runCli2Gui(self, *args: Any, **kwargs: Any) -> Any:
+			"""runCli2Gui. run the gui/ application.
 
 			Args:
-				calling_function (def): The calling function eg.
-				ArgumentParser.parse_args
-			"""
-			buildSpec = createFromParser(
-				self, args, kwargs,
-				#sys.argv[0],
-				callingFunction.__name__,
-				bSpec,
-				**{**locals(), **locals()['kwargs']})
-			return application.run(buildSpec)
-
-		def inner(*args: tuple[Any, Any], **kwargs: dict[Any, Any]):
-			"""Replace the inner functions with run_cli2gui. eg. When
-			ArgumentParser.parse_args is called, do run_cli2gui
+				*args (Any): Unpack args
+				**kwargs (Any): Unpack kwargs
 
 			Returns:
-				func(): Do the calling_function
+				Any: run the gui/ application
+			"""
+			buildSpec = createFromParser(
+				self,
+				args,
+				kwargs,
+				callingFunction.__name__,
+				bSpec,
+				**{**locals(), **locals()["kwargs"]},
+			)
+			return application.run(buildSpec)
+
+		def inner(*args: tuple[Any, Any], **kwargs: dict[Any, Any]) -> Any:
+			"""Replace the inner functions with run_cli2gui. eg. When...
+
+			ArgumentParser.parse_args is called, do run_cli2gui.
+
+			Returns:
+				Any: Do the calling_function
 			"""
 			getopt.getopt = runCli2Gui
 			getopt.gnu_getopt = runCli2Gui
@@ -222,11 +250,13 @@ def Cli2Gui(run_function: Union[Callable[..., Any], None], auto_enable: bool=Fal
 			ArgumentParser.parse_args = runCli2Gui
 			try:
 				import docopt
+
 				docopt.docopt = runCli2Gui
 			except ImportError:
 				pass
 			try:
 				import dephell_argparse
+
 				dephell_argparse.Parser.parse_args = runCli2Gui
 			except ImportError:
 				pass
@@ -238,23 +268,25 @@ def Cli2Gui(run_function: Union[Callable[..., Any], None], auto_enable: bool=Fal
 		inner.__name__ = callingFunction.__name__
 		return inner
 
-
 	def runWithoutCli2Gui(callingFunction: Callable[..., Any]) -> Callable[..., Any]:
 		def inner(*args: tuple[Any, Any], **kwargs: dict[Any, Any]):
 			# Using type=argparse.FileType('r') leads to a resource warning
 			with warnings.catch_warnings():
 				warnings.filterwarnings("ignore", category=ResourceWarning)
 				return callingFunction(*args, **kwargs)
+
 		inner.__name__ = callingFunction.__name__
 		return inner
 
-	"""If enabled by default requires do_not_command, otherwise requires do_command """
-	if (not auto_enable and DO_COMMAND not in sys.argv) or (auto_enable
-	and DO_NOT_COMMAND in sys.argv):
+	"""If enabled by default requires do_not_command, otherwise requires do_command."""
+	if (not auto_enable and DO_COMMAND not in sys.argv) or (
+		auto_enable and DO_NOT_COMMAND in sys.argv
+	):
 		if DO_NOT_COMMAND in sys.argv:
 			sys.argv.remove(DO_NOT_COMMAND)
 		return runWithoutCli2Gui
 	return build
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
 	pass

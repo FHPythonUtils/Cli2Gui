@@ -1,6 +1,6 @@
-Pillow<10,>=8.1.0
-PySimpleGUI<6,>=4.34.0
-PyYAML<7,>=5.3.1
-catpandoc<2022,>=2020.3.0
+Pillow<9,>=8.2.0
+PySimpleGUI<5,>=4.43.0
+PyYAML<6,>=5.4.1
+catpandoc<2023,>=2021
 getostheme<2022,>=2020.4.0
-pypandoc<3,>=1.5
+pypandoc<2,>=1.5

@@ -13,12 +13,12 @@ from cli2gui import Cli2Gui
 
 
 def handle(args):
-	'''Handle the args '''
+	"""Handle the args."""
 	print(args)
 
 @Cli2Gui(run_function=handle, parser="dephell_argparse")
 def cli():
-	'''Cli entrypoint '''
+	"""Cli entrypoint."""
 	parser = dephell_argparse.Parser()
 
 	# Positional and file

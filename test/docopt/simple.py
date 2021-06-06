@@ -29,12 +29,12 @@ import docopt
 from cli2gui import Cli2Gui
 
 def handle(args):
-	'''Handle the args '''
+	"""Handle the args."""
 	print(args)
 
 @Cli2Gui(run_function=handle, parser="docopt")
 def cli():
-	'''Cli entrypoint '''
+	"""Cli entrypoint."""
 	args = docopt.docopt(__doc__)
 	handle(args)
 

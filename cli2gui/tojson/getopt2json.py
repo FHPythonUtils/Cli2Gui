@@ -1,26 +1,31 @@
-"""Generate a dict for getopt
+"""Generate a dict for getopt.
 """
 from __future__ import annotations
+
 from collections.abc import Callable
 from typing import Generator
 
-from cli2gui import c2gtypes
+from .. import c2gtypes
 
-def actionToJson(action: str, widget: str, short: bool=True) -> c2gtypes.Item:
-	"""Convert an arg to json, behave in the same way as argparse hence the large
-	amount of duplication  """
+
+def actionToJson(action: str, widget: str, short: bool = True) -> c2gtypes.Item:
+	"""Convert an arg to json, behave in the same way as argparse hence the large...
+
+	amount of duplication.
+	"""
 	return {
-		'type': widget,
-		'display_name': action,
-		'help': "",
-		'commands': [("-" if short else "--") + action],
-		'choices': [],
-		'dest': ("-" if short else "--") + action,
-		'_other': {}
+		"type": widget,
+		"display_name": action,
+		"help": "",
+		"commands": [("-" if short else "--") + action],
+		"choices": [],
+		"dest": ("-" if short else "--") + action,
+		"_other": {},
 	}
 
+
 def catLong(actions: list[str]):
-	"""categorize long args """
+	"""Categorize long args."""
 	for action in actions:
 		# True/ false
 		if "=" in action:
@@ -28,13 +33,14 @@ def catLong(actions: list[str]):
 		else:
 			yield actionToJson(action, "Bool", short=False)
 
+
 def catShort(actions: list[str]):
-	"""categorize short args """
+	"""Categorize short args."""
 	index = 0
 	while index < len(actions):
 		try:
 			# True/ false
-			if ":" in actions[index+1]:
+			if ":" in actions[index + 1]:
 				yield actionToJson(actions[index], "TextBox")
 				index += 2
 			else:
@@ -45,18 +51,23 @@ def catShort(actions: list[str]):
 			break
 
 
+def process(
+	group: list[str],
+	groupName: str,
+	categorize: Callable[[list[str]], Generator[c2gtypes.Item, None, None]],
+) -> list[c2gtypes.Group]:
+	"""Generate a group (or section)."""
+	return [
+		{
+			"name": groupName,
+			"arg_items": list(categorize(group)),
+			"groups": [],
+		}
+	]
 
-def process(group: list[str], groupName: str,
-categorize: Callable[[list[str]], Generator[c2gtypes.Item, None, None]]) -> list[c2gtypes.Group]:
-	"""Generate a group (or section) """
-	return [{
-		'name': groupName,
-		'arg_items': list(categorize(group)),
-		'groups': [],
-	}]
 
 def convert(parser: tuple[list[str], list[str]]) -> c2gtypes.ParserRep:
-	"""Convert getopt to a dict
+	"""Convert getopt to a dict.
 
 	Args:
 		parser (tuple[list[str], list[str]]): getopt parser
@@ -64,9 +75,8 @@ def convert(parser: tuple[list[str], list[str]]) -> c2gtypes.ParserRep:
 	Returns:
 		c2gtypes.ParserRep: dictionary representing parser object
 	"""
-
 	return {
-		'parser_description': "",
-		'widgets': process(parser[0], "Short Args", catShort) +
-				process(parser[1], "Long Args", catLong)
+		"parser_description": "",
+		"widgets": process(parser[0], "Short Args", catShort)
+		+ process(parser[1], "Long Args", catLong),
 	}

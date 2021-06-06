@@ -2,7 +2,7 @@
 
 > Auto-generated documentation for [cli2gui.c2gtypes](../../cli2gui/c2gtypes.py) module.
 
-Types for cli2gui
+Types for cli2gui.
 
 - [Cli2gui](../README.md#cli2gui-index) / [Modules](../README.md#cli2gui-modules) / [cli2gui](index.md#cli2gui) / c2gtypes
     - [BuildSpec](#buildspec)
@@ -13,50 +13,50 @@ Types for cli2gui
 
 ## BuildSpec
 
-[[find in source code]](../../cli2gui/c2gtypes.py#L11)
+[[find in source code]](../../cli2gui/c2gtypes.py#L10)
 
 ```python
-class BuildSpec(typing.TypedDict):
+class BuildSpec(TypedDict):
 ```
 
-representation for the BuildSpec
+Representation for the BuildSpec.
 
 ## FullBuildSpec
 
-[[find in source code]](../../cli2gui/c2gtypes.py#L51)
+[[find in source code]](../../cli2gui/c2gtypes.py#L53)
 
 ```python
-class FullBuildSpec(typing.TypedDict):
+class FullBuildSpec(TypedDict):
 ```
 
-representation for the FullBuildSpec (BuildSpec + ParserRep)
+Representation for the FullBuildSpec (BuildSpec + ParserRep).
 
 ## Group
 
 [[find in source code]](../../cli2gui/c2gtypes.py#L38)
 
 ```python
-class Group(typing.TypedDict):
+class Group(TypedDict):
 ```
 
-representation for an argument group
+Representation for an argument group.
 
 ## Item
 
 [[find in source code]](../../cli2gui/c2gtypes.py#L26)
 
 ```python
-class Item(typing.TypedDict):
+class Item(TypedDict):
 ```
 
-representation for an arg_item
+Representation for an arg_item.
 
 ## ParserRep
 
-[[find in source code]](../../cli2gui/c2gtypes.py#L45)
+[[find in source code]](../../cli2gui/c2gtypes.py#L46)
 
 ```python
-class ParserRep(typing.TypedDict):
+class ParserRep(TypedDict):
 ```
 
-representation for a parser
+Representation for a parser.

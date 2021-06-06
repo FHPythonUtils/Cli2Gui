@@ -2,7 +2,7 @@
 
 > Auto-generated documentation for [cli2gui.tojson.optparse2json](../../../cli2gui/tojson/optparse2json.py) module.
 
-Generate a dict describing optparse arguments
+Generate a dict describing optparse arguments.
 
 - [Cli2gui](../../README.md#cli2gui-index) / [Modules](../../README.md#cli2gui-modules) / [cli2gui](../index.md#cli2gui) / [tojson](index.md#tojson) / optparse2json
     - [actionToJson](#actiontojson)
@@ -15,33 +15,33 @@ pylint and pylance both want me to not access protected methods - I know better 
 
 ## actionToJson
 
-[[find in source code]](../../../cli2gui/tojson/optparse2json.py#L33)
+[[find in source code]](../../../cli2gui/tojson/optparse2json.py#L40)
 
 ```python
 def actionToJson(action: optparse.Option, widget: str) -> c2gtypes.Item:
 ```
 
-Generate json for an action and set the widget - used by the application
+Generate json for an action and set the widget - used by the application.
 
 ## categorize
 
-[[find in source code]](../../../cli2gui/tojson/optparse2json.py#L47)
+[[find in source code]](../../../cli2gui/tojson/optparse2json.py#L53)
 
 ```python
 def categorize(actions: list[optparse.Option]):
 ```
 
-Catergorise each action and generate json
+Catergorise each action and generate json.
 
 ## convert
 
-[[find in source code]](../../../cli2gui/tojson/optparse2json.py#L62)
+[[find in source code]](../../../cli2gui/tojson/optparse2json.py#L68)
 
 ```python
 def convert(parser: optparse.OptionParser) -> c2gtypes.ParserRep:
 ```
 
-Convert argparse to a dict
+Convert argparse to a dict.
 
 #### Arguments
 
@@ -53,20 +53,20 @@ Convert argparse to a dict
 
 ## extractGroups
 
-[[find in source code]](../../../cli2gui/tojson/optparse2json.py#L23)
+[[find in source code]](../../../cli2gui/tojson/optparse2json.py#L28)
 
 ```python
 def extractGroups(parser: optparse.OptionParser) -> c2gtypes.Group:
 ```
 
-Get the actions as json for each item and group under the parser
+Get the actions as json for each item and group under the parser.
 
 ## extractOptions
 
-[[find in source code]](../../../cli2gui/tojson/optparse2json.py#L13)
+[[find in source code]](../../../cli2gui/tojson/optparse2json.py#L14)
 
 ```python
-def extractOptions(optionGroup: optparse.OptionParser) -> c2gtypes.Group:
+def extractOptions(optionGroup: optparse.OptionGroup) -> c2gtypes.Group:
 ```
 
-Get the actions as json for each item under a group
+Get the actions as json for each item under a group.

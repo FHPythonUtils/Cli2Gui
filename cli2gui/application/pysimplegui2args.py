@@ -1,4 +1,4 @@
-"""Functions to create args from pysimplegui values
+"""Functions to create args from pysimplegui values.
 """
 from __future__ import annotations
 
@@ -7,12 +7,12 @@ from typing import Any
 
 
 def argparseFormat(values: dict[str, Any]) -> argparse.Namespace:
-	'''Format args for argparse '''
+	"""Format args for argparse."""
 	args = {}
 	for key in values:
-		if key[-1] == "#": # File
+		if key[-1] == "#":  # File
 			args[key[:-1]] = open(values[key], "r", encoding="utf-8")
-		elif isinstance(values[key], str) and len(values[key]) == 0: # Empty strings are None
+		elif isinstance(values[key], str) and len(values[key]) == 0:  # Empty strings are None
 			args[key] = None
 		else:
 			args[key] = values[key]
@@ -20,7 +20,7 @@ def argparseFormat(values: dict[str, Any]) -> argparse.Namespace:
 
 
 def optparseFormat(values: dict[str, Any]) -> dict[str, Any]:
-	'''Format args for optparse '''
+	"""Format args for optparse."""
 	args = {}
 	for key in values:
 		args[key] = values[key] if values[key] else None
@@ -28,18 +28,22 @@ def optparseFormat(values: dict[str, Any]) -> dict[str, Any]:
 
 
 def getoptFormat(values: dict[str, Any]) -> tuple[list[Any], list[Any]]:
-	'''Format args for getopt '''
+	"""Format args for getopt."""
 	return ([(key, values[key]) for key in values if values[key]], [])
 
+
 def docoptFormat(values: dict[str, Any]) -> dict[str, Any]:
-	'''Format args for docopt '''
+	"""Format args for docopt."""
 	args = {}
 	for key in values:
-		args[key] = values[key] if not (isinstance(values[key], str) and len(values[key]) == 0) else None
+		args[key] = (
+			values[key] if not (isinstance(values[key], str) and len(values[key]) == 0) else None
+		)
 	return args
 
+
 def clickFormat(values: dict[str, Any]) -> list[Any]:
-	'''Format args for click '''
+	"""Format args for click."""
 	args = []
 	for key in values:
 		if not callable(key) and len(values[key]) > 0:
@@ -48,11 +52,11 @@ def clickFormat(values: dict[str, Any]) -> list[Any]:
 
 
 def argFormat(values: dict[str, Any], argumentParser: str) -> Any:
-	"""Format the args for the desired parser
+	"""Format the args for the desired parser.
 
 	Args:
 		values (dict[str, Any]): values from simple gui
-		argument_parser (str): argument parser to use
+		argumentParser (str): argument parser to use
 
 	Returns:
 		Any: args

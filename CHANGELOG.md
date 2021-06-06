@@ -3,6 +3,13 @@ All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
 
+## 2021.1 - 2021/06/06
+- reformat
+- improve documentation
+- typing improvements
+- use relative imports
+- update pyproject.toml
+
 ## 2021 - 2021/01/18
 - Modelled the radio groups
 
