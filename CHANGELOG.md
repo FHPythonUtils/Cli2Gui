@@ -3,6 +3,12 @@ All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
 
+## 2021.2 - 2021/07/24
+- Use enum for parser + gui
+- Use datatypes + typeddict...
+- Add option for end user to select parser at runtime https://github.com/FHPythonUtils/Cli2Gui/issues/4
+- Replace 'if' case/switch with function mappings
+
 ## 2021.1 - 2021/06/06
 - reformat
 - improve documentation

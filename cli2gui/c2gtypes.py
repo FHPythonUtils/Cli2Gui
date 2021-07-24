@@ -4,15 +4,20 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from dataclasses import dataclass
+from enum import Enum
 from typing import Any, TypedDict
 
+# pylint: disable=invalid-name
 
+
+@dataclass
 class BuildSpec(TypedDict):
 	"""Representation for the BuildSpec."""
 
 	run_function: Callable[..., Any] | None
-	parser: str
-	gui: str
+	parser: str | ParserType
+	gui: str | GUIType
 	theme: str | list[str] | None
 	darkTheme: str | list[str] | None
 	sizes: dict[str, Any] | None
@@ -23,6 +28,7 @@ class BuildSpec(TypedDict):
 	menu: dict[str, Any] | None
 
 
+@dataclass
 class Item(TypedDict):
 	"""Representation for an arg_item."""
 
@@ -35,6 +41,7 @@ class Item(TypedDict):
 	_other: dict[str, Any]
 
 
+@dataclass
 class Group(TypedDict):
 	"""Representation for an argument group."""
 
@@ -43,6 +50,7 @@ class Group(TypedDict):
 	groups: list[Group] | list[Any]
 
 
+@dataclass
 class ParserRep(TypedDict):
 	"""Representation for a parser."""
 
@@ -50,6 +58,7 @@ class ParserRep(TypedDict):
 	widgets: list[Group]
 
 
+@dataclass
 class FullBuildSpec(TypedDict):
 	"""Representation for the FullBuildSpec (BuildSpec + ParserRep)."""
 
@@ -66,3 +75,39 @@ class FullBuildSpec(TypedDict):
 	menu: dict[str, Any] | None
 	parser_description: str
 	widgets: list[Group]
+
+
+# Supported parser types
+class ParserType(str, Enum):
+	"""Supported parser types.
+
+	OPTPARSE = "optparse"
+	ARGPARSE = "argparse"
+	DEPHELL_ARGPARSE = "dephell_argparse"
+	DOCOPT = "docopt"
+	GETOPT = "getopt"
+	CLICK = "click"
+	CUSTOM = "input()"  # this seems like a pretty poor pattern to use
+	"""
+
+	OPTPARSE = "optparse"
+	ARGPARSE = "argparse"
+	DEPHELL_ARGPARSE = "dephell_argparse"
+	DOCOPT = "docopt"
+	GETOPT = "getopt"
+	CLICK = "click"
+	CUSTOM = "input()"  # this seems like a pretty poor pattern to use
+
+
+# Supported gui types
+class GUIType(str, Enum):
+	"""Supported gui types.
+
+	DEFAULT = "pysimplegui"
+	WEB = "pysimpleguiweb"
+	QT = "pysimpleguiqt"
+	"""
+
+	DEFAULT = "pysimplegui"
+	WEB = "pysimpleguiweb"
+	QT = "pysimpleguiqt"

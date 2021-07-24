@@ -5,6 +5,8 @@ from __future__ import annotations
 import argparse
 from typing import Any
 
+from ..c2gtypes import ParserType
+
 
 def argparseFormat(values: dict[str, Any]) -> argparse.Namespace:
 	"""Format args for argparse."""
@@ -51,7 +53,7 @@ def clickFormat(values: dict[str, Any]) -> list[Any]:
 	return args
 
 
-def argFormat(values: dict[str, Any], argumentParser: str) -> Any:
+def argFormat(values: dict[str, Any], argumentParser: str | ParserType) -> Any:
 	"""Format the args for the desired parser.
 
 	Args:
@@ -62,14 +64,14 @@ def argFormat(values: dict[str, Any], argumentParser: str) -> Any:
 		Any: args
 	"""
 	formattedArgs = None
-	if argumentParser in ["argparse", "dephell_argparse"]:
-		formattedArgs = argparseFormat(values)
-	elif argumentParser == "optparse":
-		formattedArgs = optparseFormat(values)
-	elif argumentParser == "getopt":
-		formattedArgs = getoptFormat(values)
-	elif argumentParser == "docopt":
-		formattedArgs = docoptFormat(values)
-	elif argumentParser == "click":
-		formattedArgs = clickFormat(values)
+	convertMap = {
+		ParserType.OPTPARSE: optparseFormat,
+		ParserType.ARGPARSE: argparseFormat,
+		ParserType.DEPHELL_ARGPARSE: argparseFormat,
+		ParserType.DOCOPT: docoptFormat,
+		ParserType.GETOPT: getoptFormat,
+		ParserType.CLICK: clickFormat,
+	}
+	if argumentParser in convertMap:
+		return convertMap[argumentParser](values)
 	return formattedArgs

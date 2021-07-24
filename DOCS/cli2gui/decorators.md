@@ -11,14 +11,14 @@ Decorator and entry point for the program.
 
 ## Cli2Gui
 
-[[find in source code]](../../cli2gui/decorators.py#L141)
+[[find in source code]](../../cli2gui/decorators.py#L158)
 
 ```python
 def Cli2Gui(
     run_function: Callable[(..., Any)] | None,
     auto_enable: bool = False,
-    parser: str = 'argparse',
-    gui: str = 'pysimplegui',
+    parser: str | ParserType = 'argparse',
+    gui: str | ParserType = 'pysimplegui',
     theme: str | list[str] | None = None,
     darkTheme: str | list[str] | None = None,
     sizes: dict[(str, int)] | None = None,
@@ -54,7 +54,7 @@ theme variant. Can also pass a base24 scheme file. eg. one-dark.yaml.
 Defaults to None.
 sizes (Union[dict[str, int], None], optional): Set the UI sizes such as
 the button size. Defaults to None.
-- `image` *(image* - Union[str, None], optional): Set the program icon. File
+image (Union[str, None], optional): Set the program icon. File
 extensions can be any that PIL supports. Defaults to None.
 program_name (Union[str, None], optional): Override the program name.
 Defaults to None.
@@ -73,12 +73,12 @@ Defaults to None. eg. THIS_DIR = str(Path(__file__).resolve().parent)
 
 ## Click2Gui
 
-[[find in source code]](../../cli2gui/decorators.py#L76)
+[[find in source code]](../../cli2gui/decorators.py#L93)
 
 ```python
 def Click2Gui(
     run_function: Callable[(..., Any)],
-    gui: str = 'pysimplegui',
+    gui: str | GUIType = 'pysimplegui',
     theme: str | list[str] | None = None,
     darkTheme: str | list[str] | None = None,
     sizes: dict[(str, int)] | None = None,
@@ -108,7 +108,7 @@ theme variant. Can also pass a base24 scheme file. eg. one-dark.yaml.
 Defaults to None.
 sizes (Union[dict[str, int], None], optional): Set the UI sizes such as
 the button size. Defaults to None.
-- `image` *(image* - Union[str, None], optional): Set the program icon. File
+image (Union[str, None], optional): Set the program icon. File
 extensions can be any that PIL supports. Defaults to None.
 program_name (Union[str, None], optional): Override the program name.
 Defaults to None.
@@ -131,13 +131,13 @@ Defaults to None. eg. THIS_DIR = str(Path(__file__).resolve().parent)
 
 ```python
 def createFromParser(
-    selfParser: object | None,
-    argsParser: tuple[(Any, ...)] | None,
-    kwargsParser: dict[(Any, Any)] | None,
+    selfParser: Any,
+    argsParser: tuple[(Any, ...)],
+    kwargsParser: dict[(Any, Any)],
     sourcePath: str,
-    buildSpec: c2gtypes.BuildSpec,
+    buildSpec: BuildSpec,
     **kwargs: dict[(Any, Any)],
-) -> c2gtypes.FullBuildSpec:
+) -> FullBuildSpec:
 ```
 
 Generate a buildSpec from a parser.
@@ -155,3 +155,7 @@ kwargsParser (Union[dict[Any, Any], None]): A parser that acts on named params
 #### Returns
 
 - `c2gtypes.FullBuildSpec` - buildSpec to be used by the application
+
+#### Raises
+
+- `RuntimeError` - Throw error if incorrect parser selected

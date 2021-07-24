@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cli2gui"
-version = "2021.1"
+version = "2021.2"
 description = "Use this module to convert a cli program to a gui"
 authors = ["FredHappyface"]
 classifiers = [
@@ -74,5 +74,5 @@ disable=[
 	"bad-continuation",
 	"wrong-import-position",
 	"unsubscriptable-object",
-	"no-absolute-import",
+	"python3",
 ]

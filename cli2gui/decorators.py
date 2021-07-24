@@ -13,8 +13,8 @@ from os import path
 from shlex import quote
 from typing import Any
 
-from . import c2gtypes
 from .application import application
+from .c2gtypes import BuildSpec, FullBuildSpec, GUIType, ParserType
 from .tojson import (argparse2json, click2json, docopt2json, getopt2json,
                      optparse2json)
 
@@ -23,13 +23,13 @@ DO_NOT_COMMAND = "--disable-cli2gui"
 
 
 def createFromParser(
-	selfParser: object | None,
-	argsParser: tuple[Any, ...] | None,
-	kwargsParser: dict[Any, Any] | None,
+	selfParser: Any,
+	argsParser: tuple[Any, ...],
+	kwargsParser: dict[Any, Any],
 	sourcePath: str,
-	buildSpec: c2gtypes.BuildSpec,
+	buildSpec: BuildSpec,
 	**kwargs: dict[Any, Any],
-) -> c2gtypes.FullBuildSpec:
+) -> FullBuildSpec:
 	"""Generate a buildSpec from a parser.
 
 	Args:
@@ -43,6 +43,9 @@ def createFromParser(
 
 	Returns:
 		c2gtypes.FullBuildSpec: buildSpec to be used by the application
+
+	Raises:
+		RuntimeError: Throw error if incorrect parser selected
 	"""
 	runCmd = kwargs.get("target")
 	if runCmd is None:
@@ -50,32 +53,46 @@ def createFromParser(
 			runCmd = quote(sourcePath)
 		else:
 			runCmd = f"{quote(sys.executable)} -u {quote(sourcePath)}"
-	buildSpec["program_name"] = (
-		buildSpec["program_name"]
-		if buildSpec["program_name"] is not None
-		else path.basename(sys.argv[0]).replace(".py", "")
+	buildSpec["program_name"] = buildSpec["program_name"] or path.basename(sys.argv[0]).replace(
+		".py", ""
 	)
+
+	# CUSTOM: this seems like a pretty poor pattern to use...
+	if buildSpec["parser"] == ParserType.CUSTOM:
+		buildSpec["parser"] = input(
+			f"!Custom parser selected! Choose one of: {[x.value for x in ParserType]}"
+		)
+		if buildSpec["parser"] not in ParserType._value2member_map_:
+			raise RuntimeError(f"!Custom parser must be one of: {[x.value for x in ParserType]}")
 
 	parser = buildSpec["parser"]
 	# Select parser
-	if selfParser is not None:
-		if parser == "optparse":
-			buildSpec = {**optparse2json.convert(selfParser), **buildSpec}
-		if parser in ["argparse", "dephell_argparse"]:
-			buildSpec = {**argparse2json.convert(selfParser), **buildSpec}
-		if parser == "docopt":
-			buildSpec = {**docopt2json.convert(selfParser), **buildSpec}
-	if argsParser is not None:
-		if parser == "getopt":
-			buildSpec = {**getopt2json.convert(argsParser), **buildSpec}
-	if parser == "click":
-		buildSpec = {**click2json.convert(buildSpec["run_function"]), **buildSpec}
-	return buildSpec  # type: ignore
+	convertMap = {
+		"self": {
+			ParserType.OPTPARSE: optparse2json.convert,
+			ParserType.ARGPARSE: argparse2json.convert,
+			ParserType.DEPHELL_ARGPARSE: argparse2json.convert,
+			ParserType.DOCOPT: docopt2json.convert,
+		},
+		"args": {
+			ParserType.GETOPT: getopt2json.convert,
+		},
+	}
+	if parser in convertMap["self"]:
+		return FullBuildSpec(**convertMap["self"][parser](selfParser), **buildSpec)
+	if parser in convertMap["args"]:
+		return FullBuildSpec(**convertMap["args"][parser](argsParser), **buildSpec)
+
+	# click is unique in behaviour so we cant use the mapping -_-
+	if parser == ParserType.CLICK:
+		return FullBuildSpec(**click2json.convert(buildSpec["run_function"]), **buildSpec)
+
+	raise RuntimeError(f"!Parser must be one of: {[x.value for x in ParserType]}")
 
 
 def Click2Gui(  # pylint: disable=invalid-name
 	run_function: Callable[..., Any],
-	gui: str = "pysimplegui",
+	gui: str | GUIType = "pysimplegui",
 	theme: str | list[str] | None = None,
 	darkTheme: str | list[str] | None = None,
 	sizes: dict[str, int] | None = None,
@@ -102,7 +119,7 @@ def Click2Gui(  # pylint: disable=invalid-name
 		Defaults to None.
 		sizes (Union[dict[str, int], None], optional): Set the UI sizes such as
 		the button size. Defaults to None.
-		image (image: Union[str, None], optional): Set the program icon. File
+		image (Union[str, None], optional): Set the program icon. File
 		extensions can be any that PIL supports. Defaults to None.
 		program_name (Union[str, None], optional): Override the program name.
 		Defaults to None.
@@ -118,22 +135,22 @@ def Click2Gui(  # pylint: disable=invalid-name
 	Returns:
 		Any: Runs the application
 	"""
-	bSpec: c2gtypes.BuildSpec = {
-		"run_function": run_function,
-		"parser": "click",
-		"gui": gui,
-		"theme": theme,
-		"darkTheme": darkTheme,
-		"sizes": sizes,
-		"image": image,
-		"program_name": program_name,
-		"program_description": program_description,
-		"max_args_shown": max_args_shown,
-		"menu": menu,
-	}
+	bSpec = BuildSpec(
+		run_function,
+		ParserType.CLICK,
+		gui,
+		theme,
+		darkTheme,
+		sizes,
+		image,
+		program_name,
+		program_description,
+		max_args_shown,
+		menu,
+	)
 
 	buildSpec = createFromParser(
-		None, None, kwargs, sys.argv[0], bSpec, **{**locals(), **locals()["kwargs"]}
+		None, (), kwargs, sys.argv[0], bSpec, **{**locals(), **locals()["kwargs"]}
 	)
 	return application.run(buildSpec)
 
@@ -141,8 +158,8 @@ def Click2Gui(  # pylint: disable=invalid-name
 def Cli2Gui(  # pylint: disable=invalid-name
 	run_function: Callable[..., Any] | None,
 	auto_enable: bool = False,
-	parser: str = "argparse",
-	gui: str = "pysimplegui",
+	parser: str | ParserType = "argparse",
+	gui: str | ParserType = "pysimplegui",
 	theme: str | list[str] | None = None,
 	darkTheme: str | list[str] | None = None,
 	sizes: dict[str, int] | None = None,
@@ -175,7 +192,7 @@ def Cli2Gui(  # pylint: disable=invalid-name
 		Defaults to None.
 		sizes (Union[dict[str, int], None], optional): Set the UI sizes such as
 		the button size. Defaults to None.
-		image (image: Union[str, None], optional): Set the program icon. File
+		image (Union[str, None], optional): Set the program icon. File
 		extensions can be any that PIL supports. Defaults to None.
 		program_name (Union[str, None], optional): Override the program name.
 		Defaults to None.
@@ -191,19 +208,21 @@ def Cli2Gui(  # pylint: disable=invalid-name
 	Returns:
 		Any: Runs the application
 	"""
-	bSpec: c2gtypes.BuildSpec = {
-		"run_function": run_function,
-		"parser": parser,
-		"gui": gui,
-		"theme": theme,
-		"darkTheme": darkTheme,
-		"sizes": sizes,
-		"image": image,
-		"program_name": program_name,
-		"program_description": program_description,
-		"max_args_shown": max_args_shown,
-		"menu": menu,
-	}
+	bSpec = BuildSpec(
+		**{
+			"run_function": run_function,
+			"parser": parser,
+			"gui": gui,
+			"theme": theme,
+			"darkTheme": darkTheme,
+			"sizes": sizes,
+			"image": image,
+			"program_name": program_name,
+			"program_description": program_description,
+			"max_args_shown": max_args_shown,
+			"menu": menu,
+		}
+	)
 
 	def build(callingFunction: Callable[..., Any]) -> Callable[..., Any]:
 		"""Generate the buildspec and run the GUI.
