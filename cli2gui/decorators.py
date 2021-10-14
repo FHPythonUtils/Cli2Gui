@@ -15,8 +15,7 @@ from typing import Any
 
 from .application import application
 from .c2gtypes import BuildSpec, FullBuildSpec, GUIType, ParserType
-from .tojson import (argparse2json, click2json, docopt2json, getopt2json,
-                     optparse2json)
+from .tojson import argparse2json, click2json, docopt2json, getopt2json, optparse2json
 
 DO_COMMAND = "--cli2gui"
 DO_NOT_COMMAND = "--disable-cli2gui"
@@ -33,10 +32,10 @@ def createFromParser(
 	"""Generate a buildSpec from a parser.
 
 	Args:
-		selfParser (Union[object, None]): A parser that acts on self. eg. ArgumentParser.parse_args
-		argsParser (Union[tuple[Any, Any], None]): A parser that acts on function
+		selfParser (object): A parser that acts on self. eg. ArgumentParser.parse_args
+		argsParser (Union[tuple[Any, Any]]): A parser that acts on function
 		arguments. eg. getopt.getopt
-		kwargsParser (Union[dict[Any, Any], None]): A parser that acts on named params
+		kwargsParser (Union[dict[Any, Any]]): A parser that acts on named params
 		sourcePath (str): Program source path
 		buildSpec (c2gtypes.BuildSpec): Build spec
 		**kwargs (dict[Any, Any]): kwargs
@@ -47,6 +46,7 @@ def createFromParser(
 	Raises:
 		RuntimeError: Throw error if incorrect parser selected
 	"""
+	_ = kwargsParser
 	runCmd = kwargs.get("target")
 	if runCmd is None:
 		if hasattr(sys, "frozen"):
@@ -62,7 +62,10 @@ def createFromParser(
 		buildSpec["parser"] = input(
 			f"!Custom parser selected! Choose one of: {[x.value for x in ParserType]}"
 		)
-		if buildSpec["parser"] not in ParserType._value2member_map_:
+		if (
+			buildSpec["parser"]
+			not in ParserType._value2member_map_  # pylint:disable=no-member, protected-access
+		):
 			raise RuntimeError(f"!Custom parser must be one of: {[x.value for x in ParserType]}")
 
 	parser = buildSpec["parser"]
@@ -93,14 +96,14 @@ def createFromParser(
 def Click2Gui(  # pylint: disable=invalid-name
 	run_function: Callable[..., Any],
 	gui: str | GUIType = "pysimplegui",
-	theme: str | list[str] | None = None,
-	darkTheme: str | list[str] | None = None,
-	sizes: dict[str, int] | None = None,
-	image: str | None = None,
-	program_name: str | None = None,
-	program_description: str | None = None,
+	theme: str | list[str] = "",
+	darkTheme: str | list[str] = "",
+	sizes: str | dict[str, int] = "",
+	image: str = "",
+	program_name: str = "",
+	program_description: str = "",
 	max_args_shown: int = 5,
-	menu: dict[str, Any] | None = None,
+	menu: str | dict[str, Any] = "",
 	**kwargs: dict[str, Any],
 ) -> Any:
 	"""Decorator to use in the function that contains the argument parser...
@@ -112,23 +115,23 @@ def Click2Gui(  # pylint: disable=invalid-name
 		gui (str, optional): Override the gui to use. Current options are:
 		"pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
 		"pysimplegui".
-		theme (Union[str, list[str], None], optional): Set a base24 theme. Can
-		also pass a base24 scheme file. eg. one-light.yaml. Defaults to None.
-		darkTheme (Union[str, list[str], None], optional): Set a base24 dark
+		theme (Union[str, list[str]], optional): Set a base24 theme. Can
+		also pass a base24 scheme file. eg. one-light.yaml. Defaults to "".
+		darkTheme (Union[str, list[str]], optional): Set a base24 dark
 		theme variant. Can also pass a base24 scheme file. eg. one-dark.yaml.
-		Defaults to None.
-		sizes (Union[dict[str, int], None], optional): Set the UI sizes such as
-		the button size. Defaults to None.
-		image (Union[str, None], optional): Set the program icon. File
-		extensions can be any that PIL supports. Defaults to None.
-		program_name (Union[str, None], optional): Override the program name.
-		Defaults to None.
-		program_description (Union[str, None], optional): Override the program
-		description. Defaults to None.
+		Defaults to "".
+		sizes (Union[dict[str, int]], optional): Set the UI sizes such as
+		the button size. Defaults to "".
+		image (str, optional): Set the program icon. File
+		extensions can be any that PIL supports. Defaults to "".
+		program_name (str, optional): Override the program name.
+		Defaults to "".
+		program_description (str, optional): Override the program
+		description. Defaults to "".
 		max_args_shown (int, optional): Maximum number of args shown before
 		using a scrollbar. Defaults to 5.
-		menu (Union[dict[str, Any], None], optional): Add a menu to the program.
-		Defaults to None. eg. THIS_DIR = str(Path(__file__).resolve().parent)
+		menu (Union[dict[str, Any]], optional): Add a menu to the program.
+		Defaults to "". eg. THIS_DIR = str(Path(__file__).resolve().parent)
 		menu={"File": THIS_DIR + "/file.md"}
 		**kwargs (dict[Any, Any]): kwargs
 
@@ -156,19 +159,18 @@ def Click2Gui(  # pylint: disable=invalid-name
 
 
 def Cli2Gui(  # pylint: disable=invalid-name
-	run_function: Callable[..., Any] | None,
+	run_function: Callable[..., Any],
 	auto_enable: bool = False,
 	parser: str | ParserType = "argparse",
 	gui: str | ParserType = "pysimplegui",
-	theme: str | list[str] | None = None,
-	darkTheme: str | list[str] | None = None,
-	sizes: dict[str, int] | None = None,
-	image: str | None = None,
-	program_name: str | None = None,
-	program_description: str | None = None,
+	theme: str | list[str] = "",
+	darkTheme: str | list[str] = "",
+	sizes: str | dict[str, int] = "",
+	image: str = "",
+	program_name: str = "",
+	program_description: str = "",
 	max_args_shown: int = 5,
-	menu: dict[str, Any] | None = None,
-	**kwargs: dict[str, Any],
+	menu: str | dict[str, Any] = "",
 ) -> Any:
 	"""Decorator to use in the function that contains the argument parser...
 
@@ -185,25 +187,24 @@ def Cli2Gui(  # pylint: disable=invalid-name
 		gui (str, optional): Override the gui to use. Current options are:
 		"pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
 		"pysimplegui".
-		theme (Union[str, list[str], None], optional): Set a base24 theme. Can
-		also pass a base24 scheme file. eg. one-light.yaml. Defaults to None.
-		darkTheme (Union[str, list[str], None], optional): Set a base24 dark
+		theme (Union[str, list[str]], optional): Set a base24 theme. Can
+		also pass a base24 scheme file. eg. one-light.yaml. Defaults to "".
+		darkTheme (Union[str, list[str]], optional): Set a base24 dark
 		theme variant. Can also pass a base24 scheme file. eg. one-dark.yaml.
-		Defaults to None.
-		sizes (Union[dict[str, int], None], optional): Set the UI sizes such as
-		the button size. Defaults to None.
-		image (Union[str, None], optional): Set the program icon. File
-		extensions can be any that PIL supports. Defaults to None.
-		program_name (Union[str, None], optional): Override the program name.
-		Defaults to None.
-		program_description (Union[str, None], optional): Override the program
-		description. Defaults to None.
+		Defaults to "".
+		sizes (Union[dict[str, int]], optional): Set the UI sizes such as
+		the button size. Defaults to "".
+		image (str, optional): Set the program icon. File
+		extensions can be any that PIL supports. Defaults to "".
+		program_name (str, optional): Override the program name.
+		Defaults to "".
+		program_description (str, optional): Override the program
+		description. Defaults to "".
 		max_args_shown (int, optional): Maximum number of args shown before
 		using a scrollbar. Defaults to 5.
-		menu (Union[dict[str, Any], None], optional): Add a menu to the program.
-		Defaults to None. eg. THIS_DIR = str(Path(__file__).resolve().parent)
+		menu (Union[dict[str, Any]], optional): Add a menu to the program.
+		Defaults to "". eg. THIS_DIR = str(Path(__file__).resolve().parent)
 		menu={"File": THIS_DIR + "/file.md"}
-		**kwargs (dict[Any, Any]): kwargs
 
 	Returns:
 		Any: Runs the application

@@ -44,12 +44,16 @@ Use this module to convert a CLI program to a GUI
 	- [Built for](#built-for)
 - [Install Python on Windows](#install-python-on-windows)
 	- [Chocolatey](#chocolatey)
-	- [Download](#download)
+	- [Windows - Python.org](#windows---pythonorg)
 - [Install Python on Linux](#install-python-on-linux)
 	- [Apt](#apt)
+	- [Dnf](#dnf)
+- [Install Python on MacOS](#install-python-on-macos)
+	- [Homebrew](#homebrew)
+	- [MacOS - Python.org](#macos---pythonorg)
 - [How to run](#how-to-run)
-	- [With VSCode](#with-vscode)
-	- [From the Terminal](#from-the-terminal)
+	- [Windows](#windows)
+	- [Linux/ MacOS](#linux-macos)
 - [Download Project](#download-project)
 	- [Clone](#clone)
 		- [Using The Command Line](#using-the-command-line)
@@ -96,7 +100,6 @@ This works for simpler programs but sadly falls flat for more complex programs
 |Gtk|:x:|:x:|:x:|
 |Web|:heavy_check_mark:|:x:|:x:|
 
-
 ### GUI Feature Support
 |Basic GUI|Cli2Gui|Gooey|Quick|
 |---|---|---|---|
@@ -126,14 +129,14 @@ For completed components, see the changelog (link below)
 |---|---|---|
 |Python Fire|https://github.com/google/python-fire|Under consideration|
 
-
-
 ## Decorator
+
 ```python
 @Cli2Gui(run_function, auto_enable=False, parser="argparse", gui="pysimplegui",
-		theme=None, darkTheme=None, sizes=None, image=None, program_name=None,
-		program_description=None, max_args_shown=5, **kwargs)
+		theme="", darkTheme="", sizes="", image="", program_name="",
+		program_description="", max_args_shown=5, **kwargs)
 ```
+
 ## Using the decorator in your project
 ### run_function (optional)
 The name of the function to call eg. main(args). Defaults to None. If not
@@ -213,6 +216,7 @@ Set the UI sizes such as the button size
 		"helpText_size": 14,
 		"text_size": 11})
 ```
+
 ### image (optional)
 Set the program icon. File extensions can be any that PIL supports
 
@@ -243,6 +247,7 @@ Maximum number of args shown before using a scrollbar
 
 ### menu (optional)
 Add a menu to the program. Defaults to None. eg.
+
 ```python
 THIS_DIR = str(Path(__file__).resolve().parent)
 menu={"File": THIS_DIR + "/file.md"}
@@ -255,10 +260,11 @@ Works significantly better with pysimplegui than pysimpleguiqt
 ```
 
 ## Click
+
 ```python
-def Click2Gui(run_function, gui="pysimplegui", theme=None, darkTheme=None,
-		sizes=None, image=None, program_name=None, program_description=None,
-		max_args_shown=5, menu=None, **kwargs):
+def Click2Gui(run_function, gui="pysimplegui", theme="", darkTheme="",
+		sizes="", image="", program_name="", program_description="",
+		max_args_shown=5, menu="", **kwargs):
 ```
 
 Very similar to the decorator but with the following differences...
@@ -270,16 +276,11 @@ support however this behaved very poorly)
 ### parser (not applicable)
 As this is exclusively for click, this option is not present
 
-
 ## Data Structures
 See the [DATA_STRUCTURES](/DATA_STRUCTURES.md) for more information.
 
-
-
 ## Documentation
 See the [Docs](/DOCS/) for more information.
-
-
 
 ## Install With PIP
 
@@ -289,61 +290,92 @@ pip install cli2gui
 
 Head to https://pypi.org/project/cli2gui/ for more info
 
-
 ## Language information
 ### Built for
-This program has been written for Python 3 and has been tested with
-Python version 3.9.0 <https://www.python.org/downloads/release/python-380/>.
+This program has been written for Python versions 3.7 - 3.10 and has been tested with both 3.7 and 3.10
 
 ## Install Python on Windows
 ### Chocolatey
+
 ```powershell
 choco install python
 ```
-### Download
-To install Python, go to <https://www.python.org/> and download the latest
+
+### Windows - Python.org
+To install Python, go to https://www.python.org/downloads/windows/ and download the latest
 version.
 
 ## Install Python on Linux
 ### Apt
+
 ```bash
-sudo apt install python3.9
+sudo apt install python3.x
 ```
+
+### Dnf
+
+```bash
+sudo dnf install python3.x
+```
+
+## Install Python on MacOS
+### Homebrew
+
+```bash
+brew install python@3.x
+```
+
+### MacOS - Python.org
+To install Python, go to https://www.python.org/downloads/macos/ and download the latest
+version.
 
 ## How to run
-### With VSCode
-1. Open the .py file in vscode
-2. Ensure a python 3.9 interpreter is selected (Ctrl+Shift+P > Python:Select
-Interpreter > Python 3.9)
-3. Run by pressing Ctrl+F5 (if you are prompted to install any modules, accept)
-### From the Terminal
-```bash
-./[file].py
-```
+### Windows
 
+- Module
+
+	`python -3.x -m [module]` or `[module]` (if module installs a script)
+
+- File
+
+	`python -3.x [file]` or `./[file]`
+
+### Linux/ MacOS
+
+- Module
+
+	`python3.x -m [module]` or `[module]` (if module installs a script)
+
+- File
+
+	`python3.x [file]` or `./[file]`
 
 ## Download Project
+
 ### Clone
 #### Using The Command Line
+
 1. Press the Clone or download button in the top right
 2. Copy the URL (link)
 3. Open the command line and change directory to where you wish to
 clone to
 4. Type 'git clone' followed by URL in step 2
-```bash
-$ git clone https://github.com/FHPythonUtils/Cli2Gui
-```
+
+	```bash
+	git clone https://github.com/FHPythonUtils/Cli2Gui
+	```
 
 More information can be found at
-<https://help.github.com/en/articles/cloning-a-repository>
+https://help.github.com/en/articles/cloning-a-repository
 
 #### Using GitHub Desktop
+
 1. Press the Clone or download button in the top right
 2. Click open in desktop
 3. Choose the path for where you want and click Clone
 
 More information can be found at
-<https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop>
+https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop
 
 ### Download Zip File
 
@@ -389,7 +421,6 @@ The rationale acts as a guide to various processes regarding projects such as
 the versioning scheme and the programming styles used. Please see the
 [Rationale](https://github.com/FHPythonUtils/.github/blob/master/RATIONALE.md)
 for more information.
-
 
 ## Screenshots
 

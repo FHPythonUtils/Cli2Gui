@@ -2,19 +2,19 @@
 """Tests a simple parser
 """
 
-import sys
-import os
-from pathlib import Path
-THISDIR = str(Path(__file__).resolve().parent.parent)
-sys.path.insert(0, os.path.dirname(THISDIR))
-
 import argparse
+import sys
+from pathlib import Path
+
+THISDIR = str(Path(__file__).resolve().parent)
+sys.path.insert(0, str(Path(THISDIR).parent.parent))
 from cli2gui import Cli2Gui
 
 
 def handle(args):
 	"""Handle the args."""
 	print(args)
+
 
 @Cli2Gui(run_function=handle)
 def cli():
@@ -23,8 +23,9 @@ def cli():
 
 	# Positional and file
 	parser.add_argument("positional", help="positional arg")
-	parser.add_argument("positional-file", type=argparse.FileType('r'),
-	help="positional arg for a file")
+	parser.add_argument(
+		"positional-file", type=argparse.FileType("r"), help="positional arg for a file"
+	)
 	parser.add_argument("--optional", help="optional arg")
 
 	# Store true, false, store, count, choices
@@ -32,8 +33,12 @@ def cli():
 	parser.add_argument("--store-false", action="store_false", help="optional arg store false")
 	parser.add_argument("--store", action="store", help="optional arg store")
 	parser.add_argument("--count", action="count", help="optional arg count")
-	parser.add_argument("--choices", action="store", choices=["choice1", "choice2"],
-	help="optional arg store with choices")
+	parser.add_argument(
+		"--choices",
+		action="store",
+		choices=["choice1", "choice2"],
+		help="optional arg store with choices",
+	)
 
 	args = parser.parse_args()
 

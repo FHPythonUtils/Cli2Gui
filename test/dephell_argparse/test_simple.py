@@ -2,15 +2,13 @@
 """Tests a simple parser
 """
 
-import os
 import sys
 from pathlib import Path
 
-THISDIR = str(Path(__file__).resolve().parent.parent)
-sys.path.insert(0, os.path.dirname(THISDIR))
+import dephell_argparse
 
-import argparse
-
+THISDIR = str(Path(__file__).resolve().parent)
+sys.path.insert(0, str(Path(THISDIR).parent.parent))
 from cli2gui import Cli2Gui
 
 
@@ -19,16 +17,13 @@ def handle(args):
 	print(args)
 
 
-@Cli2Gui(parser="input()", run_function=handle)
+@Cli2Gui(run_function=handle, parser="dephell_argparse")
 def cli():
 	"""Cli entrypoint."""
-	parser = argparse.ArgumentParser("Simple Parser")
+	parser = dephell_argparse.Parser()
 
 	# Positional and file
 	parser.add_argument("positional", help="positional arg")
-	parser.add_argument(
-		"positional-file", type=argparse.FileType("r"), help="positional arg for a file"
-	)
 	parser.add_argument("--optional", help="optional arg")
 
 	# Store true, false, store, count, choices

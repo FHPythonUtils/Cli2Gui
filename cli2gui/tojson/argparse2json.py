@@ -7,20 +7,28 @@ pylint and pylance both want me to not access protected methods - I know better 
 from __future__ import annotations
 
 import argparse
-from argparse import (Action, _CountAction, _HelpAction,
-                      _MutuallyExclusiveGroup, _StoreFalseAction,
-                      _StoreTrueAction, _SubParsersAction)
+from argparse import (
+	Action,
+	_CountAction,
+	_HelpAction,
+	_MutuallyExclusiveGroup,
+	_StoreFalseAction,
+	_StoreTrueAction,
+	_SubParsersAction,
+)
 from os import path
 from sys import argv
-from typing import Any, Generator, TypedDict, Union
+from typing import Any, Generator, TypedDict
 
 from .. import c2gtypes
 
 
 class ArgparseGroup(TypedDict):
+	"""Class to represent an ArgparseGroup"""
+
 	name: str
 	arg_items: list[argparse.Action]
-	groups: Union[list[ArgparseGroup], list[Any]]
+	groups: list[ArgparseGroup] | list[Any]
 
 
 def iterParsers(
@@ -39,7 +47,7 @@ def iterParsers(
 
 def isDefaultProgname(name: str, subparser: argparse.ArgumentParser) -> bool:
 	"""Identify if the passed name is the default program name."""
-	return subparser.prog == "{} {}".format(path.split(argv[0])[-1], name)
+	return subparser.prog == f"{path.split(argv[0])[-1]} {name}"
 
 
 def chooseName(name: str, subparser: argparse.ArgumentParser) -> str:

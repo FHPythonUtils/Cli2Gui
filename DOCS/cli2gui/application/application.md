@@ -8,7 +8,6 @@ Application here uses PySimpleGUI.
     - [addItemsAndGroups](#additemsandgroups)
     - [createLayout](#createlayout)
     - [generatePopup](#generatepopup)
-    - [getYamlDict](#getyamldict)
     - [run](#run)
     - [setBase24Theme](#setbase24theme)
     - [setupWidgets](#setupwidgets)
@@ -16,7 +15,7 @@ Application here uses PySimpleGUI.
 
 ## addItemsAndGroups
 
-[[find in source code]](../../../cli2gui/application/application.py#L180)
+[[find in source code]](../../../cli2gui/application/application.py#L165)
 
 ```python
 def addItemsAndGroups(
@@ -43,14 +42,14 @@ argConstruct
 
 ## createLayout
 
-[[find in source code]](../../../cli2gui/application/application.py#L312)
+[[find in source code]](../../../cli2gui/application/application.py#L303)
 
 ```python
 def createLayout(
     buildSpec: c2gtypes.FullBuildSpec,
     widgets: Widgets,
     pySimpleGui: Any,
-    menu: Union[(list[str], None)],
+    menu: str | list[str],
 ) -> list[list[Element]]:
 ```
 
@@ -61,7 +60,7 @@ Create the pysimplegui layout from the build spec.
 - `buildSpec` *c2gtypes.FullBuildSpec* - build spec containing widget
 - `widgets` *Widgets* - class to build widgets
 - `pySimpleGui` *Any* - version of PySimpleGui to use
-menu (Union[list[str], None]): menu data
+- `menu` *list[str]]* - menu data
 
 #### Returns
 
@@ -69,12 +68,12 @@ menu (Union[list[str], None]): menu data
 
 ## generatePopup
 
-[[find in source code]](../../../cli2gui/application/application.py#L244)
+[[find in source code]](../../../cli2gui/application/application.py#L229)
 
 ```python
 def generatePopup(
     buildSpec: c2gtypes.FullBuildSpec,
-    values: Union[(dict[(Any, Any)], list[Any])],
+    values: dict[(Any, Any)] | list[Any],
     widgets: Widgets,
     pySimpleGui: Any,
 ) -> Window:
@@ -94,21 +93,9 @@ as the menu
 
 - `pySimpleGui.Window` - A PySimpleGui Window
 
-## getYamlDict
-
-[[find in source code]](../../../cli2gui/application/application.py#L21)
-
-```python
-def getYamlDict(yamlFileName: str) -> dict[(str, str)]:
-```
-
-Return a yaml_dict from reading yaml_file. If yaml_file is empty or...
-
-doesn't exist, return an empty dict instead.
-
 ## run
 
-[[find in source code]](../../../cli2gui/application/application.py#L385)
+[[find in source code]](../../../cli2gui/application/application.py#L366)
 
 ```python
 def run(buildSpec: c2gtypes.FullBuildSpec):
@@ -123,12 +110,12 @@ or the function to run
 
 ## setBase24Theme
 
-[[find in source code]](../../../cli2gui/application/application.py#L47)
+[[find in source code]](../../../cli2gui/application/application.py#L36)
 
 ```python
 def setBase24Theme(
-    theme: Union[(str, list[str], None)],
-    darkTheme: Union[(str, list[str], None)],
+    theme: str | list[str],
+    darkTheme: str | list[str],
     pySimpleGui: Any,
 ) -> None:
 ```
@@ -137,18 +124,18 @@ Set the base24 theme to the application.
 
 #### Arguments
 
-theme (Union[str, list[str], None]): the light theme
-darkTheme (Union[str, list[str], None]): the dark theme
+theme (Union[str, list[str]]): the light theme
+darkTheme (Union[str, list[str]]): the dark theme
 - `pySimpleGui` *Any* - pysimplegui module
 
 ## setupWidgets
 
-[[find in source code]](../../../cli2gui/application/application.py#L140)
+[[find in source code]](../../../cli2gui/application/application.py#L125)
 
 ```python
 def setupWidgets(
     gui: str,
-    sizes: Union[(dict[(str, Any)], None)],
+    sizes: dict[(str, Any)],
     pySimpleGui: Any,
 ) -> Widgets:
 ```
@@ -158,7 +145,7 @@ Set the widget sizes to the application.
 #### Arguments
 
 - `gui` *str* - user selected gui eg. pysimpleguiqt
-sizes (Union[dict[str, Any], None]): widget sizes
+sizes (Union[dict[str, Any]]): widget sizes
 - `pySimpleGui` *Any* - pysimplegui module
 
 #### Returns
@@ -167,17 +154,17 @@ sizes (Union[dict[str, Any], None]): widget sizes
 
 ## themeFromFile
 
-[[find in source code]](../../../cli2gui/application/application.py#L34)
+[[find in source code]](../../../cli2gui/application/application.py#L23)
 
 ```python
-def themeFromFile(theme: str) -> list[str]:
+def themeFromFile(themeFile: str) -> list[str]:
 ```
 
 Set the base24 theme from a base24 scheme.yaml to the application.
 
 #### Arguments
 
-- `theme` *str* - path to file
+- `themeFile` *str* - path to file
 
 #### Returns
 

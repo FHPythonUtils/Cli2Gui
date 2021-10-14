@@ -43,7 +43,7 @@ over the size of the gui.
 
 ### Widgets().button
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L84)
+[[find in source code]](../../../cli2gui/application/widgets.py#L80)
 
 ```python
 def button(text: str) -> Element:
@@ -53,7 +53,7 @@ Return a button.
 
 ### Widgets().check
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L78)
+[[find in source code]](../../../cli2gui/application/widgets.py#L74)
 
 ```python
 def check(key: str) -> Element:
@@ -63,7 +63,7 @@ Return a checkbox.
 
 ### Widgets().dropdown
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L105)
+[[find in source code]](../../../cli2gui/application/widgets.py#L101)
 
 ```python
 def dropdown(key: str, argItems: list[str]) -> Element:
@@ -73,7 +73,7 @@ Return a dropdown.
 
 ### Widgets().fileBrowser
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L114)
+[[find in source code]](../../../cli2gui/application/widgets.py#L110)
 
 ```python
 def fileBrowser(key: str) -> list[Element]:
@@ -86,17 +86,14 @@ Return a fileBrowser button and field.
 [[find in source code]](../../../cli2gui/application/widgets.py#L29)
 
 ```python
-def getImgData(
-    imagePath: Union[(str, None)],
-    first: bool = False,
-) -> Union[(bytes, None)]:
+def getImgData(imagePath: str, first: bool = False) -> bytes:
 ```
 
 Generate image data using PIL.
 
 ### Widgets().helpArgHelp
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L139)
+[[find in source code]](../../../cli2gui/application/widgets.py#L135)
 
 ```python
 def helpArgHelp(helpText: str) -> Element:
@@ -106,7 +103,7 @@ Return a label for the arg help text.
 
 ### Widgets().helpArgName
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L135)
+[[find in source code]](../../../cli2gui/application/widgets.py#L131)
 
 ```python
 def helpArgName(displayName: str, commands: list[str]) -> Element:
@@ -116,7 +113,7 @@ Return a label for the arg name.
 
 ### Widgets().helpArgNameAndHelp
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L143)
+[[find in source code]](../../../cli2gui/application/widgets.py#L139)
 
 ```python
 def helpArgNameAndHelp(
@@ -130,7 +127,7 @@ Return a column containing the argument name and help text.
 
 ### Widgets().helpDropdownWidget
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L200)
+[[find in source code]](../../../cli2gui/application/widgets.py#L194)
 
 ```python
 def helpDropdownWidget(
@@ -146,7 +143,7 @@ Return a set of widgets that make up an arg with a choice.
 
 ### Widgets().helpFileWidget
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L191)
+[[find in source code]](../../../cli2gui/application/widgets.py#L185)
 
 ```python
 def helpFileWidget(
@@ -161,7 +158,7 @@ Return a set of widgets that make up an arg with a file.
 
 ### Widgets().helpFlagWidget
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L173)
+[[find in source code]](../../../cli2gui/application/widgets.py#L167)
 
 ```python
 def helpFlagWidget(
@@ -176,7 +173,7 @@ Return a set of widgets that make up an arg with true/ false.
 
 ### Widgets().helpTextWidget
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L182)
+[[find in source code]](../../../cli2gui/application/widgets.py#L176)
 
 ```python
 def helpTextWidget(
@@ -191,7 +188,7 @@ Return a set of widgets that make up an arg with text.
 
 ### Widgets().inputText
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L69)
+[[find in source code]](../../../cli2gui/application/widgets.py#L65)
 
 ```python
 def inputText(key: str) -> Element:
@@ -201,7 +198,7 @@ Return an input text field.
 
 ### Widgets().label
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L93)
+[[find in source code]](../../../cli2gui/application/widgets.py#L89)
 
 ```python
 def label(text: str, font: int = 11) -> Element:
@@ -211,30 +208,30 @@ Return a label.
 
 ### Widgets().stringSentencecase
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L58)
+[[find in source code]](../../../cli2gui/application/widgets.py#L55)
 
 ```python
-def stringSentencecase(string: Union[(str, None)]) -> str:
+def stringSentencecase(string: str) -> str:
 ```
 
 Convert a string to sentence case.
 
 ### Widgets().stringTitlecase
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L42)
+[[find in source code]](../../../cli2gui/application/widgets.py#L40)
 
 ```python
-def stringTitlecase(string: Union[(str, None)], splitStr: str = 'ALL'):
+def stringTitlecase(string: str, splitStr: str = 'ALL'):
 ```
 
 Convert a string to title case.
 
 ### Widgets().title
 
-[[find in source code]](../../../cli2gui/application/widgets.py#L152)
+[[find in source code]](../../../cli2gui/application/widgets.py#L146)
 
 ```python
-def title(text: str, image: Union[(str, None)] = None) -> list[Element]:
+def title(text: str, image: str = '') -> list[Element]:
 ```
 
 Return a set of widgets that make up the application header.

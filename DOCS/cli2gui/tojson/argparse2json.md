@@ -24,15 +24,17 @@ pylint and pylance both want me to not access protected methods - I know better 
 
 ## ArgparseGroup
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L20)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L26)
 
 ```python
 class ArgparseGroup(TypedDict):
 ```
 
+Class to represent an ArgparseGroup
+
 ## actionToJson
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L99)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L107)
 
 ```python
 def actionToJson(action: argparse.Action, widget: str) -> c2gtypes.Item:
@@ -42,7 +44,7 @@ Generate json for an action and set the widget - used by the application.
 
 ## buildRadioGroup
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L112)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L120)
 
 ```python
 def buildRadioGroup(mutexGroup: _MutuallyExclusiveGroup):
@@ -52,7 +54,7 @@ Create a radio group for a mutex group of arguments.
 
 ## categorizeGroups
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L141)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L149)
 
 ```python
 def categorizeGroups(groups: list[ArgparseGroup]) -> list[c2gtypes.Group]:
@@ -62,7 +64,7 @@ Categorize the parser groups and arg_items.
 
 ## catergorizeItems
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L122)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L130)
 
 ```python
 def catergorizeItems(
@@ -74,7 +76,7 @@ Catergorise each action and generate json.
 
 ## chooseName
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L45)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L53)
 
 ```python
 def chooseName(name: str, subparser: argparse.ArgumentParser) -> str:
@@ -84,7 +86,7 @@ Get the program name.
 
 ## containsActions
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L50)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L58)
 
 ```python
 def containsActions(
@@ -97,7 +99,7 @@ Check if any actions(a) are present in actions(b).
 
 ## convert
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L168)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L176)
 
 ```python
 def convert(parser: argparse.ArgumentParser) -> c2gtypes.ParserRep:
@@ -115,7 +117,7 @@ Convert argparse to a dict.
 
 ## extractRawGroups
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L87)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L95)
 
 ```python
 def extractRawGroups(actionGroup: argparse._ArgumentGroup) -> ArgparseGroup:
@@ -129,7 +131,7 @@ Recursively extract argument groups and associated actions from ParserGroup obje
 
 ## isDefaultProgname
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L40)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L48)
 
 ```python
 def isDefaultProgname(name: str, subparser: argparse.ArgumentParser) -> bool:
@@ -139,7 +141,7 @@ Identify if the passed name is the default program name.
 
 ## iterParsers
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L26)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L34)
 
 ```python
 def iterParsers(
@@ -151,7 +153,7 @@ Iterate over name, parser pairs.
 
 ## process
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L158)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L166)
 
 ```python
 def process(parser: argparse.ArgumentParser) -> list[c2gtypes.Group]:
@@ -161,7 +163,7 @@ Reapply the mutex groups and then categorize them and the arg_items under the pa
 
 ## reapplyMutexGroups
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L55)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L63)
 
 ```python
 def reapplyMutexGroups(
@@ -182,7 +184,7 @@ where the two groups intersect.
 
 ## stripEmpty
 
-[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L153)
+[[find in source code]](../../../cli2gui/tojson/argparse2json.py#L161)
 
 ```python
 def stripEmpty(groups: list[ArgparseGroup]):

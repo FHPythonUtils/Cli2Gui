@@ -8,24 +8,24 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, TypedDict
 
-# pylint: disable=invalid-name
+# pylint: disable=invalid-name, too-many-instance-attributes
 
 
 @dataclass
 class BuildSpec(TypedDict):
 	"""Representation for the BuildSpec."""
 
-	run_function: Callable[..., Any] | None
+	run_function: Callable[..., Any]
 	parser: str | ParserType
 	gui: str | GUIType
-	theme: str | list[str] | None
-	darkTheme: str | list[str] | None
-	sizes: dict[str, Any] | None
-	image: str | None
-	program_name: str | None
-	program_description: str | None
+	theme: str | list[str]
+	darkTheme: str | list[str]
+	sizes: str | dict[str, Any]
+	image: str
+	program_name: str
+	program_description: str
 	max_args_shown: int
-	menu: dict[str, Any] | None
+	menu: str | dict[str, Any]
 
 
 @dataclass
@@ -54,7 +54,7 @@ class Group(TypedDict):
 class ParserRep(TypedDict):
 	"""Representation for a parser."""
 
-	parser_description: str | None
+	parser_description: str
 	widgets: list[Group]
 
 
@@ -62,17 +62,17 @@ class ParserRep(TypedDict):
 class FullBuildSpec(TypedDict):
 	"""Representation for the FullBuildSpec (BuildSpec + ParserRep)."""
 
-	run_function: Callable[..., Any] | None
+	run_function: Callable[..., Any]
 	parser: str
 	gui: str
-	theme: str | list[str] | None
-	darkTheme: str | list[str] | None
-	sizes: dict[str, Any] | None
-	image: str | None
-	program_name: str | None
-	program_description: str | None
+	theme: str | list[str]
+	darkTheme: str | list[str]
+	sizes: str | dict[str, Any]
+	image: str
+	program_name: str
+	program_description: str
 	max_args_shown: int
-	menu: dict[str, Any] | None
+	menu: str | dict[str, Any]
 	parser_description: str
 	widgets: list[Group]
 

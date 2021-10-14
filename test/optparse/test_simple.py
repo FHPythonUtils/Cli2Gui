@@ -2,18 +2,19 @@
 """Tests a simple parser
 """
 
-import sys
-import os
-from pathlib import Path
-THISDIR = str(Path(__file__).resolve().parent.parent)
-sys.path.insert(0, os.path.dirname(THISDIR))
-
 import optparse
+import sys
+from pathlib import Path
+
+THISDIR = str(Path(__file__).resolve().parent)
+sys.path.insert(0, str(Path(THISDIR).parent.parent))
 from cli2gui import Cli2Gui
+
 
 def handle(args):
 	"""Handle the args."""
 	print(args)
+
 
 @Cli2Gui(run_function=handle, parser="optparse")
 def cli():
@@ -27,8 +28,12 @@ def cli():
 	parser.add_option("--store-false", action="store_false", help="optional arg store false")
 	parser.add_option("--store", action="store", help="optional arg store")
 	parser.add_option("--count", action="count", help="optional arg count")
-	parser.add_option("--choices", action="store", choices=["choice1", "choice2"],
-	help="optional arg store with choices")
+	parser.add_option(
+		"--choices",
+		action="store",
+		choices=["choice1", "choice2"],
+		help="optional arg store with choices",
+	)
 
 	args = parser.parse_args()
 

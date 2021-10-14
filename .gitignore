@@ -1,9 +1,4 @@
-test.*
-test*
-!test
-README.rst
-# README contains docs. Generating them would pull in extra unnecesary info
-DOCS.md
+
 
 # DepHell stuff
 poetry.lock

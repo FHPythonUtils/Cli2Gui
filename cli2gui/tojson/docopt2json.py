@@ -106,7 +106,7 @@ def parsePos(doc: Any) -> list[tuple[str, str, str, Any, str]]:
 	for section in parseSection("arguments:", doc):
 		_, _, section = section.partition(":")
 		defaults.append(
-			tuple([col.strip() for col in section.strip().partition("  ") if len(col.strip()) > 0])
+			tuple(col.strip() for col in section.strip().partition("  ") if len(col.strip()) > 0)
 		)
 	return defaults
 

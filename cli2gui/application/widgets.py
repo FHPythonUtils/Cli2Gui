@@ -6,10 +6,10 @@ the size of the gui.
 from __future__ import annotations
 
 import io
-from typing import Any, Union
+from typing import Any
 
-from PySimpleGUI import Element
 from PIL import Image, ImageTk
+from PySimpleGUI import Element
 
 
 class Widgets:
@@ -26,10 +26,8 @@ class Widgets:
 	"""Utility functions that manipulate images and text.
 	"""
 
-	def getImgData(self, imagePath: Union[str, None], first: bool = False) -> Union[bytes, None]:
+	def getImgData(self, imagePath: str, first: bool = False) -> bytes:
 		"""Generate image data using PIL."""
-		if imagePath is None:
-			return None
 		img = Image.open(imagePath)
 		img.thumbnail((self.sizes["title_size"] * 3, self.sizes["title_size"] * 3))
 		if first:  # tkinter is inactive the first time
@@ -37,12 +35,11 @@ class Widgets:
 			img.save(bio, format="PNG")
 			del img
 			return bio.getvalue()
-		return ImageTk.PhotoImage(img)
+		return ImageTk.PhotoImage(img)  # type:ignore
 
-	def stringTitlecase(self, string: Union[str, None], splitStr: str = "ALL"):
+	def stringTitlecase(self, string: str, splitStr: str = "ALL"):
 		"""Convert a string to title case."""
-		if string is None:
-			return ""
+		_ = self
 		titleCase = ""
 		if len(string) > 0:
 			if splitStr == "ALL":
@@ -55,11 +52,10 @@ class Widgets:
 				)
 		return titleCase
 
-	def stringSentencecase(self, string: Union[str, None]) -> str:
+	def stringSentencecase(self, string: str) -> str:
 		"""Convert a string to sentence case."""
-		if string is None:
-			return ""
-		if len(string) > 0:
+		_ = self
+		if string:
 			return string[0].upper() + string[1:]
 		return ""
 
@@ -140,23 +136,21 @@ class Widgets:
 		"""Return a label for the arg help text."""
 		return self.label(self.stringSentencecase(helpText))
 
-	def helpArgNameAndHelp(
-		self, commands: list[str], helpText: str, displayName: str
-	) -> Element:
+	def helpArgNameAndHelp(self, commands: list[str], helpText: str, displayName: str) -> Element:
 		"""Return a column containing the argument name and help text."""
 		return self.pySimpleGui.Column(
 			[[self.helpArgName(displayName, commands)], [self.helpArgHelp(helpText)]],
 			pad=(0, 0),
 		)
 
-	def title(self, text: str, image: Union[str, None] = None) -> list[Element]:
+	def title(self, text: str, image: str = "") -> list[Element]:
 		"""Return a set of widgets that make up the application header."""
 		programTitle = [
 			self.pySimpleGui.Text(
 				text, pad=self.sizes["padding"], font=("sans", self.sizes["title_size"])
 			)
 		]
-		if image is not None:
+		if image:
 			programTitle = [
 				self.pySimpleGui.Image(data=self.getImgData(image, first=True)),
 				self.pySimpleGui.Text(

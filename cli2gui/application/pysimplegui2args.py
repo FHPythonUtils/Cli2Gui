@@ -13,7 +13,9 @@ def argparseFormat(values: dict[str, Any]) -> argparse.Namespace:
 	args = {}
 	for key in values:
 		if key[-1] == "#":  # File
-			args[key[:-1]] = open(values[key], "r", encoding="utf-8")
+			args[key[:-1]] = open(  # pylint:disable=consider-using-with
+				values[key], encoding="utf-8"
+			)
 		elif isinstance(values[key], str) and len(values[key]) == 0:  # Empty strings are None
 			args[key] = None
 		else:

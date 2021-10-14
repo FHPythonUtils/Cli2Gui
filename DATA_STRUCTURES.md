@@ -76,16 +76,15 @@ class BuildSpec(typing.TypedDict):
 	run_function: Callable[..., Any]
 	parser: str
 	gui: str
-	theme: Union[str, list[str], None]
-	darkTheme: Union[str, list[str], None]
-	sizes: Union[dict[str, Any], None]
-	image: Union[str, None]
-	program_name: Union[str, None]
-	program_description: Union[str, None]
+	theme: Union[str, list[str]]
+	darkTheme: Union[str, list[str]]
+	sizes: Union[dict[str, Any]]
+	image: str
+	program_name: str
+	program_description: str
 	max_args_shown:	int
-	menu: Union[dict[str, Any], None]
+	menu: Union[dict[str, Any]]
 ```
-
 
 ## fullBuildSpec
 
@@ -98,18 +97,17 @@ class FullBuildSpec(typing.TypedDict):
 	run_function: Callable[..., Any]
 	parser: str
 	gui: str
-	theme: Union[str, list[str], None]
-	darkTheme: Union[str, list[str], None]
-	sizes: Union[dict[str, Any], None]
-	image: Union[str, None]
-	program_name: Union[str, None]
-	program_description: Union[str, None]
+	theme: Union[str, list[str]]
+	darkTheme: Union[str, list[str]]
+	sizes: Union[dict[str, Any]]
+	image: str
+	program_name: str
+	program_description: str
 	max_args_shown:	int
-	menu: Union[dict[str, Any], None]
+	menu: Union[dict[str, Any]]
 	parser_description: str
 	widgets: list[Widgets]
 ```
-
 
 ## parserRep
 
@@ -118,20 +116,17 @@ Each *parser*2json.py provides a JSON object that is used to build the GUI.
 ```python
 class ParserRep(typing.TypedDict):
 	"""Representation for a parser."""
-	parser_description: Union[str, None]
+	parser_description: str
 	widgets: list[Group]
 ```
-
-
 
 ```python
 class Group(typing.TypedDict):
 	""" representation for an argument group."""
 	name: str
 	arg_items: list[Item]
-	groups: Union[list[Group], list[Any]]
+	groups: list[Group, list[Any]]
 ```
-
 
 ```python
 class Item(typing.TypedDict):
@@ -140,7 +135,7 @@ class Item(typing.TypedDict):
 	display_name: str
 	help: str
 	commands: list[Any]
-	choices: Union[list[Any], list[str]]
+	choices: list[Any, list[str]]
 	dest: str
 	_other: dict[Any, Any]
 ```

@@ -15,27 +15,30 @@ Options:
   --store STORE         optional arg store
   --count               optional arg count
   --choices {choice1,choice2}
-                        optional arg store with choices
+						optional arg store with choices
 
 """
 
 import sys
-import os
 from pathlib import Path
-THISDIR = str(Path(__file__).resolve().parent.parent)
-sys.path.insert(0, os.path.dirname(THISDIR))
 
 import docopt
+
+THISDIR = str(Path(__file__).resolve().parent)
+sys.path.insert(0, str(Path(THISDIR).parent.parent))
 from cli2gui import Cli2Gui
+
 
 def handle(args):
 	"""Handle the args."""
 	print(args)
+
 
 @Cli2Gui(run_function=handle, parser="docopt")
 def cli():
 	"""Cli entrypoint."""
 	args = docopt.docopt(__doc__)
 	handle(args)
+
 
 cli()

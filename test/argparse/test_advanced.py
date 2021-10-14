@@ -2,15 +2,12 @@
 """Tests an advanced parser
 """
 
-import os
+import argparse
 import sys
 from pathlib import Path
 
-THISDIR = str(Path(__file__).resolve().parent.parent)
-sys.path.insert(0, os.path.dirname(THISDIR))
-
-import argparse
-
+THISDIR = str(Path(__file__).resolve().parent)
+sys.path.insert(0, str(Path(THISDIR).parent.parent))
 from cli2gui import Cli2Gui
 
 
@@ -19,7 +16,7 @@ def handle(args):
 	print(args)
 
 
-@Cli2Gui(parser="input()", run_function=handle)
+@Cli2Gui(run_function=handle)
 def cli():
 	"""Cli entrypoint."""
 	parser = argparse.ArgumentParser("Simple Parser")
