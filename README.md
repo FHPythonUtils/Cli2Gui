@@ -59,6 +59,9 @@ Use this module to convert a CLI program to a GUI
 		- [Using The Command Line](#using-the-command-line)
 		- [Using GitHub Desktop](#using-github-desktop)
 	- [Download Zip File](#download-zip-file)
+- [Screenshots](#screenshots)
+	- [Desktop](#desktop)
+	- [Themes](#themes)
 - [Community Files](#community-files)
 	- [Licence](#licence)
 	- [Changelog](#changelog)
@@ -67,23 +70,20 @@ Use this module to convert a CLI program to a GUI
 	- [Security](#security)
 	- [Support](#support)
 	- [Rationale](#rationale)
-- [Screenshots](#screenshots)
-	- [Desktop](#desktop)
-	- [Themes](#themes)
 
 ## Comparison to similar projects
 Do let me know if any of these are incorrect. Some of the comparisons are
 based off documentation/ the readme
 
 ### Parser Support
-|Parser|Cli2Gui|Gooey|Quick|
-|---|---|---|---|
-|Argparse|:heavy_check_mark:|:heavy_check_mark:|:x:|
-|Optparse|:heavy_check_mark:|:x:|:x:|
-|DocOpt|:heavy_check_mark:|:x:|:x:|
-|Click|:heavy_check_mark: * |:x:|:heavy_check_mark:|
-|GetOpt|:heavy_check_mark:|:x:|:x:|
-|Dephell Argparse|:heavy_check_mark:|:x:|:x:|
+| Parser           | Cli2Gui              | Gooey              | Quick              |
+| ---------------- | -------------------- | ------------------ | ------------------ |
+| Argparse         | :heavy_check_mark:   | :heavy_check_mark: | :x:                |
+| Optparse         | :heavy_check_mark:   | :x:                | :x:                |
+| DocOpt           | :heavy_check_mark:   | :x:                | :x:                |
+| Click            | :heavy_check_mark: * | :x:                | :heavy_check_mark: |
+| GetOpt           | :heavy_check_mark:   | :x:                | :x:                |
+| Dephell Argparse | :heavy_check_mark:   | :x:                | :x:                |
 
 ```none
 * Partial support (use Click2Gui)
@@ -92,42 +92,42 @@ This works for simpler programs but sadly falls flat for more complex programs
 ```
 
 ### GUI Toolkit Support
-|GUI Toolkits|Cli2Gui|Gooey|Quick|
-|---|---|---|---|
-|Tkinter|:heavy_check_mark:|:x:|:x:|
-|WxWidgets|:x:|:heavy_check_mark:|:x:|
-|Qt|:heavy_check_mark:|:x:|:heavy_check_mark:|
-|Gtk|:x:|:x:|:x:|
-|Web|:heavy_check_mark:|:x:|:x:|
+| GUI Toolkits | Cli2Gui            | Gooey              | Quick              |
+| ------------ | ------------------ | ------------------ | ------------------ |
+| Tkinter      | :heavy_check_mark: | :x:                | :x:                |
+| WxWidgets    | :x:                | :heavy_check_mark: | :x:                |
+| Qt           | :heavy_check_mark: | :x:                | :heavy_check_mark: |
+| Gtk          | :x:                | :x:                | :x:                |
+| Web          | :heavy_check_mark: | :x:                | :x:                |
 
 ### GUI Feature Support
-|Basic GUI|Cli2Gui|Gooey|Quick|
-|---|---|---|---|
-|Override name/ description|:heavy_check_mark:|:heavy_check_mark:|:x:|
-|Theming|:heavy_check_mark:|:warning: Limited|:warning: Limited|
-|DarkMode|:heavy_check_mark:|:x:|:heavy_check_mark:|
-|Window Size|:heavy_check_mark:|:heavy_check_mark:|:x:|
-|Element Size|:heavy_check_mark:|:x:|:x:|
-|Custom Images|:heavy_check_mark:|:heavy_check_mark:|:x:|
+| Basic GUI                  | Cli2Gui            | Gooey              | Quick              |
+| -------------------------- | ------------------ | ------------------ | ------------------ |
+| Override name/ description | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+| Theming                    | :heavy_check_mark: | :warning: Limited  | :warning: Limited  |
+| DarkMode                   | :heavy_check_mark: | :x:                | :heavy_check_mark: |
+| Window Size                | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+| Element Size               | :heavy_check_mark: | :x:                | :x:                |
+| Custom Images              | :heavy_check_mark: | :heavy_check_mark: | :x:                |
 
 Cli2Gui is pretty lacking in these features and will probably remain that way
 to ease maintainability - the primary aim is to support multiple argparse
 libraries over fancy widgets
 
-|Advanced GUI|Cli2Gui|Gooey|Quick|
-|---|---|---|---|
-|Dropdown|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|
-|Slider|:x:|:heavy_check_mark:|:heavy_check_mark:|
-|Tabs|:x:|:heavy_check_mark:|:heavy_check_mark:|
-|Menus|:heavy_check_mark:|:heavy_check_mark:|:x:|
-|Max Args before Scroll|:heavy_check_mark:|:x:|:x:|
+| Advanced GUI           | Cli2Gui            | Gooey              | Quick              |
+| ---------------------- | ------------------ | ------------------ | ------------------ |
+| Dropdown               | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Slider                 | :x:                | :heavy_check_mark: | :heavy_check_mark: |
+| Tabs                   | :x:                | :heavy_check_mark: | :heavy_check_mark: |
+| Menus                  | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+| Max Args before Scroll | :heavy_check_mark: | :x:                | :x:                |
 
 ## Roadmap
 For completed components, see the changelog (link below)
 
-|Feature|Description|Status|
-|---|---|---|
-|Python Fire|https://github.com/google/python-fire|Under consideration|
+| Feature     | Description                           | Status              |
+| ----------- | ------------------------------------- | ------------------- |
+| Python Fire | https://github.com/google/python-fire | Under consideration |
 
 ## Decorator
 
@@ -291,10 +291,13 @@ pip install cli2gui
 Head to https://pypi.org/project/cli2gui/ for more info
 
 ## Language information
+
 ### Built for
-This program has been written for Python versions 3.7 - 3.10 and has been tested with both 3.7 and 3.10
+This program has been written for Python versions 3.7 - 3.10 and has been tested with both 3.7 and
+3.10
 
 ## Install Python on Windows
+
 ### Chocolatey
 
 ```powershell
@@ -306,6 +309,7 @@ To install Python, go to https://www.python.org/downloads/windows/ and download 
 version.
 
 ## Install Python on Linux
+
 ### Apt
 
 ```bash
@@ -319,6 +323,7 @@ sudo dnf install python3.x
 ```
 
 ## Install Python on MacOS
+
 ### Homebrew
 
 ```bash
@@ -330,29 +335,27 @@ To install Python, go to https://www.python.org/downloads/macos/ and download th
 version.
 
 ## How to run
+
 ### Windows
 
 - Module
-
-	`python -3.x -m [module]` or `[module]` (if module installs a script)
+	`py -3.x -m [module]` or `[module]` (if module installs a script)
 
 - File
-
-	`python -3.x [file]` or `./[file]`
+	`py -3.x [file]` or `./[file]`
 
 ### Linux/ MacOS
 
 - Module
-
 	`python3.x -m [module]` or `[module]` (if module installs a script)
 
 - File
-
 	`python3.x [file]` or `./[file]`
 
 ## Download Project
 
 ### Clone
+
 #### Using The Command Line
 
 1. Press the Clone or download button in the top right
@@ -383,7 +386,23 @@ https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository
 2. Extract the zip archive
 3. Copy/ move to the desired location
 
+## Screenshots
+
+### Desktop
+<div>
+<img src="readme-assets/screenshots/desktop/screenshot-0.png" alt="Screenshot 1" width="600">
+<img src="readme-assets/screenshots/desktop/screenshot-1.png" alt="Screenshot 2" width="600">
+<img src="readme-assets/screenshots/desktop/screenshot-2.png" alt="Screenshot 3" width="600">
+</div>
+
+### Themes
+
+|                                       Light                                        |                                        Dark                                        |                                       Black                                        |
+| :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: |
+| <img src="readme-assets/screenshots/themes/theme-1.png" alt="Theme 1" width="200"> | <img src="readme-assets/screenshots/themes/theme-2.png" alt="Theme 2" width="200"> | <img src="readme-assets/screenshots/themes/theme-3.png" alt="Theme 3" width="200"> |
+
 ## Community Files
+
 ### Licence
 MIT License
 Copyright (c) FredHappyface
@@ -421,18 +440,3 @@ The rationale acts as a guide to various processes regarding projects such as
 the versioning scheme and the programming styles used. Please see the
 [Rationale](https://github.com/FHPythonUtils/.github/blob/master/RATIONALE.md)
 for more information.
-
-## Screenshots
-
-### Desktop
-<div>
-<img src="readme-assets/screenshots/desktop/screenshot-0.png" alt="Screenshot 1" width="600">
-<img src="readme-assets/screenshots/desktop/screenshot-1.png" alt="Screenshot 2" width="600">
-<img src="readme-assets/screenshots/desktop/screenshot-2.png" alt="Screenshot 3" width="600">
-</div>
-
-### Themes
-
-|Light                                                                             |Dark                                                                              |Black                                                                             |
-|:-:                                                                               |:-:                                                                               |:-:                                                                               |
-|<img src="readme-assets/screenshots/themes/theme-1.png" alt="Theme 1" width="200">|<img src="readme-assets/screenshots/themes/theme-2.png" alt="Theme 2" width="200">|<img src="readme-assets/screenshots/themes/theme-3.png" alt="Theme 3" width="200">|
