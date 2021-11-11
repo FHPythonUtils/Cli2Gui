@@ -72,10 +72,12 @@ Use this module to convert a CLI program to a GUI
 	- [Rationale](#rationale)
 
 ## Comparison to similar projects
+
 Do let me know if any of these are incorrect. Some of the comparisons are
 based off documentation/ the readme
 
 ### Parser Support
+
 | Parser           | Cli2Gui              | Gooey              | Quick              |
 | ---------------- | -------------------- | ------------------ | ------------------ |
 | Argparse         | :heavy_check_mark:   | :heavy_check_mark: | :x:                |
@@ -92,6 +94,7 @@ This works for simpler programs but sadly falls flat for more complex programs
 ```
 
 ### GUI Toolkit Support
+
 | GUI Toolkits | Cli2Gui            | Gooey              | Quick              |
 | ------------ | ------------------ | ------------------ | ------------------ |
 | Tkinter      | :heavy_check_mark: | :x:                | :x:                |
@@ -101,6 +104,7 @@ This works for simpler programs but sadly falls flat for more complex programs
 | Web          | :heavy_check_mark: | :x:                | :x:                |
 
 ### GUI Feature Support
+
 | Basic GUI                  | Cli2Gui            | Gooey              | Quick              |
 | -------------------------- | ------------------ | ------------------ | ------------------ |
 | Override name/ description | :heavy_check_mark: | :heavy_check_mark: | :x:                |
@@ -123,6 +127,7 @@ libraries over fancy widgets
 | Max Args before Scroll | :heavy_check_mark: | :x:                | :x:                |
 
 ## Roadmap
+
 For completed components, see the changelog (link below)
 
 | Feature     | Description                           | Status              |
@@ -138,7 +143,9 @@ For completed components, see the changelog (link below)
 ```
 
 ## Using the decorator in your project
+
 ### run_function (optional)
+
 The name of the function to call eg. main(args). Defaults to None. If not
 specified, program continues as normal (can only run once)
 
@@ -156,6 +163,7 @@ def cli():
 ```
 
 ### auto_enable (optional)
+
 Enable the GUI by default. If enabled by default requires `--disable-cli2gui`, otherwise requires `--cli2gui`
 
 ```python
@@ -163,6 +171,7 @@ Enable the GUI by default. If enabled by default requires `--disable-cli2gui`, o
 ```
 
 ### parser (optional)
+
 Override the parser to use, defaults to argparse. Current options are:
 "argparse", "getopt", "optparse", "docopt", "dephell_argparse"
 
@@ -171,6 +180,7 @@ Override the parser to use, defaults to argparse. Current options are:
 ```
 
 ### gui (optional)
+
 Override the gui to use. Current options are:
 "pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to "pysimplegui".
 
@@ -181,6 +191,7 @@ pysimplegui is the recommended option
 ```
 
 ### theme (optional)
+
 Set a base24 theme. Can also pass a base24 scheme file. eg. `one-light.yaml`
 
 ```python
@@ -192,6 +203,7 @@ Set a base24 theme. Can also pass a base24 scheme file. eg. `one-light.yaml`
 ```
 
 ### darkTheme (optional)
+
 Set a base24 dark theme variant. Can also pass a base24 scheme file. eg.
 `one-dark.yaml`
 
@@ -204,6 +216,7 @@ Set a base24 dark theme variant. Can also pass a base24 scheme file. eg.
 ```
 
 ### sizes (optional)
+
 Set the UI sizes such as the button size
 
 ```python
@@ -218,6 +231,7 @@ Set the UI sizes such as the button size
 ```
 
 ### image (optional)
+
 Set the program icon. File extensions can be any that PIL supports
 
 ```python
@@ -225,6 +239,7 @@ Set the program icon. File extensions can be any that PIL supports
 ```
 
 ### program_name (optional)
+
 Override the program name
 
 ```python
@@ -232,6 +247,7 @@ Override the program name
 ```
 
 ### program_description (optional)
+
 Override the program description
 
 ```python
@@ -239,6 +255,7 @@ Override the program description
 ```
 
 ### max_args_shown (optional)
+
 Maximum number of args shown before using a scrollbar
 
 ```python
@@ -246,6 +263,7 @@ Maximum number of args shown before using a scrollbar
 ```
 
 ### menu (optional)
+
 Add a menu to the program. Defaults to None. eg.
 
 ```python
@@ -270,16 +288,20 @@ def Click2Gui(run_function, gui="pysimplegui", theme="", darkTheme="",
 Very similar to the decorator but with the following differences...
 
 ### run_function (required)
+
 Specify the click function to use. (attempts were made to offer full program
 support however this behaved very poorly)
 
 ### parser (not applicable)
+
 As this is exclusively for click, this option is not present
 
 ## Data Structures
+
 See the [DATA_STRUCTURES](/DATA_STRUCTURES.md) for more information.
 
 ## Documentation
+
 See the [Docs](/DOCS/) for more information.
 
 ## Install With PIP
@@ -293,6 +315,7 @@ Head to https://pypi.org/project/cli2gui/ for more info
 ## Language information
 
 ### Built for
+
 This program has been written for Python versions 3.7 - 3.10 and has been tested with both 3.7 and
 3.10
 
@@ -305,6 +328,7 @@ choco install python
 ```
 
 ### Windows - Python.org
+
 To install Python, go to https://www.python.org/downloads/windows/ and download the latest
 version.
 
@@ -331,6 +355,7 @@ brew install python@3.x
 ```
 
 ### MacOS - Python.org
+
 To install Python, go to https://www.python.org/downloads/macos/ and download the latest
 version.
 
@@ -389,6 +414,7 @@ https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository
 ## Screenshots
 
 ### Desktop
+
 <div>
 <img src="readme-assets/screenshots/desktop/screenshot-0.png" alt="Screenshot 1" width="600">
 <img src="readme-assets/screenshots/desktop/screenshot-1.png" alt="Screenshot 2" width="600">
@@ -404,14 +430,17 @@ https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository
 ## Community Files
 
 ### Licence
+
 MIT License
 Copyright (c) FredHappyface
 (See the [LICENSE](/LICENSE.md) for more information.)
 
 ### Changelog
+
 See the [Changelog](/CHANGELOG.md) for more information.
 
 ### Code of Conduct
+
 Online communities include people from many backgrounds. The *Project*
 contributors are committed to providing a friendly, safe and welcoming
 environment for all. Please see the
@@ -419,16 +448,19 @@ environment for all. Please see the
  for more information.
 
 ### Contributing
+
 Contributions are welcome, please see the
 [Contributing Guidelines](https://github.com/FHPythonUtils/.github/blob/master/CONTRIBUTING.md)
 for more information.
 
 ### Security
+
 Thank you for improving the security of the project, please see the
 [Security Policy](https://github.com/FHPythonUtils/.github/blob/master/SECURITY.md)
 for more information.
 
 ### Support
+
 Thank you for using this project, I hope it is of use to you. Please be aware that
 those involved with the project often do so for fun along with other commitments
 (such as work, family, etc). Please see the
@@ -436,6 +468,7 @@ those involved with the project often do so for fun along with other commitments
 for more information.
 
 ### Rationale
+
 The rationale acts as a guide to various processes regarding projects such as
 the versioning scheme and the programming styles used. Please see the
 [Rationale](https://github.com/FHPythonUtils/.github/blob/master/RATIONALE.md)

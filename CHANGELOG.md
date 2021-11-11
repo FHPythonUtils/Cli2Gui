@@ -1,4 +1,5 @@
 # Changelog
+
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
@@ -28,7 +29,6 @@ patch-level version changes can be found in [commit messages](../../commits/mast
 
 - Modelled the radio groups
 
-
 ## 2020.9.1 - 2020/10/14
 
 - New Pillow release
@@ -43,7 +43,6 @@ patch-level version changes can be found in [commit messages](../../commits/mast
   `cli2gui[qt]` for the respective versions
 - Modernize parts of the codebase (eg. decorators.py)
 - Use camelCase for variables
-
 
 ## 2020.8.1 - 2020/05/06
 
