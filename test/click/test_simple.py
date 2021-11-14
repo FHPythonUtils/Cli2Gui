@@ -4,6 +4,8 @@
 Program from https://click.palletsprojects.com/en/7.x/#documentation
 """
 
+from __future__ import annotations
+
 import sys
 from pathlib import Path
 

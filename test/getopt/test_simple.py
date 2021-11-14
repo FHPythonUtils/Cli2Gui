@@ -2,6 +2,8 @@
 """Tests a simple parser
 """
 
+from __future__ import annotations
+
 import getopt
 import sys
 from pathlib import Path
