@@ -80,12 +80,12 @@ based off documentation/ the readme
 
 | Parser           | Cli2Gui              | Gooey              | Quick              |
 | ---------------- | -------------------- | ------------------ | ------------------ |
-| Argparse         | :heavy_check_mark:   | :heavy_check_mark: | :x:                |
-| Optparse         | :heavy_check_mark:   | :x:                | :x:                |
-| DocOpt           | :heavy_check_mark:   | :x:                | :x:                |
-| Click            | :heavy_check_mark: * | :x:                | :heavy_check_mark: |
-| GetOpt           | :heavy_check_mark:   | :x:                | :x:                |
-| Dephell Argparse | :heavy_check_mark:   | :x:                | :x:                |
+| Argparse         | :heavy_check_mark:   | :heavy_check_mark: | ❌                |
+| Optparse         | :heavy_check_mark:   | ❌                | ❌                |
+| DocOpt           | :heavy_check_mark:   | ❌                | ❌                |
+| Click            | :heavy_check_mark: * | ❌                | :heavy_check_mark: |
+| GetOpt           | :heavy_check_mark:   | ❌                | ❌                |
+| Dephell Argparse | :heavy_check_mark:   | ❌                | ❌                |
 
 ```none
 * Partial support (use Click2Gui)
@@ -97,22 +97,22 @@ This works for simpler programs but sadly falls flat for more complex programs
 
 | GUI Toolkits | Cli2Gui            | Gooey              | Quick              |
 | ------------ | ------------------ | ------------------ | ------------------ |
-| Tkinter      | :heavy_check_mark: | :x:                | :x:                |
-| WxWidgets    | :x:                | :heavy_check_mark: | :x:                |
-| Qt           | :heavy_check_mark: | :x:                | :heavy_check_mark: |
-| Gtk          | :x:                | :x:                | :x:                |
-| Web          | :heavy_check_mark: | :x:                | :x:                |
+| Tkinter      | :heavy_check_mark: | ❌                | ❌                |
+| WxWidgets    | ❌                | :heavy_check_mark: | ❌                |
+| Qt           | :heavy_check_mark: | ❌                | :heavy_check_mark: |
+| Gtk          | ❌                | ❌                | ❌                |
+| Web          | :heavy_check_mark: | ❌                | ❌                |
 
 ### GUI Feature Support
 
 | Basic GUI                  | Cli2Gui            | Gooey              | Quick              |
 | -------------------------- | ------------------ | ------------------ | ------------------ |
-| Override name/ description | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+| Override name/ description | :heavy_check_mark: | :heavy_check_mark: | ❌                |
 | Theming                    | :heavy_check_mark: | :warning: Limited  | :warning: Limited  |
-| DarkMode                   | :heavy_check_mark: | :x:                | :heavy_check_mark: |
-| Window Size                | :heavy_check_mark: | :heavy_check_mark: | :x:                |
-| Element Size               | :heavy_check_mark: | :x:                | :x:                |
-| Custom Images              | :heavy_check_mark: | :heavy_check_mark: | :x:                |
+| DarkMode                   | :heavy_check_mark: | ❌                | :heavy_check_mark: |
+| Window Size                | :heavy_check_mark: | :heavy_check_mark: | ❌                |
+| Element Size               | :heavy_check_mark: | ❌                | ❌                |
+| Custom Images              | :heavy_check_mark: | :heavy_check_mark: | ❌                |
 
 Cli2Gui is pretty lacking in these features and will probably remain that way
 to ease maintainability - the primary aim is to support multiple argparse
@@ -121,10 +121,10 @@ libraries over fancy widgets
 | Advanced GUI           | Cli2Gui            | Gooey              | Quick              |
 | ---------------------- | ------------------ | ------------------ | ------------------ |
 | Dropdown               | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Slider                 | :x:                | :heavy_check_mark: | :heavy_check_mark: |
-| Tabs                   | :x:                | :heavy_check_mark: | :heavy_check_mark: |
-| Menus                  | :heavy_check_mark: | :heavy_check_mark: | :x:                |
-| Max Args before Scroll | :heavy_check_mark: | :x:                | :x:                |
+| Slider                 | ❌                | :heavy_check_mark: | :heavy_check_mark: |
+| Tabs                   | ❌                | :heavy_check_mark: | :heavy_check_mark: |
+| Menus                  | :heavy_check_mark: | :heavy_check_mark: | ❌                |
+| Max Args before Scroll | :heavy_check_mark: | ❌                | ❌                |
 
 ## Roadmap
 
