@@ -246,14 +246,9 @@ def generatePopup(
 	"""
 	maxLines = 30 if buildSpec["gui"] == "pysimpleguiqt" else 200
 	try:
-		import pypandoc
-		from catpandoc import pandoc2plain, processpandoc
+		from catpandoc.application import pandoc2plain
 
-		output = json.loads(pypandoc.convert_file(buildSpec["menu"][values[0]], "json"))  # type: ignore
-		pandoc = pandoc2plain.Pandoc2Plain()
-		for block in output["blocks"]:
-			processpandoc.processBlock(block, pandoc)
-		lines: list[str] = str(pandoc.genOutput()).split("\n")
+		lines: list[str] = pandoc2plain(buildSpec["menu"][values[0]], 80).split("\n")
 		if len(lines) > maxLines:
 			popupText = "\n".join(lines[:maxLines]) + "\n\nMORE TEXT IN SRC FILE"
 		else:

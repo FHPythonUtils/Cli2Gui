@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cli2gui"
-version = "2021.2.1"
+version = "2022"
 license = "mit"
 description = "Use this module to convert a cli program to a gui"
 authors = ["FredHappyface"]
@@ -26,14 +26,14 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-getostheme = "<2022,>=2020.4.0"
-Pillow = "<9,>=8.2.0"
-PySimpleGUI = "<5,>=4.43.0"
-PyYAML = "<6,>=5.4.1"
-catpandoc = "<2023,>=2021"
-pypandoc = "<2,>=1.5"
-PySimpleGUIWeb = { version = "<2,>=0.39.0", optional = true }
-PySimpleGUIQt = { version = "<2,>=0.35.0", optional = true }
+getostheme = "<2023,>=2021"
+Pillow = "<10,>=9.0.0"
+PySimpleGUI = "<5,>=4.56.0"
+PyYAML = "<7,>=6.0"
+catpandoc = "<2024,>=2022.1"
+pypandoc = "<2,>=1.7.2"
+PySimpleGUIWeb = {version = "<2,>=0.39.0", optional = true}
+PySimpleGUIQt = {version = "<2,>=0.35.0", optional = true}
 
 [tool.poetry.extras]
 web = ["PySimpleGUIWeb"]

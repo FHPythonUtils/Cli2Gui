@@ -42,7 +42,7 @@ argConstruct
 
 ## createLayout
 
-[[find in source code]](../../../cli2gui/application/application.py#L303)
+[[find in source code]](../../../cli2gui/application/application.py#L298)
 
 ```python
 def createLayout(
@@ -95,7 +95,7 @@ as the menu
 
 ## run
 
-[[find in source code]](../../../cli2gui/application/application.py#L366)
+[[find in source code]](../../../cli2gui/application/application.py#L361)
 
 ```python
 def run(buildSpec: c2gtypes.FullBuildSpec):
