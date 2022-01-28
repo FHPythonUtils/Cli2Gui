@@ -18,7 +18,13 @@ def handle(args):
 	print(args)
 
 
-@Cli2Gui(run_function=handle, menu={"File": THISDIR + "/file.md", "Another File": THISDIR + "/another_file.md", })
+@Cli2Gui(
+	run_function=handle,
+	menu={
+		"File": THISDIR + "/file.md",
+		"Another File": THISDIR + "/another_file.md",
+	},
+)
 def cli():
 	"""Cli entrypoint."""
 	parser = argparse.ArgumentParser("Simple Parser")
