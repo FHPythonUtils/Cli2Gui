@@ -1,10 +1,10 @@
-# getopt2json
+# Getopt2json
 
-> Auto-generated documentation for [cli2gui.tojson.getopt2json](../../../cli2gui/tojson/getopt2json.py) module.
+> Auto-generated documentation for [cli2gui.tojson.getopt2json](../../../../cli2gui/tojson/getopt2json.py) module.
 
 Generate a dict for getopt.
 
-- [Cli2gui](../../README.md#cli2gui-index) / [Modules](../../README.md#cli2gui-modules) / [cli2gui](../index.md#cli2gui) / [tojson](index.md#tojson) / getopt2json
+- [Cli2gui](../../README.md#cli2gui-index) / [Modules](../../MODULES.md#cli2gui-modules) / [Cli2gui](../index.md#cli2gui) / [Tojson](index.md#tojson) / Getopt2json
     - [actionToJson](#actiontojson)
     - [catLong](#catlong)
     - [catShort](#catshort)
@@ -13,7 +13,7 @@ Generate a dict for getopt.
 
 ## actionToJson
 
-[[find in source code]](../../../cli2gui/tojson/getopt2json.py#L11)
+[[find in source code]](../../../../cli2gui/tojson/getopt2json.py#L11)
 
 ```python
 def actionToJson(
@@ -29,7 +29,7 @@ amount of duplication.
 
 ## catLong
 
-[[find in source code]](../../../cli2gui/tojson/getopt2json.py#L27)
+[[find in source code]](../../../../cli2gui/tojson/getopt2json.py#L27)
 
 ```python
 def catLong(actions: list[str]):
@@ -39,7 +39,7 @@ Categorize long args.
 
 ## catShort
 
-[[find in source code]](../../../cli2gui/tojson/getopt2json.py#L37)
+[[find in source code]](../../../../cli2gui/tojson/getopt2json.py#L37)
 
 ```python
 def catShort(actions: list[str]):
@@ -49,10 +49,10 @@ Categorize short args.
 
 ## convert
 
-[[find in source code]](../../../cli2gui/tojson/getopt2json.py#L69)
+[[find in source code]](../../../../cli2gui/tojson/getopt2json.py#L69)
 
 ```python
-def convert(parser: tuple[(list[str], list[str])]) -> c2gtypes.ParserRep:
+def convert(parser: tuple[list[str], list[str]]) -> c2gtypes.ParserRep:
 ```
 
 Convert getopt to a dict.
@@ -67,13 +67,13 @@ parser (tuple[list[str], list[str]]): getopt parser
 
 ## process
 
-[[find in source code]](../../../cli2gui/tojson/getopt2json.py#L54)
+[[find in source code]](../../../../cli2gui/tojson/getopt2json.py#L54)
 
 ```python
 def process(
     group: list[str],
     groupName: str,
-    categorize: Callable[([list[str]], Generator[(c2gtypes.Item, None, None)])],
+    categorize: Callable[[list[str]], Generator[c2gtypes.Item, None, None]],
 ) -> list[c2gtypes.Group]:
 ```
 

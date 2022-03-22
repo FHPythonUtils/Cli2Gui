@@ -1,10 +1,10 @@
-# c2gtypes
+# C2gtypes
 
-> Auto-generated documentation for [cli2gui.c2gtypes](../../cli2gui/c2gtypes.py) module.
+> Auto-generated documentation for [cli2gui.c2gtypes](../../../cli2gui/c2gtypes.py) module.
 
 Types for cli2gui.
 
-- [Cli2gui](../README.md#cli2gui-index) / [Modules](../README.md#cli2gui-modules) / [cli2gui](index.md#cli2gui) / c2gtypes
+- [Cli2gui](../README.md#cli2gui-index) / [Modules](../MODULES.md#cli2gui-modules) / [Cli2gui](index.md#cli2gui) / C2gtypes
     - [BuildSpec](#buildspec)
     - [FullBuildSpec](#fullbuildspec)
     - [GUIType](#guitype)
@@ -15,7 +15,7 @@ Types for cli2gui.
 
 ## BuildSpec
 
-[[find in source code]](../../cli2gui/c2gtypes.py#L15)
+[[find in source code]](../../../cli2gui/c2gtypes.py#L15)
 
 ```python
 dataclass
@@ -26,7 +26,7 @@ Representation for the BuildSpec.
 
 ## FullBuildSpec
 
-[[find in source code]](../../cli2gui/c2gtypes.py#L62)
+[[find in source code]](../../../cli2gui/c2gtypes.py#L62)
 
 ```python
 dataclass
@@ -37,7 +37,7 @@ Representation for the FullBuildSpec (BuildSpec + ParserRep).
 
 ## GUIType
 
-[[find in source code]](../../cli2gui/c2gtypes.py#L103)
+[[find in source code]](../../../cli2gui/c2gtypes.py#L103)
 
 ```python
 class GUIType(str, Enum):
@@ -51,7 +51,7 @@ QT = "pysimpleguiqt"
 
 ## Group
 
-[[find in source code]](../../cli2gui/c2gtypes.py#L45)
+[[find in source code]](../../../cli2gui/c2gtypes.py#L45)
 
 ```python
 dataclass
@@ -62,7 +62,7 @@ Representation for an argument group.
 
 ## Item
 
-[[find in source code]](../../cli2gui/c2gtypes.py#L32)
+[[find in source code]](../../../cli2gui/c2gtypes.py#L32)
 
 ```python
 dataclass
@@ -73,7 +73,7 @@ Representation for an arg_item.
 
 ## ParserRep
 
-[[find in source code]](../../cli2gui/c2gtypes.py#L54)
+[[find in source code]](../../../cli2gui/c2gtypes.py#L54)
 
 ```python
 dataclass
@@ -84,7 +84,7 @@ Representation for a parser.
 
 ## ParserType
 
-[[find in source code]](../../cli2gui/c2gtypes.py#L81)
+[[find in source code]](../../../cli2gui/c2gtypes.py#L81)
 
 ```python
 class ParserType(str, Enum):

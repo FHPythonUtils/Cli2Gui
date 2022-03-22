@@ -1,32 +1,32 @@
-# decorators
+# Decorators
 
-> Auto-generated documentation for [cli2gui.decorators](../../cli2gui/decorators.py) module.
+> Auto-generated documentation for [cli2gui.decorators](../../../cli2gui/decorators.py) module.
 
 Decorator and entry point for the program.
 
-- [Cli2gui](../README.md#cli2gui-index) / [Modules](../README.md#cli2gui-modules) / [cli2gui](index.md#cli2gui) / decorators
+- [Cli2gui](../README.md#cli2gui-index) / [Modules](../MODULES.md#cli2gui-modules) / [Cli2gui](index.md#cli2gui) / Decorators
     - [Cli2Gui](#cli2gui)
     - [Click2Gui](#click2gui)
     - [createFromParser](#createfromparser)
 
 ## Cli2Gui
 
-[[find in source code]](../../cli2gui/decorators.py#L161)
+[[find in source code]](../../../cli2gui/decorators.py#L161)
 
 ```python
 def Cli2Gui(
-    run_function: Callable[(..., Any)],
+    run_function: Callable[..., Any],
     auto_enable: bool = False,
     parser: str | ParserType = 'argparse',
     gui: str | ParserType = 'pysimplegui',
     theme: str | list[str] = '',
     darkTheme: str | list[str] = '',
-    sizes: str | dict[(str, int)] = '',
+    sizes: str | dict[str, int] = '',
     image: str = '',
     program_name: str = '',
     program_description: str = '',
     max_args_shown: int = 5,
-    menu: str | dict[(str, Any)] = '',
+    menu: str | dict[str, Any] = '',
 ) -> Any:
 ```
 
@@ -71,21 +71,21 @@ Defaults to "". eg. THIS_DIR = str(Path(__file__).resolve().parent)
 
 ## Click2Gui
 
-[[find in source code]](../../cli2gui/decorators.py#L96)
+[[find in source code]](../../../cli2gui/decorators.py#L96)
 
 ```python
 def Click2Gui(
-    run_function: Callable[(..., Any)],
+    run_function: Callable[..., Any],
     gui: str | GUIType = 'pysimplegui',
     theme: str | list[str] = '',
     darkTheme: str | list[str] = '',
-    sizes: str | dict[(str, int)] = '',
+    sizes: str | dict[str, int] = '',
     image: str = '',
     program_name: str = '',
     program_description: str = '',
     max_args_shown: int = 5,
-    menu: str | dict[(str, Any)] = '',
-    **kwargs: dict[(str, Any)],
+    menu: str | dict[str, Any] = '',
+    **kwargs: dict[str, Any],
 ) -> Any:
 ```
 
@@ -125,16 +125,16 @@ Defaults to "". eg. THIS_DIR = str(Path(__file__).resolve().parent)
 
 ## createFromParser
 
-[[find in source code]](../../cli2gui/decorators.py#L24)
+[[find in source code]](../../../cli2gui/decorators.py#L24)
 
 ```python
 def createFromParser(
     selfParser: Any,
-    argsParser: tuple[(Any, ...)],
-    kwargsParser: dict[(Any, Any)],
+    argsParser: tuple[Any, ...],
+    kwargsParser: dict[Any, Any],
     sourcePath: str,
     buildSpec: BuildSpec,
-    **kwargs: dict[(Any, Any)],
+    **kwargs: dict[Any, Any],
 ) -> FullBuildSpec:
 ```
 

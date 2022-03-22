@@ -1,10 +1,10 @@
-# application
+# Application
 
-> Auto-generated documentation for [cli2gui.application.application](../../../cli2gui/application/application.py) module.
+> Auto-generated documentation for [cli2gui.application.application](../../../../cli2gui/application/application.py) module.
 
 Application here uses PySimpleGUI.
 
-- [Cli2gui](../../README.md#cli2gui-index) / [Modules](../../README.md#cli2gui-modules) / [cli2gui](../index.md#cli2gui) / [application](index.md#application) / application
+- [Cli2gui](../../README.md#cli2gui-index) / [Modules](../../MODULES.md#cli2gui-modules) / [Cli2gui](../index.md#cli2gui) / [Application](index.md#application) / Application
     - [addItemsAndGroups](#additemsandgroups)
     - [createLayout](#createlayout)
     - [generatePopup](#generatepopup)
@@ -15,7 +15,7 @@ Application here uses PySimpleGUI.
 
 ## addItemsAndGroups
 
-[[find in source code]](../../../cli2gui/application/application.py#L165)
+[[find in source code]](../../../../cli2gui/application/application.py#L165)
 
 ```python
 def addItemsAndGroups(
@@ -42,7 +42,7 @@ argConstruct
 
 ## createLayout
 
-[[find in source code]](../../../cli2gui/application/application.py#L298)
+[[find in source code]](../../../../cli2gui/application/application.py#L298)
 
 ```python
 def createLayout(
@@ -68,12 +68,12 @@ Create the pysimplegui layout from the build spec.
 
 ## generatePopup
 
-[[find in source code]](../../../cli2gui/application/application.py#L229)
+[[find in source code]](../../../../cli2gui/application/application.py#L229)
 
 ```python
 def generatePopup(
     buildSpec: c2gtypes.FullBuildSpec,
-    values: dict[(Any, Any)] | list[Any],
+    values: dict[Any, Any] | list[Any],
     widgets: Widgets,
     pySimpleGui: Any,
 ) -> Window:
@@ -95,7 +95,7 @@ as the menu
 
 ## run
 
-[[find in source code]](../../../cli2gui/application/application.py#L361)
+[[find in source code]](../../../../cli2gui/application/application.py#L361)
 
 ```python
 def run(buildSpec: c2gtypes.FullBuildSpec):
@@ -110,7 +110,7 @@ or the function to run
 
 ## setBase24Theme
 
-[[find in source code]](../../../cli2gui/application/application.py#L36)
+[[find in source code]](../../../../cli2gui/application/application.py#L36)
 
 ```python
 def setBase24Theme(
@@ -130,12 +130,12 @@ darkTheme (Union[str, list[str]]): the dark theme
 
 ## setupWidgets
 
-[[find in source code]](../../../cli2gui/application/application.py#L125)
+[[find in source code]](../../../../cli2gui/application/application.py#L125)
 
 ```python
 def setupWidgets(
     gui: str,
-    sizes: dict[(str, Any)],
+    sizes: dict[str, Any],
     pySimpleGui: Any,
 ) -> Widgets:
 ```
@@ -154,7 +154,7 @@ sizes (Union[dict[str, Any]]): widget sizes
 
 ## themeFromFile
 
-[[find in source code]](../../../cli2gui/application/application.py#L23)
+[[find in source code]](../../../../cli2gui/application/application.py#L23)
 
 ```python
 def themeFromFile(themeFile: str) -> list[str]:
