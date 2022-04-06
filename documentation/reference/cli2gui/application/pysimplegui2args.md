@@ -14,7 +14,7 @@ Functions to create args from pysimplegui values.
 
 ## argFormat
 
-[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L58)
+[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L60)
 
 ```python
 def argFormat(
@@ -46,7 +46,7 @@ Format args for argparse.
 
 ## clickFormat
 
-[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L49)
+[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L51)
 
 ```python
 def clickFormat(values: dict[str, Any]) -> list[Any]:
@@ -56,7 +56,7 @@ Format args for click.
 
 ## docoptFormat
 
-[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L39)
+[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L41)
 
 ```python
 def docoptFormat(values: dict[str, Any]) -> dict[str, Any]:
@@ -66,7 +66,7 @@ Format args for docopt.
 
 ## getoptFormat
 
-[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L34)
+[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L36)
 
 ```python
 def getoptFormat(values: dict[str, Any]) -> tuple[list[Any], list[Any]]:
@@ -76,7 +76,7 @@ Format args for getopt.
 
 ## optparseFormat
 
-[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L26)
+[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L28)
 
 ```python
 def optparseFormat(values: dict[str, Any]) -> dict[str, Any]:

@@ -47,6 +47,11 @@ def cli():
 		choices=["choice1", "choice2"],
 		help="optional arg store with choices",
 	)
+	parser.add_argument(
+		"--somefile",
+		type=argparse.FileType("r"),
+		required=False,
+	)
 
 	group = parser.add_argument_group(
 		"choose one of the following", "use the following arguments to change the look of the image"

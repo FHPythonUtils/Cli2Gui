@@ -12,12 +12,14 @@ def argparseFormat(values: dict[str, Any]) -> argparse.Namespace:
 	"""Format args for argparse."""
 	args = {}
 	for key in values:
-		if key[-1] == "#":  # File
+		# Empty strings and paths
+		if isinstance(values[key], str) and len(values[key]) == 0:
+			args[key] = None
+		# Paths end in '#', set the base key (used by argparse)
+		elif key[-1] == "#":  # File
 			args[key[:-1]] = open(  # pylint:disable=consider-using-with
 				values[key], encoding="utf-8"
 			)
-		elif isinstance(values[key], str) and len(values[key]) == 0:  # Empty strings are None
-			args[key] = None
 		else:
 			args[key] = values[key]
 	return argparse.Namespace(**args)
