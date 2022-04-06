@@ -176,7 +176,10 @@ def main():
 	args = parser.parse_args()
 	run(args)
 
-decorator_function = Cli2Gui(run_function=run)
+decorator_function = Cli2Gui(
+	run_function=run,
+	auto_enable=True,
+)
 
 # The gui function can be used as a GUI entrypoint
 # Example: python -m mymodule:main.gui
