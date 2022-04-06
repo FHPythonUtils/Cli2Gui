@@ -20,8 +20,9 @@ Use this module to convert a CLI program to a GUI
 	- [GUI Toolkit Support](#gui-toolkit-support)
 	- [GUI Feature Support](#gui-feature-support)
 - [Roadmap](#roadmap)
-- [Decorator](#decorator)
-- [Using the decorator in your project](#using-the-decorator-in-your-project)
+- [Using Cli2Gui in your project](#using-cli2gui-in-your-project)
+	- [Decorator](#decorator)
+	- [Function](#function)
 	- [run_function (optional)](#run_function-optional)
 	- [auto_enable (optional)](#auto_enable-optional)
 	- [parser (optional)](#parser-optional)
@@ -34,7 +35,7 @@ Use this module to convert a CLI program to a GUI
 	- [program_description (optional)](#program_description-optional)
 	- [max_args_shown (optional)](#max_args_shown-optional)
 	- [menu (optional)](#menu-optional)
-- [Click](#click)
+- [Click2Gui](#click2gui)
 	- [run_function (required)](#run_function-required)
 	- [parser (not applicable)](#parser-not-applicable)
 - [Data Structures](#data-structures)
@@ -78,17 +79,21 @@ based off documentation/ the readme
 
 ### Parser Support
 
-| Parser           | Cli2Gui              | Gooey              | Quick              |
+<!--
+TODO add link to quick. (is this qt quick?)
+-->
+
+| Parser           | Cli2Gui              | [Gooey](https://github.com/chriskiehl/Gooey)              | Quick              |
 | ---------------- | -------------------- | ------------------ | ------------------ |
-| Argparse         | ✔                   | ✔                 | ❌                |
-| Optparse         | ✔                   | ❌                | ❌                |
-| DocOpt           | ✔                   | ❌                | ❌                |
-| Click            | ✔                 * | ❌                | ✔                 |
-| GetOpt           | ✔                   | ❌                | ❌                |
-| Dephell Argparse | ✔                   | ❌                | ❌                |
+| [Argparse](https://docs.python.org/3/library/argparse.html)         | ✔                   | ✔                 | ❌                |
+| [Optparse](https://docs.python.org/3/library/optparse.html)         | ✔                   | ❌                | ❌                |
+| [DocOpt](https://github.com/docopt/docopt)           | ✔                   | ❌                | ❌                |
+| [Click](https://github.com/pallets/click)            | ✔                 * | ❌                | ✔                 |
+| [GetOpt](https://docs.python.org/3/library/getopt.html)           | ✔                   | ❌                | ❌                |
+| [Dephell Argparse](https://github.com/dephell/dephell_argparse) | ✔                   | ❌                | ❌                |
 
 ```none
-* Partial support (use Click2Gui)
+* Partial support (use [Click2Gui](#click2gui))
 
 This works for simpler programs but sadly falls flat for more complex programs
 ```
@@ -134,7 +139,13 @@ For completed components, see the changelog (link below)
 | ----------- | ------------------------------------- | ------------------- |
 | Python Fire | https://github.com/google/python-fire | Under consideration |
 
-## Decorator
+## Using Cli2Gui in your project
+
+```python
+from cli2gui import Cli2Gui
+```
+
+### Decorator
 
 ```python
 @Cli2Gui(run_function, auto_enable=False, parser="argparse", gui="pysimplegui",
@@ -142,29 +153,68 @@ For completed components, see the changelog (link below)
 		program_description="", max_args_shown=5, **kwargs)
 ```
 
-## Using the decorator in your project
+### Function
+
+`Cli2Gui` is a function factory.
+It takes keywords arguments like `run_function` and `auto_enable`,
+and returns a decorator function.
+
+The decorator function takes a function like `main`
+and returns a new function:
+
+```python
+# main.py
+
+def run(args):
+	print(args.arg)
+
+# The main function can be used as a CLI entrypoint
+# Example: python -m mymodule:main.main
+def main():
+	parser = argparse.ArgumentParser(description="this is an example parser")
+	parser.add_argument("arg", type=str, help="positional arg")
+	args = parser.parse_args()
+	run(args)
+
+decorator_function = Cli2Gui(run_function=run)
+
+# The gui function can be used as a GUI entrypoint
+# Example: python -m mymodule:main.gui
+gui = decorator_function(main)
+
+if __name__ == "__main__":
+	# When main.py is called as script, run the GUI version
+	# Example: python main.py
+	# Example: ./main.py
+	gui()
+```
 
 ### run_function (optional)
 
-The name of the function to call eg. main(args). Defaults to None. If not
+The function to call when the user clicks `Start`. Defaults to None. If not
 specified, program continues as normal (can only run once)
 
 ```python
-def main(args):
+def run(args):
 	print(args.arg)
 
-@Cli2Gui(run_function=main)
-def cli():
+@Cli2Gui(run_function=run)
+def main():
+	# Typically, the main function has no arguments,
+	# but parses arguments from sys.argv,
+	# which happens in parser.parse_args()
 	parser = argparse.ArgumentParser(description="this is an example parser")
-	parser.add_argument("arg", type=str,
-		help="positional arg")
+	parser.add_argument("arg", type=str, help="positional arg")
 	args = parser.parse_args()
-	main(args)
+	run(args)
 ```
 
 ### auto_enable (optional)
 
-Enable the GUI by default. If enabled by default requires `--disable-cli2gui`, otherwise requires `--cli2gui`
+Enable the GUI by default. Defailt is False.
+
+To enable GUI, add `--cli2gui`.
+To disable GUI, add `--disable-cli2gui`.
 
 ```python
 @Cli2Gui(auto_enable=False)
@@ -277,7 +327,7 @@ Works significantly better with pysimplegui than pysimpleguiqt
 @Cli2Gui(menu={"File": THIS_DIR + "/file.md", "Another File": THIS_DIR + "/another_file.md", })
 ```
 
-## Click
+## Click2Gui
 
 ```python
 def Click2Gui(run_function, gui="pysimplegui", theme="", darkTheme="",
