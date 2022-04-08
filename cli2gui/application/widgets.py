@@ -9,7 +9,11 @@ import io
 from typing import Any
 
 from PIL import Image, ImageTk
-from PySimpleGUI import Element
+
+#from PySimpleGUI import Element
+from .PySimpleGUI import Element # local version
+
+#import tkterminal
 
 
 class Widgets:
@@ -203,4 +207,35 @@ class Widgets:
 		return [
 			self.helpArgNameAndHelp(commands, helpText, displayName),
 			self.pySimpleGui.Column([[self.dropdown(dest, choices)]], pad=(0, 0)),
+		]
+
+
+	def ansiTerminalWidget(
+		self,
+		key: str,
+		size = (80, 24),
+	):
+		"""ansi terminal widget"""
+		return [
+			[self.pySimpleGui.Multiline(
+				font="monospace",
+				key=key,
+				size=size,
+				pad=5, # padding
+				#enable_events=True, # click events
+				expand_x=True,
+				expand_y=True,
+				enter_submits=False,
+				#autoscroll=True, # auto scroll to end
+				horizontal_scroll=False,
+                no_scrollbar=True, # pyte -> text is always 80x24 # TODO implement history (scrollback buffer) -> pyte.HistoryScreen
+				enable_events=True, # TODO?
+                right_click_menu=['', [
+                    # TODO change eventName? should be f"{key}-Copy" etc
+                    'Copy',
+                    'Paste',
+                    #'Select All',
+                    #'Cut',
+                ]]
+			)],
 		]
