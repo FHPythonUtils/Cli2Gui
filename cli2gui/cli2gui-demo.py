@@ -27,6 +27,7 @@ from . import Cli2Gui # demo
 #line_count = 1
 
 def run(args):
+    print("this is the run function")
     print(args)
 
 def main():
@@ -103,7 +104,7 @@ def main():
     run(args)
 
 
-decorator_function = Cli2Gui(
+cli2gui_decorate = Cli2Gui(
     run_function=run,
     auto_enable=True,
     #gui="pysimplegui", # default
@@ -115,7 +116,12 @@ decorator_function = Cli2Gui(
 
 # The gui function can be used as a GUI entrypoint
 # Example: python -m mymodule:main.gui
-gui = decorator_function(main)
+gui = cli2gui_decorate(main)
 
 if __name__ == "__main__":
-    gui()
+    # TODO detect if run from terminal
+    # os.environ["TERM"] etc
+    if len(sys.argv) > 1:
+        main()
+    else:
+        gui()

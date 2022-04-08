@@ -51,6 +51,7 @@ import threading
 import os
 import select
 import pty
+import shlex
 
 import tkinter as tk
 import pyte # terminal emulator. render terminal output to visible characters
@@ -71,6 +72,9 @@ from .widgets import Widgets
 # TODO(milahu) better ...
 terminal_width = 80
 terminal_height = 24
+num_history_pages = 5 # arbitrary ... more = slower
+
+assert num_history_pages >= 0
 
 def themeFromFile(themeFile: str) -> list[str]:
 	"""Set the base24 theme from a base24 scheme.yaml to the application.
@@ -512,7 +516,7 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 	# pointer events (mouse events)
 	#window['-terminal-'].bind("<Enter>", "+Enter+") # mouse enter
 	window['-terminal-'].bind("<Button-1>", "+Button-1+", propagate=False) # ClickLeft
-	#window['-terminal-'].bind("<Button-2>", "+Button-2+") # ClickMiddle
+	window['-terminal-'].bind("<Button-2>", "+Button-2+", propagate=False) # ClickMiddle
 	#window['-terminal-'].bind("<Button-3>", "+Button-3+") # ClickRight
 
 	# https://stackoverflow.com/questions/41542960/run-interactive-bash-with-popen-and-a-dedicated-tty-python
@@ -590,7 +594,11 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 	#threading.Thread(target=read_stderro).start()
 
 	# ansi terminal emulator
-	pyte_screen = pyte.Screen(terminal_width, terminal_height)
+	#pyte_screen = pyte.Screen(terminal_width, terminal_height)
+	# based on pyte/examples/history.py
+	pyte_screen = pyte.HistoryScreen(terminal_width, terminal_height)
+	pyte_screen.set_mode(pyte.modes.LNM) # TODO what is LNM?
+
 	pyte_stream = pyte.ByteStream(pyte_screen)
 	#pyte_stream.feed(b"asdf")
 
@@ -607,13 +615,37 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 				#print("shell_to_gui_pump: read master_fd = pump from shell_process to GUI:", repr(bytes_))
 				if bytes_:
 					pyte_stream.feed(bytes_)
-					print("bytes_ for pyte", bytes_)
-					window['-terminal-'].update("\n".join(pyte_screen.display))
+					#print("bytes_ for pyte", bytes_)
+					#window['-terminal-'].update("\n".join(pyte_screen.display)) # send only last page to gui
+					# send multiple pages to gui
+					# test command: seq 1 100
+					# FIXME "Copy" should copy all pages
+					#term_text = "\n".join(pyte_screen.display)
+					# FIXME lines in term_lines are interleaved/repeated ... bug in pyte?
+					term_lines = pyte_screen.display[:] # copy array
+					for _history_idx in range(num_history_pages):
+						_r = pyte_screen.prev_page()
+						print("pyte_screen.prev_page()", _r)
+						#print(f"history page {_history_idx}", repr(pyte_screen.display)) # debug
+						# TODO check if page is empty. does pyte keep track of this?
+						# `pyte_screen.display` of empty pages are only whitespace
+						#term_text = "\n".join(pyte_screen.display) + term_text
+						term_lines = pyte_screen.display[:] + term_lines
+					if True:
+						# debug
+						for line_idx, line in enumerate(term_lines):
+							print(f"{line_idx:3d} {line} $")
+					window['-terminal-'].update("\n".join(term_lines))
+					print(f"rendered {len(term_lines)} lines. should be {(1 + num_history_pages)*terminal_height} lines = {1 + num_history_pages} pages")
+					#pyte_screen.next_page() # TODO need this?
+
 					# set cursor
 					# TODO hide cursor in some cases?
 					# for example, for terminal games like "ninvaders", a visible cursor is annoying
 					#print("pyte_screen.cursor", pyte_screen.cursor.y, pyte_screen.cursor.x)
-					window['-terminal-'].TKText.mark_set(tk.INSERT, f"{(pyte_screen.cursor.y + 1)}.{pyte_screen.cursor.x}")
+					cursor_y_offset = num_history_pages * terminal_height
+					cursor_y = cursor_y_offset + pyte_screen.cursor.y
+					window['-terminal-'].TKText.mark_set(tk.INSERT, f"{(cursor_y + 1)}.{pyte_screen.cursor.x}")
 
 			if master_fd in error_list:
 				# TODO remove?
@@ -622,11 +654,6 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 	print("start thread: shell_to_gui_pump")
 	threading.Thread(target=shell_to_gui_pump).start()
 
-
-
-	# buffer. old code
-	terminal_input = ""
-	terminal_input_cursor_index = 0
 
 	print("starting the main event loop")
 	# While the application is running
@@ -650,7 +677,21 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 			if event == "-terminal-+Key+":
 				terminal = window['-terminal-']
 				event = terminal.user_bind_event # event object
+				#print("Key", event)
 				#print(event) # debug
+				# NOTE escape codes: run `showkey -a` in a terminal and press keys, to find escape codes
+				if event.state == 0:
+					# no modifiers
+					if event.keycode == 112:
+						# prev page = page up
+						print("PageUp")
+						gui_to_shell_bytes(b"\033[5~")
+						continue
+					if event.keycode == 117:
+						# next page = page down
+						print("PageDown")
+						gui_to_shell_bytes(b"\033[6~")
+						continue
 				if event.state == 4: # Control
 					if event.char == "+": # Ctrl +
 						print("Ctrl-+ = increase font size")
@@ -668,7 +709,7 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 					if event.keysym == "C": # Ctrl Shift c = copy
 						# TODO get selection. quickfix: copy full terminal
 						# rstrip all lines
-                        # similar to pySimpleGui.Multiline(rstrip=True)
+						# similar to pySimpleGui.Multiline(rstrip=True)
 						text_stripped = ("".join([line.rstrip() + "\n" for line in pyte_screen.display])).strip() + "\n"
 						pySimpleGui.clipboard_set(text_stripped)
 						continue
@@ -707,40 +748,42 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 
 			if event == "-terminal-+Up+":
 				print("+Up+")
-				# FIXME Up/Down are not working in "less"
-				gui_to_shell_bytes(b"\033[A")
+				gui_to_shell_bytes(b"\033OA")
 				continue
 
 			if event == "-terminal-+Down+":
 				print("+Down+")
-				# FIXME Up/Down are not working in "less"
-				gui_to_shell_bytes(b"\033[B")
+				gui_to_shell_bytes(b"\033OB")
 				continue
 
+			# TODO also send "Ctrl Right" and "Ctrl Left"
 			if event == "-terminal-+Right+":
 				print("+Right+")
-				# FIXME Left/Right are not working in "ninvaders" game
-				gui_to_shell_bytes(b"\033[C")
+				gui_to_shell_bytes(b"\033OC")
 				continue
 
 			if event == "-terminal-+Left+":
 				print("+Left+")
-				gui_to_shell_bytes(b"\033[D")
-				# FIXME Left/Right are not working in "ninvaders" game
+				gui_to_shell_bytes(b"\033OD")
 				continue
+
 
 			if event == "-terminal-+Button-1+": # ClickLeft
 				# focus only. dont move cursor
 				# TODO when text is selected (click drag release),
 				# then single-click should unselect and move cursor back
+				# TODO when the "right click menu" is open, close it
 				print("+Button-1+")
 				window['-terminal-'].set_focus()
 				continue
 
-			continue # debug: dont handle the "Start" event = dont run the "run_function"
+			if event == "-terminal-+Button-2+": # ClickMiddle
+				print("+Button-2+ -> ignore")
+				# on linux, this is "paste from primary selection"
+				# probably this would confuse windows users
+				continue
 
-			# TODO add condition.
-			if event == "+TODO+":
+			if event == "Run":
 				try:
 					# Create and open the popup window for the menu item
 					if values is not None:
@@ -763,12 +806,79 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 							print(f"try block 8")
 							return args
 						print(f"try block 9")
-						print(f"args = {args}")
-						buildSpec["run_function"](args)
-						# TODO(milahu) send stdout and stderr to the GUI terminal
+
+						print("sys.argv", sys.argv)
+						# TODO build list of arguments -> my work on Gooey?
+						# TODO shlex = escape arguments for shell
+						# TODO run this on start of cli2gui as santiy check -> throw early
+						argv0_mode = os.stat(sys.argv[0]).st_mode & 0o777 # filter last 3 digits
+						print(f"argv[0] mode 0o{oct(argv0_mode)}")
+						print(f"argv[0] mode 0o{oct(argv0_mode)} & 0o111 = {oct(argv0_mode & 0o111)}")
+						argv0_is_exe = (os.stat(sys.argv[0]).st_mode & 0o111) == 0o111
+
+						window['-TabOutput-'].select()
+
+						if argv0_is_exe:
+							print("argv is exe")
+							# simple
+							gui_to_shell_string(f"""{sys.argv[0]} --help\r""") # test
+						else:
+							# TODO what would python do?
+							# -> setup.py -> entry_points, console_scripts -> bash wrapper calling "python -m ..."
+							print("argv0 is python script or module")
+							# argv0 is python script or module
+							# goal:
+							# PYTHONPATH="$PYTHONPATH:/home/user/src/nixos/milahu--nixos-packages/nur-packages/pkgs/autosub-by-abhirooptalasila/src/Cli2Gui" python3 -m cli2gui.cli2gui-demo
+							print("sys.executable", sys.executable)
+							argv0 = sys.argv[0]
+							python_exe = sys.executable
+							module_dir = os.path.dirname(argv0)
+							parts = list(os.path.split(module_dir))
+							module_dir = None
+							module_name = None
+							while parts:
+								print("candidate", "/".join(parts + ["__init__.py"]))
+								if os.path.exists("/".join(parts + ["__init__.py"])):
+									module_dir = "/".join(parts[0:-1])
+									module_name = parts[-1]
+									break
+								parts.pop()
+							if module_name:
+								#argv_str = "--help"
+								module_name += "." + os.path.basename(argv0)[:-3] # -3 = remove .py
+								print("module_dir", module_dir)
+								print("module_name", module_name)
+								print("values", values)
+								argv_list = ["--file", values["file"]]
+								argv_str = shlex.join(argv_list)
+								# wrap the module call in a shell function
+								sh_function = "\r".join([
+									module_name + "() {",
+									f'  PYTHONPATH="$PYTHONPATH:{module_dir}" {python_exe} -m {module_name} "$@"',
+									"}",
+								]) + "\r"
+								gui_to_shell_string(sh_function)
+								gui_to_shell_string("clear\r") # hide the function declaration
+								gui_to_shell_string(f"{module_name} {argv_str}\r") # run command
+							print(f"FIXME could not find module_dir and module_name from argv0 = {argv0}")
+							#module_name = os.path.basename(argv0)[0:-3] # remove .py
+							#gui_to_shell_string(f"""PYTHONPATH="$PYTHONPATH:{module_dir}" {python_exe} -m {module_name} --help\r""") # test
+
+						# old code: call the function directly
+						# problem: no process control (Ctrl c), no real terminal (just output)
+						if False:
+							print(f"args = {args}")
+							buildSpec["run_function"](args)
+							print(f"run_function done")
+							# TODO(milahu) send stdout and stderr to the GUI terminal
 				except Exception as exception:  # pylint: disable=broad-except
 					print(repr(exception))
 					# TODO(milahu) send errors to GUI
 
+	except BaseException as e:
+		# note: BaseException includes *all* exceptions,
+		# also GeneratorExit, KeyboardInterrupt, SystemExit
+		# -> python exceptions class hierarchy
+		raise e
 	finally:
 		shell_process_exit = True

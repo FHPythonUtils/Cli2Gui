@@ -223,12 +223,12 @@ class Widgets:
 				size=size,
 				pad=5, # padding
 				#enable_events=True, # click events
-				expand_x=True,
-				expand_y=True,
+				#expand_x=True,
+				#expand_y=True,
 				enter_submits=False,
-				#autoscroll=True, # auto scroll to end
+				autoscroll=True, # auto scroll to end
 				horizontal_scroll=False,
-                no_scrollbar=True, # pyte -> text is always 80x24 # TODO implement history (scrollback buffer) -> pyte.HistoryScreen
+                #no_scrollbar=True, # pyte -> text is always 80x24 # TODO implement history (scrollback buffer) -> pyte.HistoryScreen
 				enable_events=True, # TODO?
                 right_click_menu=['', [
                     # TODO change eventName? should be f"{key}-Copy" etc
