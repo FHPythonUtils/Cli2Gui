@@ -409,8 +409,9 @@ def createLayout(
 						'Input',
 						(
 							args_layout
-							if buildSpec["gui"] == "pysimplegui" or len(args_layout) < buildSpec["max_args_shown"]
-							else (
+							#if buildSpec["gui"] == "pysimplegui" or len(args_layout) < buildSpec["max_args_shown"]
+							if False # debug: always use column
+							else [[
 								pySimpleGui.Column(
 									args_layout,
 									size=(
@@ -422,8 +423,10 @@ def createLayout(
 									pad=(0, 0),
 									scrollable=True,
 									vertical_scroll_only=True,
+									expand_x=True,
+									expand_y=True,
 								)
-							)
+							]]
 						),
 						#font='Courier 15',
 						key='-TabInput-',
