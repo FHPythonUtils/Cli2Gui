@@ -690,7 +690,7 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 
 			# TODO(milahu) maybe remove? handled by eventName == "-terminal-+Key+"?
 			if event == "-terminal-+Return+":
-				gui_to_shell_bytes(b"\n") # TODO \r\n ?
+				gui_to_shell_bytes(b"\r")
 				continue
 
 			if event == "-terminal-+BackSpace+":
