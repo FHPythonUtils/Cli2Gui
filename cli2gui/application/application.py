@@ -54,6 +54,11 @@ import pty
 import shlex
 import logging
 import io
+import time
+import re
+import errno
+
+import psutil
 
 # short loglevel names
 # https://github.com/python/cpython/blob/677320348728ce058fa3579017e985af74a236d4/Lib/logging/__init__.py#L100
@@ -598,34 +603,30 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 	window['-terminal-'].bind("<Button-2>", "+Button-2+", propagate=False) # ClickMiddle
 	#window['-terminal-'].bind("<Button-3>", "+Button-3+") # ClickRight
 
-	# https://stackoverflow.com/questions/41542960/run-interactive-bash-with-popen-and-a-dedicated-tty-python
-	# https://stackoverflow.com/questions/22194774/interaction-between-python-script-and-linux-shell
-	# https://stackoverflow.com/questions/9673730/interacting-with-bash-from-python
-	# https://stackoverflow.com/questions/59164314/how-can-i-create-a-small-idle-like-python-shell-in-tkinter
+	#shell_process_command = 'bash'
+	#shell_process_command = ['busybox', 'sh']
+	shell_process_command = ['busybox', 'sh', '+m'] # completely disable job control = remove the initial warning "job control turned off"
+	#shell_process_command = ['busybox', 'sh', '-c', 'setsid cttyhack sh; exec sh'] # cttyhack: can't open '/dev/tty0': Permission denied
+	#shell_process_command = ['busybox', 'sh', '-c', 'setsid -c sh; exec sh'] # exec /bin/sh
+	#shell_process_command = ['busybox', 'sh', '-c', 'exec setsid -c -w sh'] # exec /bin/sh
+	# https://stackoverflow.com/questions/36529881/qemu-bin-sh-cant-access-tty-job-control-turned-off
 
-	#shell_output = None
-	#shell_input = None
-	#if True:
-	command = 'bash'
-	#command = ["/usr/bin/env", "bash", "-i"],
-	# command = 'docker run -it --rm centos /bin/bash'.split()
-	# save original tty setting then set it to raw mode
+	# NOTE this is just a posix shell, no bash shell. TODO test on windows
 
 	# open pseudo-terminal to interact with subprocess
 	master_fd, slave_fd = pty.openpty()
 
 	def gui_to_shell_string(string):
-		#gui_to_shell_stream.write(string) # no
 		bytes_ = string.encode("utf8")
 		os.write(master_fd, bytes_)
 
 	def gui_to_shell_bytes(bytes_):
 		os.write(master_fd, bytes_)
 
-	# use os.setsid() make it run in a new process group, or bash job control will not be enabled
+	# unix only: use os.setsid() make it run in a new process group, or bash job control will not be enabled
 	shell_env = os.environ.copy() # this seems to fix darkmode. weird.
 	shell_process = subprocess.Popen(
-		command,
+		shell_process_command,
 		preexec_fn=os.setsid,
 		stdin=slave_fd,
 		stdout=slave_fd,
@@ -635,15 +636,48 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 		encoding="utf8",
 		close_fds=True,
 	)
+	log.debug(f"started shell process with PID {shell_process.pid}")
 
-	#shell_output = os.fdopen(master_fd, 'rb')
-	#shell_input = os.fdopen(master_fd, 'wb')
+	child_process_list = []
+	child_pid_set_before_run = None
+	child_process_list_after_run = None
+	def child_process_watcher():
+
+		# FIXME avoid global, use queue or lock https://stackoverflow.com/a/19790994/10440128
+		global child_process_list, child_pid_set_before_run, child_process_list_after_run
+
+		proc = psutil.Process(pid=shell_process.pid)
+		# https://psutil.readthedocs.io/en/latest/#process-class
+		while True:
+			log.debug(f'child_process_watcher ---------------------------')
+			_child_process_list = []
+			for child in proc.children(recursive=False):
+				_child_process_list.append(dict(pid=child.pid, exe=child.exe()))
+				log.debug(f'child_process_watcher: child pid={child.pid} exe={child.exe()}')
+			child_process_list = _child_process_list
+
+			# FIXME NameError: name 'child_pid_set_before_run' is not defined
+			if child_pid_set_before_run:
+
+				# diff
+				child_process_list_after_run = filter(lambda p: p["pid"] not in child_pid_set_before_run, child_process_list)
+				log.debug("child_process_list_after_run:")
+				for i, p in enumerate(child_process_list_after_run):
+					log.debug(f"child_process_list_after_run[{i}] = {p}")
+				if len(child_process_list_after_run) == 0:
+					log.debug("len(child_process_list_after_run) == 0 -> RunDone")
+					window.write_event_value("+RunDone+", dict(return_code=None))
+					child_pid_set_before_run = None
+			time.sleep(1)
+	log.debug("starting thread child_process_watcher")
+	####### FIXME broken: threading.Thread(target=child_process_watcher).start()
+
 
 	# default prompt (PS1) is too long
 	log.debug("set PS1")
 	#gui_to_shell_bytes(b"PS1='$ '\r")
 	gui_to_shell_bytes(b"PS1='\\n$ '\r") # add newline before prompt
-	gui_to_shell_bytes(b"clear\r") # NOTE clear will delete history
+	#gui_to_shell_bytes(b"clear\r") # NOTE clear will delete history
 
 	# simpler than select.select()
 	# better? worse?
@@ -727,6 +761,33 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 					cursor_y_offset = len(term_lines) - terminal_height
 					cursor_y = cursor_y_offset + pyte_screen.cursor.y
 					window['-terminal-'].TKText.mark_set(tk.INSERT, f"{(cursor_y + 1)}.{pyte_screen.cursor.x}")
+
+					is_running = True # TODO
+					if is_running:
+						if pyte_screen.title.startswith(".cli2gui.rc="):
+							return_code = int(pyte_screen.title[12:])
+							log.debug("received return_code from shell", return_code)
+							window.write_event_value("+RunDone+", dict(return_code=return_code))
+
+					#if pyte_screen.title.startswith(".cli2gui.pid="):
+					#   # ...
+					## wait for process to finish, then enable the "Run" button again
+					## we can use `os.waitpid()` because it's a child process
+					#def process_waiter_fn():
+					#    #pid, status = os.waitpid(subprocess_pid, 0) # ChildProcessError: [Errno 10] No child processes
+					#    # FIXME this hangs if the subprocess goes "<defunct>"
+					#    def is_running(pid):
+					#        try:
+					#            os.kill(pid, 0)
+					#        except OSError as err:
+					#            if err.errno == errno.ESRCH:
+					#                return False
+					#        return True
+					#    while is_running(subprocess_pid):
+					#        time.sleep(0.5)
+					#    window.write_event_value("+RunDone+", None)
+					#log.debug(f"starting process_waiter_thread to wait for PID {subprocess_pid}")
+					#process_waiter_thread = threading.Thread(target=process_waiter_fn).start()
 
 			if master_fd in error_list:
 				# TODO remove?
@@ -827,7 +888,7 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 				continue
 
 			if event == "-terminal-+BackSpace+":
-				log.debug("+BackSpace+")
+				#log.debug("+BackSpace+")
 				gui_to_shell_bytes(b"\x08")
 				continue
 
@@ -836,23 +897,23 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 				continue
 
 			if event == "-terminal-+Up+":
-				log.debug("+Up+")
+				#log.debug("+Up+")
 				gui_to_shell_bytes(b"\033OA")
 				continue
 
 			if event == "-terminal-+Down+":
-				log.debug("+Down+")
+				#log.debug("+Down+")
 				gui_to_shell_bytes(b"\033OB")
 				continue
 
 			# TODO also send "Ctrl Right" and "Ctrl Left"
 			if event == "-terminal-+Right+":
-				log.debug("+Right+")
+				#log.debug("+Right+")
 				gui_to_shell_bytes(b"\033OC")
 				continue
 
 			if event == "-terminal-+Left+":
-				log.debug("+Left+")
+				#log.debug("+Left+")
 				gui_to_shell_bytes(b"\033OD")
 				continue
 
@@ -862,17 +923,29 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 				# TODO when text is selected (click drag release),
 				# then single-click should unselect and move cursor back
 				# TODO when the "right click menu" is open, close it
-				log.debug("+Button-1+")
+				#log.debug("+Button-1+")
 				window['-terminal-'].set_focus()
 				continue
 
 			if event == "-terminal-+Button-2+": # ClickMiddle
-				log.debug("+Button-2+ -> ignore")
+				#log.debug("+Button-2+ -> ignore")
 				# on linux, this is "paste from primary selection"
 				# probably this would confuse windows users
 				continue
 
+			if event == "+RunDone+":
+				log.debug(f"event={event}: enabling the Run button")
+				window["Run"].update(text="Run", disabled=False)
+				continue
+
 			if event == "Run":
+				log.debug(f"event={event}")
+				# disable the run button
+				window["Run"].update(text="Running ...", disabled=True)
+				# enable the run button again, after the subprocess is done.
+				# -> use sh_function to get the process ID
+				# -> use os.waitpid() to wait for the subprocess to terminate
+				# TODO add/enable a "Stop" button?
 				try:
 					# Create and open the popup window for the menu item
 					if values is not None:
@@ -896,12 +969,43 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 						log.debug(f"argv[0] mode {oct(argv0_mode)} & 0o111 = {oct(argv0_mode & 0o111)}")
 						argv0_is_exe = (os.stat(sys.argv[0]).st_mode & 0o111) == 0o111
 
-						window['-TabOutput-'].select()
+						window['-TabOutput-'].select() # switch to "Output" tab
+
+						# child process list before run
+						# -> diff -> list of started child procs
+						child_pid_set_before_run = set([p["pid"] for p in child_process_list])
+
+						argv0 = sys.argv[0]
+
+						sh_function_name = os.path.basename(argv0)
+						if sh_function_name in {"main.py", "__main__.py", "__init__.py", "cli.py", "gui.py", "run.py", "index.py", "default.py"}:
+							# use a better name
+							sh_function_name = os.path.dirname(argv0) + "/" + sh_function_name
+
+						# get valid function name for posix shell
+						sh_function_name = re.sub(r"[-./]", "_", sh_function_name)
+						if re.match("^[0-9]", sh_function_name):
+							sh_function_name = "_" + sh_function_name
+
+						log.debug("values", values)
+						# TODO if all arguments are empty, set argv=["--help"]
+						# to reach the "if len(sys.argv) > 1:" block
+						argv_list = [
+							#"--disable-cli2gui", # TODO ideally avoid this.
+							"--file",
+							values["file"],
+						] # FIXME build the actual argv array from values
+						argv_str = shlex.join(argv_list)
+
+						sh_function_body = None
 
 						if argv0_is_exe:
-							log.debug("argv is exe")
-							# simple
-							gui_to_shell_string(f"""{sys.argv[0]} --help\r""") # test
+							log.debug("argv0 is exe")
+							# simple: no need to find the python entrypoint
+							# just wrap the absolute path to argv0 in a shell function
+							sh_function_body = "\r".join([
+								f'  {shlex.join([sys.argv[0]])} "$@"',
+							])
 						else:
 							# TODO what would python do?
 							# -> setup.py -> entry_points, console_scripts -> bash wrapper calling "python -m ..."
@@ -909,8 +1013,12 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 							# argv0 is python script or module
 							# goal:
 							# PYTHONPATH="$PYTHONPATH:/home/user/src/nixos/milahu--nixos-packages/nur-packages/pkgs/autosub-by-abhirooptalasila/src/Cli2Gui" python3 -m cli2gui.cli2gui-demo
+							# TODO? decorators.py:
+							# if hasattr(sys, "frozen"):
+							#     runCmd = quote(sourcePath)
+							# else:
+							#     runCmd = f"{quote(sys.executable)} -u {quote(sourcePath)}"
 							log.debug("sys.executable", sys.executable)
-							argv0 = sys.argv[0]
 							python_exe = sys.executable
 							module_dir = os.path.dirname(argv0)
 							parts = list(os.path.split(module_dir))
@@ -924,31 +1032,61 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 									module_name = parts[-1]
 									break
 								parts.pop()
-							if module_name:
-								#argv_str = "--help"
-								module_name += "." + os.path.basename(argv0)[:-3] # -3 = remove .py
-								log.debug("module_dir", module_dir)
-								log.debug("module_name", module_name)
-								log.debug("values", values)
-								argv_list = ["--file", values["file"]]
-								argv_str = shlex.join(argv_list)
-								# wrap the module call in a shell function
-								sh_function_name = os.path.basename(argv0)
-								if sh_function_name in {"main.py", "__main__.py", "__init__.py", "cli.py", "gui.py", "run.py", "index.py", "default.py"}:
-									# use a better name
-									sh_function_name = os.path.dirname(argv0) + "/" + sh_function_name
-
-								sh_function = "\r".join([
-									sh_function_name + "() {",
-									f'  PYTHONPATH="$PYTHONPATH:{module_dir}" {python_exe} -m {module_name} "$@"',
-									"}",
-								]) + "\r"
-								gui_to_shell_string(sh_function)
-								gui_to_shell_string("clear\r") # hide the function declaration # NOTE clear will delete history
-								log.info("run command in shell:", f"{sh_function_name} {argv_str}")
-								gui_to_shell_string(f"{sh_function_name} {argv_str}\r") # run command
-							else:
+							if not module_name:
 								log.info(f"FIXME could not find module_dir and module_name from argv0 = {argv0}")
+								continue
+							module_name += "." + os.path.basename(argv0)[:-3] # -3 = remove .py
+							log.debug("module_dir", module_dir)
+							log.debug("module_name", module_name)
+							# wrap the module call in a shell function
+							sh_function_body = "\r".join([
+								f'  PYTHONPATH="$PYTHONPATH:{module_dir}" {python_exe} -m {module_name} "$@"',
+							])
+
+						sh_function = "\r".join([
+							"# define wrapper function",
+							sh_function_name + "(){",
+							sh_function_body,
+							# "\e]30;${title}\a"
+							# send the process ID from bash to python
+							# NOTE this looks a bit ugly in the terminal
+							# send the return-code ($?) from shell to python, using the terminal title
+							"  printf '\\e]2;.cli2gui.rc=%s\\a' $?", # set terminal title
+							#"  printf '\\e]2;.cli2gui.pid=%s\\a' $!", # set terminal title to PID ($!)
+							#"  printf '\\r'", # flush TODO verify
+							#"  printf 'sleep 1\r'", # workaround
+							#"  ( sleep 1; printf '\\e]2;\\a' ) &", # unset terminal title
+							#"  printf '\\e]2;\\a'", # unset terminal title. TODO remove?
+							#"  fg", # move job to foreground # FIXME fg: job (null) not created under job control
+							# -> need os.setsid https://github.com/systemd/systemd/issues/1431
+							# WONTFIX os.setsid is only available on unix -> not on windows
+							# https://stackoverflow.com/questions/690266/why-cant-i-use-job-control-in-a-bash-script
+							# https://www.mail-archive.com/austin-group-l@opengroup.org/msg06443.html
+							# similar problems
+							# https://stackoverflow.com/questions/52297102/sending-signals-to-processes-opened-by-bash-python-pty-pty-openpty-and-subproce
+							# https://stackoverflow.com/questions/42030935/posix-openpt-error-cant-access-tty-job-control-turned-off
+							# https://github.com/systemd/systemd/issues/1431
+							# https://superuser.com/questions/410472/bin-sh-cant-access-tty-job-control-turned-off-error-when-running-shellcode/418557#418557
+							# https://stackoverflow.com/questions/36529881/qemu-bin-sh-cant-access-tty-job-control-turned-off
+							# -> shell is trying to open /dev/console (or /dev/tty)? -> intercept syscall with LD_PRELOAD?
+							# $(busybox cttyhack) == "/dev/tty"
+							# test:
+							#   set -m
+							#   sh: set: can't access tty; job control turned off
+							# test:
+							#   sleep 100 &
+							#   fg
+							# less /dev/tty -> less: can't open '/dev/tty': No such device or address [works in normal terminal]
+							# less /dev/console -> less: can't open '/dev/console': Permission denied [same as in normal terminal]
+							"}",
+							"# call wrapper function",
+						]) + "\r"
+
+						log.debug("sh_function:\n" + sh_function.replace("\r", "\n"))
+						gui_to_shell_string(sh_function)
+						#gui_to_shell_string("clear\r") # hide the function declaration # NOTE clear will delete history
+						log.info("run command in shell:", f"{sh_function_name} {argv_str}")
+						gui_to_shell_string(f"{sh_function_name} {argv_str}\r") # run command
 
 						# old code: call the function directly
 						# problem: no process control (Ctrl c), no real terminal (just output)
