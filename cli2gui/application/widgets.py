@@ -223,19 +223,57 @@ class Widgets:
 				size=size,
 				pad=5, # padding
 				#enable_events=True, # click events
+				# NOTE(milahu) this is currently the biggest widget in the GUI, so no need for expand
 				#expand_x=True,
 				#expand_y=True,
 				enter_submits=False,
 				autoscroll=True, # auto scroll to end
 				horizontal_scroll=False,
-                #no_scrollbar=True, # pyte -> text is always 80x24 # TODO implement history (scrollback buffer) -> pyte.HistoryScreen
+				#no_scrollbar=True, # pyte -> text is always 80x24 # TODO implement history (scrollback buffer) -> pyte.HistoryScreen
 				enable_events=True, # TODO?
-                right_click_menu=['', [
-                    # TODO change eventName? should be f"{key}-Copy" etc
-                    'Copy',
-                    'Paste',
-                    #'Select All',
-                    #'Cut',
-                ]]
+				right_click_menu=['', [
+					# TODO change eventName? should be f"{key}-Copy" etc
+					'Copy',
+					'Paste',
+					#'Select All',
+					#'Cut',
+				]]
+			)],
+		]
+
+	def loggingWidget(
+		self,
+		key: str,
+	):
+		"""logging widget"""
+		return [
+			[self.pySimpleGui.Multiline(
+				font="monospace",
+				key=key,
+				#size=size,
+				pad=5, # padding
+				#enable_events=True, # click events
+				#expand_x=True,
+				#expand_y=True,
+				enter_submits=False,
+				autoscroll=True, # auto scroll to end
+				#auto_refresh=True, # TODO?
+				horizontal_scroll=False,
+				#no_scrollbar=True, # pyte -> text is always 80x24 # TODO implement history (scrollback buffer) -> pyte.HistoryScreen
+				enable_events=True, # TODO?
+				expand_x=True,
+				expand_y=True,
+
+				reroute_stdout=True, # all output to stdout will be output to this element
+				reroute_stderr=True, # all output to stderr will be output to this element
+				echo_stdout_stderr=True, # output to stdout and stderr will be output to this element AND also to the normal console location
+
+				right_click_menu=['', [
+					# TODO change eventName? should be f"{key}-Copy" etc
+					'Copy',
+					#'Paste', # log is read-only
+					#'Select All',
+					#'Cut',
+				]]
 			)],
 		]

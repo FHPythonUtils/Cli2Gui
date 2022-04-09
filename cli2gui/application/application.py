@@ -52,6 +52,13 @@ import os
 import select
 import pty
 import shlex
+import logging
+import io
+
+# short loglevel names
+# https://github.com/python/cpython/blob/677320348728ce058fa3579017e985af74a236d4/Lib/logging/__init__.py#L100
+#logging._levelToName = { 0: 'N', 10: 'D', 20: 'I', 30: 'W', 40: 'E', 50: 'C' }
+#logging_levels_pretty = ["Debug", "Info", "Warning", "Error", "Critical"]
 
 import tkinter as tk
 import pyte # terminal emulator. render terminal output to visible characters
@@ -72,9 +79,8 @@ from .widgets import Widgets
 # TODO(milahu) better ...
 terminal_width = 80
 terminal_height = 24
-num_history_pages = 5 # arbitrary ... more = slower
-
-assert num_history_pages >= 0
+num_history_lines = 100 # aka "scrollback buffer size"
+#num_history_lines = 1000 # more = slower, because not optimized
 
 def themeFromFile(themeFile: str) -> list[str]:
 	"""Set the base24 theme from a base24 scheme.yaml to the application.
@@ -444,6 +450,14 @@ def createLayout(
 						#visible=False,
 						key='-TabOutput-'
 					),
+					pySimpleGui.Tab(
+						'Log',
+						widgets.loggingWidget(
+							key="-log-",
+						),
+						#visible=False,
+						key='-TabLog-'
+					),
 				]],
 				enable_events=True,
 				key='-TABGROUP-',
@@ -456,6 +470,64 @@ def createLayout(
 	return layout
 
 
+def init_logger():
+	log = logging.getLogger('cli2gui')
+	log.setLevel(logging.DEBUG)
+	# debug by default. makes it easier for users to report bugs
+
+	log._stderr_handler = logging.StreamHandler() # default stream: sys.stderr
+	log.addHandler(log._stderr_handler)
+
+	log._string_stream = io.StringIO()
+	log._string_handler = logging.StreamHandler(stream=log._string_stream)
+	log.addHandler(log._string_handler)
+
+	log_formatter = logging.Formatter(
+		# message format:
+		#'%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+		#'%(relativeCreatedStr)s %(levelname)s %(message)s',
+		'%(asctime)s %(levelname)-5s %(message)s' + "\n", # "-5s" -> align INFO and DEBUG/ERROR messages
+		# extra newline: make the log easier to read with wrapped lines
+		# time format:
+		#"%Y-%m-%d %H:%M:%S",
+		"%H:%M:%S",
+	)
+	[h.setFormatter(log_formatter) for h in log.handlers]
+
+	log.info("cli2gui version 2022.1")
+	# TODO get version from pyproject.toml or from installed files
+
+	#log.info("log levels: " + "".join([l[0] for l in logging_levels_pretty]) + " = " + " ".join(logging_levels_pretty))
+	# TODO list only the active levels
+
+	#log.info("writing logfile: /path/to/cli2gui.log") # TODO
+
+	# logger test
+	if False:
+		log.debug('debug message')
+		log.info('info message')
+		log.warning('warn message')
+		log.error('error message')
+		log.critical('critical message')
+
+	# make the logger methods behave like print()
+	def wrap_log_method(log_method):
+		def new_log(*args, **kwargs):
+			# https://stackoverflow.com/a/39823534/10440128
+			f = io.StringIO()
+			print(*args, file=f, end="", **kwargs)
+			string = f.getvalue()
+			f.close()
+			log_method(string)
+		return new_log
+	log.debug = wrap_log_method(log.debug)
+	log.info = wrap_log_method(log.info)
+	log.warning = wrap_log_method(log.warning)
+	log.error = wrap_log_method(log.error)
+
+	return log
+
+
 def run(buildSpec: c2gtypes.FullBuildSpec):
 	"""Main entry point for the application.
 
@@ -463,6 +535,8 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 		buildSpec (c2gtypes.FullBuildSpec): args that customise the application such as the theme
 		or the function to run
 	"""
+
+	log = init_logger()
 
 	#import PySimpleGUI as psg  # pylint: disable=reimported
 	from . import PySimpleGUI as psg  # pylint: disable=reimported # debug: local version
@@ -492,6 +566,11 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 		icon=widgets.getImgData(buildSpec["image"], first=True) if buildSpec["image"] else None,
 		finalize=True, # enable .bind()
 	)
+
+	log.removeHandler(log._string_handler)
+	window['-log-'].update(log._string_stream.getvalue())
+	log._string_stream = None
+	log._stderr_handler.setStream(sys.stderr) # use the new sys.stderr
 
 	# based on https://github.com/Saadmairaj/tkterminal/blob/master/tkterminal/terminal.py
 	# https://stackoverflow.com/questions/64680384/pysimplegui-displaying-console-output-in-gui
@@ -560,11 +639,11 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 	#shell_output = os.fdopen(master_fd, 'rb')
 	#shell_input = os.fdopen(master_fd, 'wb')
 
-	# default PS1 is too long
-	print("set PS1")
-	#gui_to_shell_bytes(b"PS1='\\n$ '\n")
-	gui_to_shell_bytes(b"PS1='$ '\n") # FIXME not working?
-	gui_to_shell_bytes(b"clear\n")
+	# default prompt (PS1) is too long
+	log.debug("set PS1")
+	#gui_to_shell_bytes(b"PS1='$ '\r")
+	gui_to_shell_bytes(b"PS1='\\n$ '\r") # add newline before prompt
+	gui_to_shell_bytes(b"clear\r") # NOTE clear will delete history
 
 	# simpler than select.select()
 	# better? worse?
@@ -588,15 +667,15 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 			#print("stdout: ", msg, end="")
 			window['-terminal-'].print(msg, end="")
 
-	#print("start thread: read_stdout")
+	#log.info("start thread: read_stdout")
 	#threading.Thread(target=read_stdout).start()
-	#print("start thread: read_stderro")
+	#log.info("start thread: read_stderro")
 	#threading.Thread(target=read_stderro).start()
 
 	# ansi terminal emulator
 	#pyte_screen = pyte.Screen(terminal_width, terminal_height)
 	# based on pyte/examples/history.py
-	pyte_screen = pyte.HistoryScreen(terminal_width, terminal_height)
+	pyte_screen = pyte.HistoryScreen(terminal_width, terminal_height, history=num_history_lines, ratio=1)
 	pyte_screen.set_mode(pyte.modes.LNM) # TODO what is LNM?
 
 	pyte_stream = pyte.ByteStream(pyte_screen)
@@ -612,50 +691,52 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 			if master_fd in read_list:
 				# pump from shell_process to GUI
 				bytes_ = os.read(master_fd, 10240)
-				#print("shell_to_gui_pump: read master_fd = pump from shell_process to GUI:", repr(bytes_))
+				#log.info("shell_to_gui_pump: read master_fd = pump from shell_process to GUI:", repr(bytes_))
 				if bytes_:
 					pyte_stream.feed(bytes_)
-					#print("bytes_ for pyte", bytes_)
+					#sys.stdout.write(bytes_) # debug: show output also in terminal # TODO not working?
+					#log.debug("bytes_ for pyte", bytes_)
 					#window['-terminal-'].update("\n".join(pyte_screen.display)) # send only last page to gui
 					# send multiple pages to gui
 					# test command: seq 1 100
 					# FIXME "Copy" should copy all pages
 					#term_text = "\n".join(pyte_screen.display)
-					# FIXME lines in term_lines are interleaved/repeated ... bug in pyte?
 					term_lines = pyte_screen.display[:] # copy array
-					for _history_idx in range(num_history_pages):
-						_r = pyte_screen.prev_page()
-						print("pyte_screen.prev_page()", _r)
-						#print(f"history page {_history_idx}", repr(pyte_screen.display)) # debug
-						# TODO check if page is empty. does pyte keep track of this?
-						# `pyte_screen.display` of empty pages are only whitespace
-						#term_text = "\n".join(pyte_screen.display) + term_text
-						term_lines = pyte_screen.display[:] + term_lines
-					if True:
-						# debug
+					last_history_position = pyte_screen.history.position
+					num_history_pages = int(num_history_lines / terminal_height)
+					for _history_idx in range(num_history_pages): # TODO while loop
+						pyte_screen.prev_page()
+						history_page_lines = last_history_position - pyte_screen.history.position
+						#log.info("history_page_lines", history_page_lines)
+						#term_text = "\n".join(pyte_screen.display) + "\n" + term_text
+						term_lines = pyte_screen.display[0:history_page_lines] + term_lines
+						if history_page_lines < terminal_height:
+							# last history page
+							break
+						last_history_position = pyte_screen.history.position
+					if False:
+						# debug. verbose
 						for line_idx, line in enumerate(term_lines):
-							print(f"{line_idx:3d} {line} $")
+							log.info(f"{line_idx:4d} {line} ¶")
 					window['-terminal-'].update("\n".join(term_lines))
-					print(f"rendered {len(term_lines)} lines. should be {(1 + num_history_pages)*terminal_height} lines = {1 + num_history_pages} pages")
-					#pyte_screen.next_page() # TODO need this?
 
 					# set cursor
 					# TODO hide cursor in some cases?
 					# for example, for terminal games like "ninvaders", a visible cursor is annoying
-					#print("pyte_screen.cursor", pyte_screen.cursor.y, pyte_screen.cursor.x)
-					cursor_y_offset = num_history_pages * terminal_height
+					#log.info("pyte_screen.cursor", pyte_screen.cursor.y, pyte_screen.cursor.x)
+					cursor_y_offset = len(term_lines) - terminal_height
 					cursor_y = cursor_y_offset + pyte_screen.cursor.y
 					window['-terminal-'].TKText.mark_set(tk.INSERT, f"{(cursor_y + 1)}.{pyte_screen.cursor.x}")
 
 			if master_fd in error_list:
 				# TODO remove?
-				print("shell_to_gui_pump: error master_fd")
+				log.info("shell_to_gui_pump: error master_fd")
 
-	print("start thread: shell_to_gui_pump")
+	#log.info("start thread: shell_to_gui_pump")
 	threading.Thread(target=shell_to_gui_pump).start()
 
 
-	print("starting the main event loop")
+	log.info("starting the main event loop")
 	# While the application is running
 	try:
 		while True:
@@ -671,34 +752,34 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 				shell_process.kill()
 				sys.exit(0)
 
-			#print(f"event = {event}") # debug
-			#print(f"values = {values}") # verbose
+			#log.debug(f"event = {event}")
+			#log.debug(f"values = {values}")
 
 			if event == "-terminal-+Key+":
 				terminal = window['-terminal-']
 				event = terminal.user_bind_event # event object
-				#print("Key", event)
-				#print(event) # debug
+				#log.debug("Key", event)
+				#log.debug(event) # debug
 				# NOTE escape codes: run `showkey -a` in a terminal and press keys, to find escape codes
 				if event.state == 0:
 					# no modifiers
 					if event.keycode == 112:
 						# prev page = page up
-						print("PageUp")
+						log.debug("PageUp")
 						gui_to_shell_bytes(b"\033[5~")
 						continue
 					if event.keycode == 117:
 						# next page = page down
-						print("PageDown")
+						log.debug("PageDown")
 						gui_to_shell_bytes(b"\033[6~")
 						continue
 				if event.state == 4: # Control
 					if event.char == "+": # Ctrl +
-						print("Ctrl-+ = increase font size")
+						log.debug("Ctrl-+ = increase font size")
 						# TODO
 						continue
 					if event.char == "-": # Ctrl -
-						print("Ctrl-- = decrease font size")
+						log.debug("Ctrl-- = decrease font size")
 						# TODO
 						continue
 				if event.state == 5: # Control Shift
@@ -710,11 +791,15 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 						# TODO get selection. quickfix: copy full terminal
 						# rstrip all lines
 						# similar to pySimpleGui.Multiline(rstrip=True)
-						text_stripped = ("".join([line.rstrip() + "\n" for line in pyte_screen.display])).strip() + "\n"
+						# FIXME copy should copy the full history
+						# FIXME copy should copy the unwrapped lines
+						#lines = pyte_screen.display # only one page
+						lines = window['-terminal-'].get().split("\n")
+						text_stripped = ("".join([line.rstrip() + "\n" for line in lines])).strip() + "\n"
 						pySimpleGui.clipboard_set(text_stripped)
 						continue
 					if event.keysym == "A":
-						print("Ctrl-Shift-a = select all")
+						log.debug("Ctrl-Shift-a = select all")
 						# TODO select all
 						continue
 				# default: send to shell
@@ -724,7 +809,11 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 			if event == "Copy": # rightclick copy
 				# TODO get selection. quickfix: copy full terminal
 				# rstrip all lines = remove useless whitespace
-				text_stripped = ("".join([line.rstrip() + "\n" for line in pyte_screen.display])).strip() + "\n"
+				# FIXME copy should copy the full history
+				# FIXME copy should copy the unwrapped lines
+				#lines = pyte_screen.display # only one page
+				lines = window['-terminal-'].get().split("\n")
+				text_stripped = ("".join([line.rstrip() + "\n" for line in lines])).strip() + "\n"
 				pySimpleGui.clipboard_set(text_stripped)
 				continue
 
@@ -738,7 +827,7 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 				continue
 
 			if event == "-terminal-+BackSpace+":
-				print("+BackSpace+")
+				log.debug("+BackSpace+")
 				gui_to_shell_bytes(b"\x08")
 				continue
 
@@ -747,23 +836,23 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 				continue
 
 			if event == "-terminal-+Up+":
-				print("+Up+")
+				log.debug("+Up+")
 				gui_to_shell_bytes(b"\033OA")
 				continue
 
 			if event == "-terminal-+Down+":
-				print("+Down+")
+				log.debug("+Down+")
 				gui_to_shell_bytes(b"\033OB")
 				continue
 
 			# TODO also send "Ctrl Right" and "Ctrl Left"
 			if event == "-terminal-+Right+":
-				print("+Right+")
+				log.debug("+Right+")
 				gui_to_shell_bytes(b"\033OC")
 				continue
 
 			if event == "-terminal-+Left+":
-				print("+Left+")
+				log.debug("+Left+")
 				gui_to_shell_bytes(b"\033OD")
 				continue
 
@@ -773,12 +862,12 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 				# TODO when text is selected (click drag release),
 				# then single-click should unselect and move cursor back
 				# TODO when the "right click menu" is open, close it
-				print("+Button-1+")
+				log.debug("+Button-1+")
 				window['-terminal-'].set_focus()
 				continue
 
 			if event == "-terminal-+Button-2+": # ClickMiddle
-				print("+Button-2+ -> ignore")
+				log.debug("+Button-2+ -> ignore")
 				# on linux, this is "paste from primary selection"
 				# probably this would confuse windows users
 				continue
@@ -787,49 +876,40 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 				try:
 					# Create and open the popup window for the menu item
 					if values is not None:
-						print(f"try block")
 						if 0 in values and values[0] is not None:
-							print(f"try block 2")
 							popup = generatePopup(buildSpec, values, widgets, pySimpleGui)
-							print(f"try block 3")
 							popup.read()  # type: ignore
-							print(f"try block 4")
-						print(f"try block 5")
 						args = {}
 						for key in values:
 							if key != 0:
 								args[key] = values[key]
-						print(f"try block 6")
+						log.debug(f"build arguments")
 						args = argFormat(args, buildSpec["parser"]) # FIXME FileNotFoundError(2, 'No such file or directory')
-						print(f"try block 7")
 						if not buildSpec["run_function"]:
-							print(f"try block 8")
 							return args
-						print(f"try block 9")
 
-						print("sys.argv", sys.argv)
+						log.debug("sys.argv", sys.argv)
 						# TODO build list of arguments -> my work on Gooey?
 						# TODO shlex = escape arguments for shell
 						# TODO run this on start of cli2gui as santiy check -> throw early
 						argv0_mode = os.stat(sys.argv[0]).st_mode & 0o777 # filter last 3 digits
-						print(f"argv[0] mode 0o{oct(argv0_mode)}")
-						print(f"argv[0] mode 0o{oct(argv0_mode)} & 0o111 = {oct(argv0_mode & 0o111)}")
+						log.debug(f"argv[0] mode {oct(argv0_mode)} & 0o111 = {oct(argv0_mode & 0o111)}")
 						argv0_is_exe = (os.stat(sys.argv[0]).st_mode & 0o111) == 0o111
 
 						window['-TabOutput-'].select()
 
 						if argv0_is_exe:
-							print("argv is exe")
+							log.debug("argv is exe")
 							# simple
 							gui_to_shell_string(f"""{sys.argv[0]} --help\r""") # test
 						else:
 							# TODO what would python do?
 							# -> setup.py -> entry_points, console_scripts -> bash wrapper calling "python -m ..."
-							print("argv0 is python script or module")
+							log.debug("argv0 is python script or module")
 							# argv0 is python script or module
 							# goal:
 							# PYTHONPATH="$PYTHONPATH:/home/user/src/nixos/milahu--nixos-packages/nur-packages/pkgs/autosub-by-abhirooptalasila/src/Cli2Gui" python3 -m cli2gui.cli2gui-demo
-							print("sys.executable", sys.executable)
+							log.debug("sys.executable", sys.executable)
 							argv0 = sys.argv[0]
 							python_exe = sys.executable
 							module_dir = os.path.dirname(argv0)
@@ -837,8 +917,9 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 							module_dir = None
 							module_name = None
 							while parts:
-								print("candidate", "/".join(parts + ["__init__.py"]))
+								log.debug("module root candidate", "/".join(parts + ["__init__.py"]))
 								if os.path.exists("/".join(parts + ["__init__.py"])):
+									log.debug("module root candidate exists")
 									module_dir = "/".join(parts[0:-1])
 									module_name = parts[-1]
 									break
@@ -846,34 +927,38 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 							if module_name:
 								#argv_str = "--help"
 								module_name += "." + os.path.basename(argv0)[:-3] # -3 = remove .py
-								print("module_dir", module_dir)
-								print("module_name", module_name)
-								print("values", values)
+								log.debug("module_dir", module_dir)
+								log.debug("module_name", module_name)
+								log.debug("values", values)
 								argv_list = ["--file", values["file"]]
 								argv_str = shlex.join(argv_list)
 								# wrap the module call in a shell function
+								sh_function_name = os.path.basename(argv0)
+								if sh_function_name in {"main.py", "__main__.py", "__init__.py", "cli.py", "gui.py", "run.py", "index.py", "default.py"}:
+									# use a better name
+									sh_function_name = os.path.dirname(argv0) + "/" + sh_function_name
+
 								sh_function = "\r".join([
-									module_name + "() {",
+									sh_function_name + "() {",
 									f'  PYTHONPATH="$PYTHONPATH:{module_dir}" {python_exe} -m {module_name} "$@"',
 									"}",
 								]) + "\r"
 								gui_to_shell_string(sh_function)
-								gui_to_shell_string("clear\r") # hide the function declaration
-								gui_to_shell_string(f"{module_name} {argv_str}\r") # run command
-							print(f"FIXME could not find module_dir and module_name from argv0 = {argv0}")
-							#module_name = os.path.basename(argv0)[0:-3] # remove .py
-							#gui_to_shell_string(f"""PYTHONPATH="$PYTHONPATH:{module_dir}" {python_exe} -m {module_name} --help\r""") # test
+								gui_to_shell_string("clear\r") # hide the function declaration # NOTE clear will delete history
+								log.info("run command in shell:", f"{sh_function_name} {argv_str}")
+								gui_to_shell_string(f"{sh_function_name} {argv_str}\r") # run command
+							else:
+								log.info(f"FIXME could not find module_dir and module_name from argv0 = {argv0}")
 
 						# old code: call the function directly
 						# problem: no process control (Ctrl c), no real terminal (just output)
 						if False:
-							print(f"args = {args}")
+							log.info(f"args = {args}")
 							buildSpec["run_function"](args)
-							print(f"run_function done")
 							# TODO(milahu) send stdout and stderr to the GUI terminal
+							log.info(f"run_function done")
 				except Exception as exception:  # pylint: disable=broad-except
-					print(repr(exception))
-					# TODO(milahu) send errors to GUI
+					log.info(repr(exception))
 
 	except BaseException as e:
 		# note: BaseException includes *all* exceptions,
