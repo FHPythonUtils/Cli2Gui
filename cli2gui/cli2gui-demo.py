@@ -58,9 +58,9 @@ def main():
     )
     main_args.add_argument(
         "--engine",
-        type=argparse._MutuallyExclusiveGroup,
+        #type=argparse._MutuallyExclusiveGroup, # AttributeError: 'str' object has no attribute 'conflict_handler'
         choices=supported_engines,
-        #nargs="?", # TODO what is nargs
+        required=False,
         default=supported_engines[0],
         help=f"Engine for speech recognition: STT or DeepSpeech. Default is {supported_engines[0]}"
     )
