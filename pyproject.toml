@@ -43,6 +43,7 @@ pandoc = ["catpandoc"]
 pytest = "^7.1.1"
 pylint = "^2.13.5"
 handsdown = "^1.1.0"
+coverage = "^6.3.2"
 
 [tool.black]
 line-length = 100
