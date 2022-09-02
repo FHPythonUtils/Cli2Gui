@@ -1,11 +1,18 @@
 # Tojson
 
+[Cli2gui Index](../../README.md#cli2gui-index) /
+[Cli2gui](../index.md#cli2gui) /
+Tojson
+
 > Auto-generated documentation for [cli2gui.tojson](../../../../cli2gui/tojson/__init__.py) module.
 
-- [Cli2gui](../../README.md#cli2gui-index) / [Modules](../../MODULES.md#cli2gui-modules) / [Cli2gui](../index.md#cli2gui) / Tojson
-    - Modules
-        - [Argparse2json](argparse2json.md#argparse2json)
-        - [Click2json](click2json.md#click2json)
-        - [Docopt2json](docopt2json.md#docopt2json)
-        - [Getopt2json](getopt2json.md#getopt2json)
-        - [Optparse2json](optparse2json.md#optparse2json)
+- [Tojson](#tojson)
+  - [Modules](#modules)
+
+## Modules
+
+- [Argparse2json](./argparse2json.md)
+- [Click2json](./click2json.md)
+- [Docopt2json](./docopt2json.md)
+- [Getopt2json](./getopt2json.md)
+- [Optparse2json](./optparse2json.md)

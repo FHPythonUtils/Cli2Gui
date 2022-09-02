@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Tests an advanced parser
 """
 
@@ -8,8 +7,8 @@ import argparse
 import sys
 from pathlib import Path
 
-THISDIR = str(Path(__file__).resolve().parent)
-sys.path.insert(0, str(Path(THISDIR).parent.parent))
+THISDIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(THISDIR.parent.parent))
 from cli2gui import Cli2Gui
 
 
@@ -21,8 +20,8 @@ def handle(args):
 @Cli2Gui(
 	run_function=handle,
 	menu={
-		"File": THISDIR + "/file.md",
-		"Another File": THISDIR + "/another_file.md",
+		"File": f"{THISDIR}/file.md",
+		"Another File": f"{THISDIR}/another_file.md",
 	},
 )
 def cli():

@@ -1,27 +1,23 @@
 # Pysimplegui2args
 
+[Cli2gui Index](../../README.md#cli2gui-index) /
+[Cli2gui](../index.md#cli2gui) /
+[Application](./index.md#application) /
+Pysimplegui2args
+
 > Auto-generated documentation for [cli2gui.application.pysimplegui2args](../../../../cli2gui/application/pysimplegui2args.py) module.
 
-Functions to create args from pysimplegui values.
-
-- [Cli2gui](../../README.md#cli2gui-index) / [Modules](../../MODULES.md#cli2gui-modules) / [Cli2gui](../index.md#cli2gui) / [Application](index.md#application) / Pysimplegui2args
-    - [argFormat](#argformat)
-    - [argparseFormat](#argparseformat)
-    - [clickFormat](#clickformat)
-    - [docoptFormat](#docoptformat)
-    - [getoptFormat](#getoptformat)
-    - [optparseFormat](#optparseformat)
+- [Pysimplegui2args](#pysimplegui2args)
+  - [argFormat](#argformat)
+  - [argparseFormat](#argparseformat)
+  - [clickFormat](#clickformat)
+  - [docoptFormat](#docoptformat)
+  - [getoptFormat](#getoptformat)
+  - [optparseFormat](#optparseformat)
 
 ## argFormat
 
-[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L60)
-
-```python
-def argFormat(
-    values: dict[str, Any],
-    argumentParser: str | ParserType,
-) -> Any:
-```
+[Show source in pysimplegui2args.py:60](../../../../cli2gui/application/pysimplegui2args.py#L60)
 
 Format the args for the desired parser.
 
@@ -34,52 +30,86 @@ values (dict[str, Any]): values from simple gui
 
 - `Any` - args
 
-## argparseFormat
-
-[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L11)
+#### Signature
 
 ```python
-def argparseFormat(values: dict[str, Any]) -> argparse.Namespace:
+def argFormat(values: dict[str, Any], argumentParser: str | ParserType) -> Any:
+    ...
 ```
+
+
+
+## argparseFormat
+
+[Show source in pysimplegui2args.py:11](../../../../cli2gui/application/pysimplegui2args.py#L11)
 
 Format args for argparse.
 
-## clickFormat
-
-[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L51)
+#### Signature
 
 ```python
-def clickFormat(values: dict[str, Any]) -> list[Any]:
+def argparseFormat(values: dict[str, Any]) -> argparse.Namespace:
+    ...
 ```
+
+
+
+## clickFormat
+
+[Show source in pysimplegui2args.py:51](../../../../cli2gui/application/pysimplegui2args.py#L51)
 
 Format args for click.
 
-## docoptFormat
-
-[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L41)
+#### Signature
 
 ```python
-def docoptFormat(values: dict[str, Any]) -> dict[str, Any]:
+def clickFormat(values: dict[str, Any]) -> list[Any]:
+    ...
 ```
+
+
+
+## docoptFormat
+
+[Show source in pysimplegui2args.py:41](../../../../cli2gui/application/pysimplegui2args.py#L41)
 
 Format args for docopt.
 
-## getoptFormat
-
-[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L36)
+#### Signature
 
 ```python
-def getoptFormat(values: dict[str, Any]) -> tuple[list[Any], list[Any]]:
+def docoptFormat(values: dict[str, Any]) -> dict[str, Any]:
+    ...
 ```
+
+
+
+## getoptFormat
+
+[Show source in pysimplegui2args.py:36](../../../../cli2gui/application/pysimplegui2args.py#L36)
 
 Format args for getopt.
 
+#### Signature
+
+```python
+def getoptFormat(values: dict[str, Any]) -> tuple[list[Any], list[Any]]:
+    ...
+```
+
+
+
 ## optparseFormat
 
-[[find in source code]](../../../../cli2gui/application/pysimplegui2args.py#L28)
+[Show source in pysimplegui2args.py:28](../../../../cli2gui/application/pysimplegui2args.py#L28)
+
+Format args for optparse.
+
+#### Signature
 
 ```python
 def optparseFormat(values: dict[str, Any]) -> dict[str, Any]:
+    ...
 ```
 
-Format args for optparse.
+

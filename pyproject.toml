@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cli2gui"
-version = "2022.1"
+version = "2022.2"
 license = "mit"
 description = "Use this module to convert a cli program to a gui"
 authors = ["FredHappyface"]
@@ -78,6 +78,5 @@ ignore-patterns = "test_.*?py"
 enable = ["F", "E", "W", "R", "C"]
 disable = [
 	"pointless-string-statement",
-	"superfluous-parens",
-	"bad-continuation"
+	"superfluous-parens"
 ]

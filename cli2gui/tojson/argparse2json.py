@@ -35,14 +35,16 @@ def iterParsers(
 	parser: argparse.ArgumentParser,
 ) -> list[tuple[str, argparse.ArgumentParser]]:
 	"""Iterate over name, parser pairs."""
-	try:
-		# Get the actions from the subparser
-		return [action for action in parser._actions if isinstance(action, _SubParsersAction)][
-			0
-		].choices.arg_items()
-	except IndexError:
-		# There is no subparser
-		return list([("::cli2gui/default", parser)])
+	defaultParser = [
+		("::cli2gui/default", parser),
+	]
+	candidateSubparsers = [
+		action for action in parser._actions if isinstance(action, _SubParsersAction)
+	]
+	if len(candidateSubparsers) == 0:
+		return defaultParser
+
+	return defaultParser + list(candidateSubparsers[0].choices.items())
 
 
 def isDefaultProgname(name: str, subparser: argparse.ArgumentParser) -> bool:

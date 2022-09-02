@@ -3,6 +3,23 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2022.2 - 2022/09/02
+
+- Fix https://github.com/FHPythonUtils/Cli2Gui/issues/10, basic support for subparsers. `parser.add_subparsers()`
+
+	```py
+	parser = argparse.ArgumentParser(description="this is an example parser")
+	subparsers = parser.add_subparsers(help='types of A')
+	parser.add_argument("-v",)
+
+	a_parser = subparsers.add_parser("A")
+	b_parser = subparsers.add_parser("B")
+
+	a_parser.add_argument("something", choices=['a1', 'a2'])
+
+	args = parser.parse_args()
+	```
+
 ## 2022.1 - 2022/04/07
 
 - Fix https://github.com/FHPythonUtils/Cli2Gui/issues/7

@@ -1,59 +1,69 @@
 # Getopt2json
 
+[Cli2gui Index](../../README.md#cli2gui-index) /
+[Cli2gui](../index.md#cli2gui) /
+[Tojson](./index.md#tojson) /
+Getopt2json
+
 > Auto-generated documentation for [cli2gui.tojson.getopt2json](../../../../cli2gui/tojson/getopt2json.py) module.
 
-Generate a dict for getopt.
-
-- [Cli2gui](../../README.md#cli2gui-index) / [Modules](../../MODULES.md#cli2gui-modules) / [Cli2gui](../index.md#cli2gui) / [Tojson](index.md#tojson) / Getopt2json
-    - [actionToJson](#actiontojson)
-    - [catLong](#catlong)
-    - [catShort](#catshort)
-    - [convert](#convert)
-    - [process](#process)
+- [Getopt2json](#getopt2json)
+  - [actionToJson](#actiontojson)
+  - [catLong](#catlong)
+  - [catShort](#catshort)
+  - [convert](#convert)
+  - [process](#process)
 
 ## actionToJson
 
-[[find in source code]](../../../../cli2gui/tojson/getopt2json.py#L11)
-
-```python
-def actionToJson(
-    action: str,
-    widget: str,
-    short: bool = True,
-) -> c2gtypes.Item:
-```
+[Show source in getopt2json.py:11](../../../../cli2gui/tojson/getopt2json.py#L11)
 
 Convert an arg to json, behave in the same way as argparse hence the large...
 
 amount of duplication.
 
-## catLong
-
-[[find in source code]](../../../../cli2gui/tojson/getopt2json.py#L27)
+#### Signature
 
 ```python
-def catLong(actions: list[str]):
+def actionToJson(action: str, widget: str, short: bool = True) -> c2gtypes.Item:
+    ...
 ```
+
+
+
+## catLong
+
+[Show source in getopt2json.py:27](../../../../cli2gui/tojson/getopt2json.py#L27)
 
 Categorize long args.
 
-## catShort
-
-[[find in source code]](../../../../cli2gui/tojson/getopt2json.py#L37)
+#### Signature
 
 ```python
-def catShort(actions: list[str]):
+def catLong(actions: list[str]):
+    ...
 ```
+
+
+
+## catShort
+
+[Show source in getopt2json.py:37](../../../../cli2gui/tojson/getopt2json.py#L37)
 
 Categorize short args.
 
-## convert
-
-[[find in source code]](../../../../cli2gui/tojson/getopt2json.py#L69)
+#### Signature
 
 ```python
-def convert(parser: tuple[list[str], list[str]]) -> c2gtypes.ParserRep:
+def catShort(actions: list[str]):
+    ...
 ```
+
+
+
+## convert
+
+[Show source in getopt2json.py:69](../../../../cli2gui/tojson/getopt2json.py#L69)
 
 Convert getopt to a dict.
 
@@ -65,9 +75,22 @@ parser (tuple[list[str], list[str]]): getopt parser
 
 - `c2gtypes.ParserRep` - dictionary representing parser object
 
+#### Signature
+
+```python
+def convert(parser: tuple[list[str], list[str]]) -> c2gtypes.ParserRep:
+    ...
+```
+
+
+
 ## process
 
-[[find in source code]](../../../../cli2gui/tojson/getopt2json.py#L54)
+[Show source in getopt2json.py:54](../../../../cli2gui/tojson/getopt2json.py#L54)
+
+Generate a group (or section).
+
+#### Signature
 
 ```python
 def process(
@@ -75,6 +98,7 @@ def process(
     groupName: str,
     categorize: Callable[[list[str]], Generator[c2gtypes.Item, None, None]],
 ) -> list[c2gtypes.Group]:
+    ...
 ```
 
-Generate a group (or section).
+

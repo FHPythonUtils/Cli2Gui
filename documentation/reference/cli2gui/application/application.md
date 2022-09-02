@@ -1,29 +1,24 @@
 # Application
 
+[Cli2gui Index](../../README.md#cli2gui-index) /
+[Cli2gui](../index.md#cli2gui) /
+[Application](./index.md#application) /
+Application
+
 > Auto-generated documentation for [cli2gui.application.application](../../../../cli2gui/application/application.py) module.
 
-Application here uses PySimpleGUI.
-
-- [Cli2gui](../../README.md#cli2gui-index) / [Modules](../../MODULES.md#cli2gui-modules) / [Cli2gui](../index.md#cli2gui) / [Application](index.md#application) / Application
-    - [addItemsAndGroups](#additemsandgroups)
-    - [createLayout](#createlayout)
-    - [generatePopup](#generatepopup)
-    - [run](#run)
-    - [setBase24Theme](#setbase24theme)
-    - [setupWidgets](#setupwidgets)
-    - [themeFromFile](#themefromfile)
+- [Application](#application)
+  - [addItemsAndGroups](#additemsandgroups)
+  - [createLayout](#createlayout)
+  - [generatePopup](#generatepopup)
+  - [run](#run)
+  - [setBase24Theme](#setbase24theme)
+  - [setupWidgets](#setupwidgets)
+  - [themeFromFile](#themefromfile)
 
 ## addItemsAndGroups
 
-[[find in source code]](../../../../cli2gui/application/application.py#L165)
-
-```python
-def addItemsAndGroups(
-    section: c2gtypes.Group,
-    argConstruct: list[list[Element]],
-    widgets: Widgets,
-):
-```
+[Show source in application.py:165](../../../../cli2gui/application/application.py#L165)
 
 Add arg_items and groups to the argConstruct list.
 
@@ -40,18 +35,20 @@ argConstruct
 
 - `list` - updated argConstruct
 
-## createLayout
-
-[[find in source code]](../../../../cli2gui/application/application.py#L298)
+#### Signature
 
 ```python
-def createLayout(
-    buildSpec: c2gtypes.FullBuildSpec,
-    widgets: Widgets,
-    pySimpleGui: Any,
-    menu: str | list[str],
-) -> list[list[Element]]:
+def addItemsAndGroups(
+    section: c2gtypes.Group, argConstruct: list[list[Element]], widgets: Widgets
+):
+    ...
 ```
+
+
+
+## createLayout
+
+[Show source in application.py:298](../../../../cli2gui/application/application.py#L298)
 
 Create the pysimplegui layout from the build spec.
 
@@ -66,18 +63,23 @@ Create the pysimplegui layout from the build spec.
 
 - `list[list[Element]]` - list of widgets (layout list)
 
-## generatePopup
-
-[[find in source code]](../../../../cli2gui/application/application.py#L229)
+#### Signature
 
 ```python
-def generatePopup(
+def createLayout(
     buildSpec: c2gtypes.FullBuildSpec,
-    values: dict[Any, Any] | list[Any],
     widgets: Widgets,
     pySimpleGui: Any,
-) -> Window:
+    menu: str | list[str],
+) -> list[list[Element]]:
+    ...
 ```
+
+
+
+## generatePopup
+
+[Show source in application.py:229](../../../../cli2gui/application/application.py#L229)
 
 Create the popup window.
 
@@ -93,13 +95,23 @@ as the menu
 
 - `pySimpleGui.Window` - A PySimpleGui Window
 
-## run
-
-[[find in source code]](../../../../cli2gui/application/application.py#L361)
+#### Signature
 
 ```python
-def run(buildSpec: c2gtypes.FullBuildSpec):
+def generatePopup(
+    buildSpec: c2gtypes.FullBuildSpec,
+    values: dict[Any, Any] | list[Any],
+    widgets: Widgets,
+    pySimpleGui: Any,
+) -> Window:
+    ...
 ```
+
+
+
+## run
+
+[Show source in application.py:361](../../../../cli2gui/application/application.py#L361)
 
 Main entry point for the application.
 
@@ -108,17 +120,18 @@ Main entry point for the application.
 - `buildSpec` *c2gtypes.FullBuildSpec* - args that customise the application such as the theme
 or the function to run
 
-## setBase24Theme
-
-[[find in source code]](../../../../cli2gui/application/application.py#L36)
+#### Signature
 
 ```python
-def setBase24Theme(
-    theme: str | list[str],
-    darkTheme: str | list[str],
-    pySimpleGui: Any,
-) -> None:
+def run(buildSpec: c2gtypes.FullBuildSpec):
+    ...
 ```
+
+
+
+## setBase24Theme
+
+[Show source in application.py:36](../../../../cli2gui/application/application.py#L36)
 
 Set the base24 theme to the application.
 
@@ -128,17 +141,20 @@ theme (Union[str, list[str]]): the light theme
 darkTheme (Union[str, list[str]]): the dark theme
 - `pySimpleGui` *Any* - pysimplegui module
 
-## setupWidgets
-
-[[find in source code]](../../../../cli2gui/application/application.py#L125)
+#### Signature
 
 ```python
-def setupWidgets(
-    gui: str,
-    sizes: dict[str, Any],
-    pySimpleGui: Any,
-) -> Widgets:
+def setBase24Theme(
+    theme: str | list[str], darkTheme: str | list[str], pySimpleGui: Any
+) -> None:
+    ...
 ```
+
+
+
+## setupWidgets
+
+[Show source in application.py:125](../../../../cli2gui/application/application.py#L125)
 
 Set the widget sizes to the application.
 
@@ -152,13 +168,18 @@ sizes (Union[dict[str, Any]]): widget sizes
 
 - `Widgets` - widgets object all set up nicely
 
-## themeFromFile
-
-[[find in source code]](../../../../cli2gui/application/application.py#L23)
+#### Signature
 
 ```python
-def themeFromFile(themeFile: str) -> list[str]:
+def setupWidgets(gui: str, sizes: dict[str, Any], pySimpleGui: Any) -> Widgets:
+    ...
 ```
+
+
+
+## themeFromFile
+
+[Show source in application.py:23](../../../../cli2gui/application/application.py#L23)
 
 Set the base24 theme from a base24 scheme.yaml to the application.
 
@@ -169,3 +190,12 @@ Set the base24 theme from a base24 scheme.yaml to the application.
 #### Returns
 
 - `list[str]` - theme to set
+
+#### Signature
+
+```python
+def themeFromFile(themeFile: str) -> list[str]:
+    ...
+```
+
+

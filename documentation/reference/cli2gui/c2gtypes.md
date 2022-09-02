@@ -1,47 +1,53 @@
 # C2gtypes
 
+[Cli2gui Index](../README.md#cli2gui-index) /
+[Cli2gui](./index.md#cli2gui) /
+C2gtypes
+
 > Auto-generated documentation for [cli2gui.c2gtypes](../../../cli2gui/c2gtypes.py) module.
 
-Types for cli2gui.
-
-- [Cli2gui](../README.md#cli2gui-index) / [Modules](../MODULES.md#cli2gui-modules) / [Cli2gui](index.md#cli2gui) / C2gtypes
-    - [BuildSpec](#buildspec)
-    - [FullBuildSpec](#fullbuildspec)
-    - [GUIType](#guitype)
-    - [Group](#group)
-    - [Item](#item)
-    - [ParserRep](#parserrep)
-    - [ParserType](#parsertype)
+- [C2gtypes](#c2gtypes)
+  - [BuildSpec](#buildspec)
+  - [FullBuildSpec](#fullbuildspec)
+  - [GUIType](#guitype)
+  - [Group](#group)
+  - [Item](#item)
+  - [ParserRep](#parserrep)
+  - [ParserType](#parsertype)
 
 ## BuildSpec
 
-[[find in source code]](../../../cli2gui/c2gtypes.py#L15)
-
-```python
-dataclass
-class BuildSpec(TypedDict):
-```
+[Show source in c2gtypes.py:15](../../../cli2gui/c2gtypes.py#L15)
 
 Representation for the BuildSpec.
 
-## FullBuildSpec
-
-[[find in source code]](../../../cli2gui/c2gtypes.py#L62)
+#### Signature
 
 ```python
-dataclass
-class FullBuildSpec(TypedDict):
+class BuildSpec(TypedDict):
+    ...
 ```
+
+
+
+## FullBuildSpec
+
+[Show source in c2gtypes.py:62](../../../cli2gui/c2gtypes.py#L62)
 
 Representation for the FullBuildSpec (BuildSpec + ParserRep).
 
-## GUIType
-
-[[find in source code]](../../../cli2gui/c2gtypes.py#L103)
+#### Signature
 
 ```python
-class GUIType(str, Enum):
+class FullBuildSpec(TypedDict):
+    ...
 ```
+
+
+
+## GUIType
+
+[Show source in c2gtypes.py:103](../../../cli2gui/c2gtypes.py#L103)
 
 Supported gui types.
 
@@ -49,46 +55,63 @@ DEFAULT = "pysimplegui"
 WEB = "pysimpleguiweb"
 QT = "pysimpleguiqt"
 
-## Group
-
-[[find in source code]](../../../cli2gui/c2gtypes.py#L45)
+#### Signature
 
 ```python
-dataclass
-class Group(TypedDict):
+class GUIType(str, Enum):
+    ...
 ```
+
+
+
+## Group
+
+[Show source in c2gtypes.py:45](../../../cli2gui/c2gtypes.py#L45)
 
 Representation for an argument group.
 
-## Item
-
-[[find in source code]](../../../cli2gui/c2gtypes.py#L32)
+#### Signature
 
 ```python
-dataclass
-class Item(TypedDict):
+class Group(TypedDict):
+    ...
 ```
+
+
+
+## Item
+
+[Show source in c2gtypes.py:32](../../../cli2gui/c2gtypes.py#L32)
 
 Representation for an arg_item.
 
-## ParserRep
-
-[[find in source code]](../../../cli2gui/c2gtypes.py#L54)
+#### Signature
 
 ```python
-dataclass
-class ParserRep(TypedDict):
+class Item(TypedDict):
+    ...
 ```
+
+
+
+## ParserRep
+
+[Show source in c2gtypes.py:54](../../../cli2gui/c2gtypes.py#L54)
 
 Representation for a parser.
 
-## ParserType
-
-[[find in source code]](../../../cli2gui/c2gtypes.py#L81)
+#### Signature
 
 ```python
-class ParserType(str, Enum):
+class ParserRep(TypedDict):
+    ...
 ```
+
+
+
+## ParserType
+
+[Show source in c2gtypes.py:81](../../../cli2gui/c2gtypes.py#L81)
 
 Supported parser types.
 
@@ -99,3 +122,12 @@ DOCOPT = "docopt"
 GETOPT = "getopt"
 CLICK = "click"
 CUSTOM = "input()"  # this seems like a pretty poor pattern to use
+
+#### Signature
+
+```python
+class ParserType(str, Enum):
+    ...
+```
+
+

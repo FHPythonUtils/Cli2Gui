@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 usage:
   simple.py [-h] [--optional OPTIONAL] [--store-true] [--store-false]

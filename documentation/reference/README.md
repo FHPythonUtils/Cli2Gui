@@ -1,10 +1,9 @@
-# Cli2gui Modules
+# Cli2gui Index
 
-> Auto-generated documentation modules index.
+> Auto-generated documentation index.
 
-Full list of [Cli2gui](README.md#cli2gui-index) project modules.
+A full list of `Cli2gui` project modules.
 
-- [Cli2gui Index](README.md#cli2gui-index)
 - [Cli2gui](cli2gui/index.md#cli2gui)
     - [Application](cli2gui/application/index.md#application)
         - [Application](cli2gui/application/application.md#application)

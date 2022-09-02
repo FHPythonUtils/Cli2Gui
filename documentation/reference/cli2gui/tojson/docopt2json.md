@@ -1,53 +1,59 @@
 # Docopt2json
 
+[Cli2gui Index](../../README.md#cli2gui-index) /
+[Cli2gui](../index.md#cli2gui) /
+[Tojson](./index.md#tojson) /
+Docopt2json
+
 > Auto-generated documentation for [cli2gui.tojson.docopt2json](../../../../cli2gui/tojson/docopt2json.py) module.
 
-Generate a dict for docopt.
-
-- [Cli2gui](../../README.md#cli2gui-index) / [Modules](../../MODULES.md#cli2gui-modules) / [Cli2gui](../index.md#cli2gui) / [Tojson](index.md#tojson) / Docopt2json
-    - [actionToJson](#actiontojson)
-    - [categorize](#categorize)
-    - [convert](#convert)
-    - [extract](#extract)
-    - [parse](#parse)
-    - [parseOpt](#parseopt)
-    - [parsePos](#parsepos)
-    - [parseSection](#parsesection)
+- [Docopt2json](#docopt2json)
+  - [actionToJson](#actiontojson)
+  - [categorize](#categorize)
+  - [convert](#convert)
+  - [extract](#extract)
+  - [parse](#parse)
+  - [parseOpt](#parseopt)
+  - [parsePos](#parsepos)
+  - [parseSection](#parsesection)
 
 ## actionToJson
 
-[[find in source code]](../../../../cli2gui/tojson/docopt2json.py#L11)
-
-```python
-def actionToJson(
-    action: tuple[str, str, str, Any, str],
-    widget: str,
-    isPos: bool,
-) -> c2gtypes.Item:
-```
+[Show source in docopt2json.py:11](../../../../cli2gui/tojson/docopt2json.py#L11)
 
 Generate json for an action and set the widget - used by the application.
 
-## categorize
-
-[[find in source code]](../../../../cli2gui/tojson/docopt2json.py#L36)
+#### Signature
 
 ```python
-def categorize(
-    actions: list[tuple[str, str, str, Any, str]],
-    isPos: bool = False,
-) -> Iterator[c2gtypes.Item]:
+def actionToJson(
+    action: tuple[str, str, str, Any, str], widget: str, isPos: bool
+) -> c2gtypes.Item:
+    ...
 ```
+
+
+
+## categorize
+
+[Show source in docopt2json.py:36](../../../../cli2gui/tojson/docopt2json.py#L36)
 
 Catergorise each action and generate json.
 
-## convert
-
-[[find in source code]](../../../../cli2gui/tojson/docopt2json.py#L114)
+#### Signature
 
 ```python
-def convert(parser: Any) -> c2gtypes.ParserRep:
+def categorize(
+    actions: list[tuple[str, str, str, Any, str]], isPos: bool = False
+) -> Iterator[c2gtypes.Item]:
+    ...
 ```
+
+
+
+## convert
+
+[Show source in docopt2json.py:114](../../../../cli2gui/tojson/docopt2json.py#L114)
 
 Convert getopt to a dict.
 
@@ -59,52 +65,86 @@ Convert getopt to a dict.
 
 - `c2gtypes.ParserRep` - dictionary representing parser object
 
-## extract
-
-[[find in source code]](../../../../cli2gui/tojson/docopt2json.py#L48)
+#### Signature
 
 ```python
-def extract(parser: Any) -> list[c2gtypes.Group]:
+def convert(parser: Any) -> c2gtypes.ParserRep:
+    ...
 ```
+
+
+
+## extract
+
+[Show source in docopt2json.py:48](../../../../cli2gui/tojson/docopt2json.py#L48)
 
 Get the actions as json for the parser.
 
+#### Signature
+
+```python
+def extract(parser: Any) -> list[c2gtypes.Group]:
+    ...
+```
+
+
+
 ## parse
 
-[[find in source code]](../../../../cli2gui/tojson/docopt2json.py#L73)
+[Show source in docopt2json.py:73](../../../../cli2gui/tojson/docopt2json.py#L73)
+
+Parse an option help text, adapted from docopt.
+
+#### Signature
 
 ```python
 def parse(optionDescription: str) -> tuple[str, str, str, Any, str]:
+    ...
 ```
 
-Parse an option help text, adapted from docopt.
+
 
 ## parseOpt
 
-[[find in source code]](../../../../cli2gui/tojson/docopt2json.py#L91)
-
-```python
-def parseOpt(doc: Any) -> list[tuple[str, str, str, Any, str]]:
-```
+[Show source in docopt2json.py:91](../../../../cli2gui/tojson/docopt2json.py#L91)
 
 Parse an option help text, adapted from docopt.
 
-## parsePos
-
-[[find in source code]](../../../../cli2gui/tojson/docopt2json.py#L103)
+#### Signature
 
 ```python
-def parsePos(doc: Any) -> list[tuple[str, str, str, Any, str]]:
+def parseOpt(doc: Any) -> list[tuple[str, str, str, Any, str]]:
+    ...
 ```
+
+
+
+## parsePos
+
+[Show source in docopt2json.py:103](../../../../cli2gui/tojson/docopt2json.py#L103)
 
 Parse positional arguments from docstring.
 
+#### Signature
+
+```python
+def parsePos(doc: Any) -> list[tuple[str, str, str, Any, str]]:
+    ...
+```
+
+
+
 ## parseSection
 
-[[find in source code]](../../../../cli2gui/tojson/docopt2json.py#L64)
+[Show source in docopt2json.py:64](../../../../cli2gui/tojson/docopt2json.py#L64)
+
+Taken from docopt.
+
+#### Signature
 
 ```python
 def parseSection(name: str, source: Any) -> list[str]:
+    ...
 ```
 
-Taken from docopt.
+

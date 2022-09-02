@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Tests a simple parser
 
 Program from https://click.palletsprojects.com/en/7.x/#documentation
