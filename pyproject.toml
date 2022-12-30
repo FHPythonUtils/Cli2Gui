@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cli2gui"
-version = "2022.2"
+version = "2022.2.1"
 license = "mit"
 description = "Use this module to convert a cli program to a gui"
 authors = ["FredHappyface"]

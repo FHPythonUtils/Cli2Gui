@@ -13,7 +13,7 @@ Decorators
 
 ## Cli2Gui
 
-[Show source in decorators.py:161](../../../cli2gui/decorators.py#L161)
+[Show source in decorators.py:163](../../../cli2gui/decorators.py#L163)
 
 Decorator to use in the function that contains the argument parser...
 

@@ -139,17 +139,19 @@ def Click2Gui(  # pylint: disable=invalid-name
 		Any: Runs the application
 	"""
 	bSpec = BuildSpec(
-		run_function,
-		ParserType.CLICK,
-		gui,
-		theme,
-		darkTheme,
-		sizes,
-		image,
-		program_name,
-		program_description,
-		max_args_shown,
-		menu,
+		**{
+			"run_function": run_function,
+			"parser": ParserType.CLICK,
+			"gui": gui,
+			"theme": theme,
+			"darkTheme": darkTheme,
+			"sizes": sizes,
+			"image": image,
+			"program_name": program_name,
+			"program_description": program_description,
+			"max_args_shown": max_args_shown,
+			"menu": menu,
+		}
 	)
 
 	buildSpec = createFromParser(

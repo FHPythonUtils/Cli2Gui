@@ -3,6 +3,10 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2022.2.1 - 2022/12/30
+
+- Fix https://github.com/FHPythonUtils/Cli2Gui/issues/13
+
 ## 2022.2 - 2022/09/02
 
 - Fix https://github.com/FHPythonUtils/Cli2Gui/issues/10, basic support for subparsers. `parser.add_subparsers()`
