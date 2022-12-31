@@ -2,4 +2,4 @@
 """
 from __future__ import annotations
 
-from .decorators import *
+from cli2gui.decorators import *

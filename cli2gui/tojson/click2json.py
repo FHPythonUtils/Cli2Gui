@@ -4,23 +4,21 @@ from __future__ import annotations
 
 from typing import Any, Generator
 
-from .. import c2gtypes
+from cli2gui import types
 
 
-def extract(parser: Any) -> list[c2gtypes.Group]:
+def extract(parser: Any) -> list[types.Group]:
 	"""Get the actions as json for the parser."""
 	try:
 		argumentList = [
 			{
 				"name": "Positional Arguments",
-				"arg_items": list(
-					categorizeCommand([parser.commands[key] for key in parser.commands])
-				),
+				"arg_items": list(categorize([parser.commands[key] for key in parser.commands])),
 				"groups": [],
 			}
 		]
 	except AttributeError:
-		argumentList: list[c2gtypes.Group] = []
+		argumentList: list[types.Group] = []
 	argumentList.append(
 		{
 			"name": "Optional Arguments",
@@ -31,43 +29,48 @@ def extract(parser: Any) -> list[c2gtypes.Group]:
 	return argumentList
 
 
-def actionToJson(action: Any, widget: str) -> c2gtypes.Item:
+def actionToJson(action: Any, widget: types.ItemType, other: dict | None = None) -> types.Item:
 	"""Generate json for an action and set the widget - used by the application."""
 	nargs = ""
 	try:
-		action.params[0].nargs if len(action.params) > 0 else "" or ""
+		nargs = action.params[0].nargs if len(action.params) > 0 else "" or ""
 	except AttributeError:
 		pass
+
+	commands = action.opts + action.secondary_opts
 	return {
 		"type": widget,
 		"display_name": action.name,
 		"help": action.help,
-		"commands": ("--" if len(action.name) > 1 else "-") + action.name,
-		"choices": [],
-		"dest": action.callback or ("--" if len(action.name) > 1 else "-") + action.name,
-		"_other": {"nargs": nargs},
+		"commands": commands,
+		"dest": action.callback or commands[0],
+		"default": action.default,
+		"_other": {**{"nargs": nargs}, **(other or {})},
 	}
 
 
-def categorize(actions: list[Any]) -> Generator[c2gtypes.Item, None, None]:
+def categorize(actions: list[Any]) -> Generator[types.Item, None, None]:
 	"""Catergorise each action and generate json."""
+	import click
+
 	for action in actions:
-		yield actionToJson(action, "TextBox")
+		if isinstance(action.type, click.Choice):
+			yield actionToJson(action, types.ItemType.Choice, {"choices": action.type.choices})
+		elif isinstance(action.type, click.types.IntParamType):
+			yield actionToJson(action, types.ItemType.Int)
+		elif isinstance(action.type, click.types.BoolParamType):
+			yield actionToJson(action, types.ItemType.Bool)
+		else:
+			yield actionToJson(action, types.ItemType.Text)
 
 
-def categorizeCommand(actions: list[Any]) -> Generator[c2gtypes.Item, None, None]:
-	"""Catergorise each action and generate json."""
-	for action in actions:
-		yield actionToJson(action, "Bool")
-
-
-def convert(parser: Any) -> c2gtypes.ParserRep:
+def convert(parser: Any) -> types.ParserRep:
 	"""Convert click to a dict.
 
 	Args:
 		parser (click.core.Command): click parser
 
 	Returns:
-		c2gtypes.ParserRep: dictionary representing parser object
+		types.ParserRep: dictionary representing parser object
 	"""
 	return {"parser_description": "", "widgets": extract(parser)}

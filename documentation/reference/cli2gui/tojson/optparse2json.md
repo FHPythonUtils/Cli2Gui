@@ -23,7 +23,7 @@ Generate json for an action and set the widget - used by the application.
 #### Signature
 
 ```python
-def actionToJson(action: optparse.Option, widget: str) -> c2gtypes.Item:
+def actionToJson(action: optparse.Option, widget: types.ItemType) -> types.Item:
     ...
 ```
 
@@ -31,7 +31,7 @@ def actionToJson(action: optparse.Option, widget: str) -> c2gtypes.Item:
 
 ## categorize
 
-[Show source in optparse2json.py:53](../../../../cli2gui/tojson/optparse2json.py#L53)
+[Show source in optparse2json.py:58](../../../../cli2gui/tojson/optparse2json.py#L58)
 
 Catergorise each action and generate json.
 
@@ -46,7 +46,7 @@ def categorize(actions: list[optparse.Option]):
 
 ## convert
 
-[Show source in optparse2json.py:68](../../../../cli2gui/tojson/optparse2json.py#L68)
+[Show source in optparse2json.py:73](../../../../cli2gui/tojson/optparse2json.py#L73)
 
 Convert argparse to a dict.
 
@@ -56,12 +56,12 @@ Convert argparse to a dict.
 
 #### Returns
 
-- `c2gtypes.ParserRep` - dictionary representing parser object
+- `types.ParserRep` - dictionary representing parser object
 
 #### Signature
 
 ```python
-def convert(parser: optparse.OptionParser) -> c2gtypes.ParserRep:
+def convert(parser: optparse.OptionParser) -> types.ParserRep:
     ...
 ```
 
@@ -76,7 +76,7 @@ Get the actions as json for each item and group under the parser.
 #### Signature
 
 ```python
-def extractGroups(parser: optparse.OptionParser) -> c2gtypes.Group:
+def extractGroups(parser: optparse.OptionParser) -> types.Group:
     ...
 ```
 
@@ -91,7 +91,7 @@ Get the actions as json for each item under a group.
 #### Signature
 
 ```python
-def extractOptions(optionGroup: optparse.OptionGroup) -> c2gtypes.Group:
+def extractOptions(optionGroup: optparse.OptionGroup) -> types.Group:
     ...
 ```
 

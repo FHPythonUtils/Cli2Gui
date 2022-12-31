@@ -13,9 +13,15 @@ from os import path
 from shlex import quote
 from typing import Any
 
-from .application import application
-from .c2gtypes import BuildSpec, FullBuildSpec, GUIType, ParserType
-from .tojson import argparse2json, click2json, docopt2json, getopt2json, optparse2json
+from cli2gui.application import application
+from cli2gui.tojson import (
+	argparse2json,
+	click2json,
+	docopt2json,
+	getopt2json,
+	optparse2json,
+)
+from cli2gui.types import BuildSpec, FullBuildSpec, GUIType, ParserType
 
 DO_COMMAND = "--cli2gui"
 DO_NOT_COMMAND = "--disable-cli2gui"
@@ -37,11 +43,11 @@ def createFromParser(
 		arguments. eg. getopt.getopt
 		kwargsParser (Union[dict[Any, Any]]): A parser that acts on named params
 		sourcePath (str): Program source path
-		buildSpec (c2gtypes.BuildSpec): Build spec
+		buildSpec (types.BuildSpec): Build spec
 		**kwargs (dict[Any, Any]): kwargs
 
 	Returns:
-		c2gtypes.FullBuildSpec: buildSpec to be used by the application
+		types.FullBuildSpec: buildSpec to be used by the application
 
 	Raises:
 		RuntimeError: Throw error if incorrect parser selected
@@ -106,8 +112,7 @@ def Click2Gui(  # pylint: disable=invalid-name
 	menu: str | dict[str, Any] = "",
 	**kwargs: dict[str, Any],
 ) -> Any:
-	"""Decorator to use in the function that contains the argument parser...
-
+	"""Decorator to use in the function that contains the argument parser.
 	Serialises data to JSON and launches the Cli2Gui application.
 
 	Args:
@@ -174,8 +179,7 @@ def Cli2Gui(  # pylint: disable=invalid-name
 	max_args_shown: int = 5,
 	menu: str | dict[str, Any] = "",
 ) -> Any:
-	"""Decorator to use in the function that contains the argument parser...
-
+	"""Decorator to use in the function that contains the argument parser.
 	Serialises data to JSON and launches the Cli2Gui application.
 
 	Args:
@@ -259,8 +263,7 @@ def Cli2Gui(  # pylint: disable=invalid-name
 			return application.run(buildSpec)
 
 		def inner(*args: tuple[Any, Any], **kwargs: dict[Any, Any]) -> Any:
-			"""Replace the inner functions with run_cli2gui. eg. When...
-
+			"""Replace the inner functions with run_cli2gui. eg. When.
 			ArgumentParser.parse_args is called, do run_cli2gui.
 
 			Returns:

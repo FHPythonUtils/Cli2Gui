@@ -8,10 +8,10 @@ from __future__ import annotations
 
 import optparse
 
-from .. import c2gtypes
+from cli2gui import types
 
 
-def extractOptions(optionGroup: optparse.OptionGroup) -> c2gtypes.Group:
+def extractOptions(optionGroup: optparse.OptionGroup) -> types.Group:
 	"""Get the actions as json for each item under a group."""
 	return {
 		"name": optionGroup.title,  # type: ignore # title is confirmed to exist
@@ -25,7 +25,7 @@ def extractOptions(optionGroup: optparse.OptionGroup) -> c2gtypes.Group:
 	}
 
 
-def extractGroups(parser: optparse.OptionParser) -> c2gtypes.Group:
+def extractGroups(parser: optparse.OptionParser) -> types.Group:
 	"""Get the actions as json for each item and group under the parser."""
 	argItems = list(
 		categorize([action for action in parser.option_list if action.action not in "help"])
@@ -37,16 +37,21 @@ def extractGroups(parser: optparse.OptionParser) -> c2gtypes.Group:
 	}
 
 
-def actionToJson(action: optparse.Option, widget: str) -> c2gtypes.Item:
+def actionToJson(action: optparse.Option, widget: types.ItemType) -> types.Item:
 	"""Generate json for an action and set the widget - used by the application."""
+	choices = action.choices or []  # type: ignore # choices is confirmed to exist\
+	default = action.default if action.default != ("NO", "DEFAULT") else None
 	return {
 		"type": widget,
 		"display_name": str(action.metavar or action.dest),
 		"help": str(action.help),
 		"commands": action._long_opts + action._short_opts,
-		"choices": action.choices if action.choices else [],  # type: ignore
 		"dest": action.dest or "",
-		"_other": {"nargs": str(action.nargs or "")},
+		"default": default,
+		"_other": {
+			"nargs": str(action.nargs or ""),
+			"choices": choices,
+		},
 	}
 
 
@@ -55,23 +60,23 @@ def categorize(actions: list[optparse.Option]):
 	for action in actions:
 		# _actions which are either, store_bool, etc..
 		if action.action in ("store_true", "store_false"):
-			yield actionToJson(action, "Bool")
+			yield actionToJson(action, types.ItemType.Bool)
 		# _actions which are of type _CountAction
 		elif action.choices:  # type: ignore # choices is confirmed to exist
-			yield actionToJson(action, "Dropdown")
-		elif action.action in "count":
-			yield actionToJson(action, "Counter")
+			yield actionToJson(action, types.ItemType.Choice)
+		elif action.action in ("count",):
+			yield actionToJson(action, types.ItemType.Int)
 		else:
-			yield actionToJson(action, "TextBox")
+			yield actionToJson(action, types.ItemType.Text)
 
 
-def convert(parser: optparse.OptionParser) -> c2gtypes.ParserRep:
+def convert(parser: optparse.OptionParser) -> types.ParserRep:
 	"""Convert argparse to a dict.
 
 	Args:
 		parser (optparse.OptionParser): optparse parser
 
 	Returns:
-		c2gtypes.ParserRep: dictionary representing parser object
+		types.ParserRep: dictionary representing parser object
 	"""
 	return {"parser_description": "", "widgets": [extractGroups(parser)]}

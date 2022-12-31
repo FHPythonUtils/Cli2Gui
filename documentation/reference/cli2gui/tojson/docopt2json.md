@@ -27,8 +27,8 @@ Generate json for an action and set the widget - used by the application.
 
 ```python
 def actionToJson(
-    action: tuple[str, str, str, Any, str], widget: str, isPos: bool
-) -> c2gtypes.Item:
+    action: tuple[str, str, int, Any, str], widget: types.ItemType, isPos: bool
+) -> types.Item:
     ...
 ```
 
@@ -36,16 +36,18 @@ def actionToJson(
 
 ## categorize
 
-[Show source in docopt2json.py:36](../../../../cli2gui/tojson/docopt2json.py#L36)
+[Show source in docopt2json.py:39](../../../../cli2gui/tojson/docopt2json.py#L39)
 
 Catergorise each action and generate json.
+
+Each action is in the form (short, long, argcount, value, help_message)
 
 #### Signature
 
 ```python
 def categorize(
-    actions: list[tuple[str, str, str, Any, str]], isPos: bool = False
-) -> Iterator[c2gtypes.Item]:
+    actions: list[tuple[str, str, int, Any, str]], isPos: bool = False
+) -> Iterator[types.Item]:
     ...
 ```
 
@@ -53,7 +55,7 @@ def categorize(
 
 ## convert
 
-[Show source in docopt2json.py:114](../../../../cli2gui/tojson/docopt2json.py#L114)
+[Show source in docopt2json.py:123](../../../../cli2gui/tojson/docopt2json.py#L123)
 
 Convert getopt to a dict.
 
@@ -63,12 +65,12 @@ Convert getopt to a dict.
 
 #### Returns
 
-- `c2gtypes.ParserRep` - dictionary representing parser object
+- `types.ParserRep` - dictionary representing parser object
 
 #### Signature
 
 ```python
-def convert(parser: Any) -> c2gtypes.ParserRep:
+def convert(parser: Any) -> types.ParserRep:
     ...
 ```
 
@@ -76,14 +78,14 @@ def convert(parser: Any) -> c2gtypes.ParserRep:
 
 ## extract
 
-[Show source in docopt2json.py:48](../../../../cli2gui/tojson/docopt2json.py#L48)
+[Show source in docopt2json.py:57](../../../../cli2gui/tojson/docopt2json.py#L57)
 
 Get the actions as json for the parser.
 
 #### Signature
 
 ```python
-def extract(parser: Any) -> list[c2gtypes.Group]:
+def extract(parser: Any) -> list[types.Group]:
     ...
 ```
 
@@ -91,14 +93,14 @@ def extract(parser: Any) -> list[c2gtypes.Group]:
 
 ## parse
 
-[Show source in docopt2json.py:73](../../../../cli2gui/tojson/docopt2json.py#L73)
+[Show source in docopt2json.py:82](../../../../cli2gui/tojson/docopt2json.py#L82)
 
 Parse an option help text, adapted from docopt.
 
 #### Signature
 
 ```python
-def parse(optionDescription: str) -> tuple[str, str, str, Any, str]:
+def parse(optionDescription: str) -> tuple[str, str, int, Any, str]:
     ...
 ```
 
@@ -106,14 +108,14 @@ def parse(optionDescription: str) -> tuple[str, str, str, Any, str]:
 
 ## parseOpt
 
-[Show source in docopt2json.py:91](../../../../cli2gui/tojson/docopt2json.py#L91)
+[Show source in docopt2json.py:100](../../../../cli2gui/tojson/docopt2json.py#L100)
 
 Parse an option help text, adapted from docopt.
 
 #### Signature
 
 ```python
-def parseOpt(doc: Any) -> list[tuple[str, str, str, Any, str]]:
+def parseOpt(doc: Any) -> list[tuple[str, str, int, Any, str]]:
     ...
 ```
 
@@ -121,14 +123,14 @@ def parseOpt(doc: Any) -> list[tuple[str, str, str, Any, str]]:
 
 ## parsePos
 
-[Show source in docopt2json.py:103](../../../../cli2gui/tojson/docopt2json.py#L103)
+[Show source in docopt2json.py:112](../../../../cli2gui/tojson/docopt2json.py#L112)
 
 Parse positional arguments from docstring.
 
 #### Signature
 
 ```python
-def parsePos(doc: Any) -> list[tuple[str, str, str, Any, str]]:
+def parsePos(doc: Any) -> list[tuple[str, str]]:
     ...
 ```
 
@@ -136,7 +138,7 @@ def parsePos(doc: Any) -> list[tuple[str, str, str, Any, str]]:
 
 ## parseSection
 
-[Show source in docopt2json.py:64](../../../../cli2gui/tojson/docopt2json.py#L64)
+[Show source in docopt2json.py:73](../../../../cli2gui/tojson/docopt2json.py#L73)
 
 Taken from docopt.
 

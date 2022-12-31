@@ -24,7 +24,7 @@ Add arg_items and groups to the argConstruct list.
 
 #### Arguments
 
-- `section` *c2gtypes.Group* - contents/ section containing name, arg_items
+- `section` *types.Group* - contents/ section containing name, arg_items
 and groups
 - `argConstruct` *list[list[Element]]* - list of widgets to
 add to the program window
@@ -39,22 +39,26 @@ argConstruct
 
 ```python
 def addItemsAndGroups(
-    section: c2gtypes.Group, argConstruct: list[list[Element]], widgets: Widgets
+    section: types.Group, argConstruct: list[list[Element]], widgets: Widgets
 ):
     ...
 ```
+
+#### See also
+
+- [Widgets](./widgets.md#widgets)
 
 
 
 ## createLayout
 
-[Show source in application.py:298](../../../../cli2gui/application/application.py#L298)
+[Show source in application.py:265](../../../../cli2gui/application/application.py#L265)
 
 Create the pysimplegui layout from the build spec.
 
 #### Arguments
 
-- `buildSpec` *c2gtypes.FullBuildSpec* - build spec containing widget
+- `buildSpec` *types.FullBuildSpec* - build spec containing widget
 - `widgets` *Widgets* - class to build widgets
 - `pySimpleGui` *Any* - version of PySimpleGui to use
 - `menu` *list[str]]* - menu data
@@ -67,7 +71,7 @@ Create the pysimplegui layout from the build spec.
 
 ```python
 def createLayout(
-    buildSpec: c2gtypes.FullBuildSpec,
+    buildSpec: types.FullBuildSpec,
     widgets: Widgets,
     pySimpleGui: Any,
     menu: str | list[str],
@@ -75,17 +79,21 @@ def createLayout(
     ...
 ```
 
+#### See also
+
+- [Widgets](./widgets.md#widgets)
+
 
 
 ## generatePopup
 
-[Show source in application.py:229](../../../../cli2gui/application/application.py#L229)
+[Show source in application.py:196](../../../../cli2gui/application/application.py#L196)
 
 Create the popup window.
 
 #### Arguments
 
-- `buildSpec` *c2gtypes.FullBuildSpec* - [description]
+- `buildSpec` *types.FullBuildSpec* - [description]
 values (Union[dict[Any, Any]): Returned when a button is clicked. Such
 as the menu
 - `widgets` *Widgets* - class to build widgets
@@ -99,7 +107,7 @@ as the menu
 
 ```python
 def generatePopup(
-    buildSpec: c2gtypes.FullBuildSpec,
+    buildSpec: types.FullBuildSpec,
     values: dict[Any, Any] | list[Any],
     widgets: Widgets,
     pySimpleGui: Any,
@@ -107,23 +115,27 @@ def generatePopup(
     ...
 ```
 
+#### See also
+
+- [Widgets](./widgets.md#widgets)
+
 
 
 ## run
 
-[Show source in application.py:361](../../../../cli2gui/application/application.py#L361)
+[Show source in application.py:328](../../../../cli2gui/application/application.py#L328)
 
 Main entry point for the application.
 
 #### Arguments
 
-- `buildSpec` *c2gtypes.FullBuildSpec* - args that customise the application such as the theme
+- `buildSpec` *types.FullBuildSpec* - args that customise the application such as the theme
 or the function to run
 
 #### Signature
 
 ```python
-def run(buildSpec: c2gtypes.FullBuildSpec):
+def run(buildSpec: types.FullBuildSpec):
     ...
 ```
 
@@ -174,6 +186,10 @@ sizes (Union[dict[str, Any]]): widget sizes
 def setupWidgets(gui: str, sizes: dict[str, Any], pySimpleGui: Any) -> Widgets:
     ...
 ```
+
+#### See also
+
+- [Widgets](./widgets.md#widgets)
 
 
 

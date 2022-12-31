@@ -32,13 +32,24 @@ class BuildSpec(TypedDict):
 class Item(TypedDict):
 	"""Representation for an arg_item."""
 
-	type: str
+	type: ItemType
 	display_name: str
-	help: str
 	commands: list[str]
-	choices: list[str]
+	help: str
 	dest: str
+	default: Any
 	_other: dict[str, Any]
+
+
+class ItemType(Enum):
+	"""Enum of ItemTypes:"""
+
+	RadioGroup = "RadioGroup"
+	Bool = "Bool"
+	File = "File"
+	Choice = "Choice"
+	Int = "Int"
+	Text = "Text"
 
 
 @dataclass

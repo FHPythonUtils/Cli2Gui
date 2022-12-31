@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 from typing import Any
 
-from ..c2gtypes import ParserType
+from cli2gui.types import ParserType
 
 
 def argparseFormat(values: dict[str, Any]) -> argparse.Namespace:
@@ -52,8 +52,9 @@ def clickFormat(values: dict[str, Any]) -> list[Any]:
 	"""Format args for click."""
 	args = []
 	for key in values:
-		if not callable(key) and len(values[key]) > 0:
-			args.extend([key, values[key]])
+		val = str(values[key])
+		if not callable(key) and len(val) > 0:
+			args.extend([key, val])
 	return args
 
 

@@ -11,6 +11,6 @@ Cli2gui
 ## Modules
 
 - [Application](application/index.md)
-- [C2gtypes](./c2gtypes.md)
 - [Decorators](./decorators.md)
 - [Tojson](tojson/index.md)
+- [Types](./types.md)

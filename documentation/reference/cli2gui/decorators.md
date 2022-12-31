@@ -13,10 +13,9 @@ Decorators
 
 ## Cli2Gui
 
-[Show source in decorators.py:163](../../../cli2gui/decorators.py#L163)
+[Show source in decorators.py:168](../../../cli2gui/decorators.py#L168)
 
-Decorator to use in the function that contains the argument parser...
-
+Decorator to use in the function that contains the argument parser.
 Serialises data to JSON and launches the Cli2Gui application.
 
 #### Arguments
@@ -78,10 +77,9 @@ def Cli2Gui(
 
 ## Click2Gui
 
-[Show source in decorators.py:96](../../../cli2gui/decorators.py#L96)
+[Show source in decorators.py:102](../../../cli2gui/decorators.py#L102)
 
-Decorator to use in the function that contains the argument parser...
-
+Decorator to use in the function that contains the argument parser.
 Serialises data to JSON and launches the Cli2Gui application.
 
 #### Arguments
@@ -137,7 +135,7 @@ def Click2Gui(
 
 ## createFromParser
 
-[Show source in decorators.py:24](../../../cli2gui/decorators.py#L24)
+[Show source in decorators.py:30](../../../cli2gui/decorators.py#L30)
 
 Generate a buildSpec from a parser.
 
@@ -148,12 +146,12 @@ argsParser (Union[tuple[Any, Any]]): A parser that acts on function
 arguments. eg. getopt.getopt
 kwargsParser (Union[dict[Any, Any]]): A parser that acts on named params
 - `sourcePath` *str* - Program source path
-- `buildSpec` *c2gtypes.BuildSpec* - Build spec
+- `buildSpec` *types.BuildSpec* - Build spec
 **kwargs (dict[Any, Any]): kwargs
 
 #### Returns
 
-- `c2gtypes.FullBuildSpec` - buildSpec to be used by the application
+- `types.FullBuildSpec` - buildSpec to be used by the application
 
 #### Raises
 
@@ -172,5 +170,10 @@ def createFromParser(
 ) -> FullBuildSpec:
     ...
 ```
+
+#### See also
+
+- [BuildSpec](./types.md#buildspec)
+- [FullBuildSpec](./types.md#fullbuildspec)
 
 

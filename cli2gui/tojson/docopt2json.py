@@ -5,52 +5,61 @@ from __future__ import annotations
 import re
 from typing import Any, Iterator
 
-from .. import c2gtypes
+from cli2gui import types
 
 
-def actionToJson(action: tuple[str, str, str, Any, str], widget: str, isPos: bool) -> c2gtypes.Item:
+def actionToJson(
+	action: tuple[str, str, int, Any, str], widget: types.ItemType, isPos: bool
+) -> types.Item:
 	"""Generate json for an action and set the widget - used by the application."""
-	if isPos:
-		name = action[0]
-	else:
-		name = action[1].replace("--", "") if action[1] is not None else action[0].replace("-", "")
 
-	if isPos or action[1] is None:
-		commands = [action[0]]
-	elif action[0] is None:
-		commands = [action[1]]
-	else:
-		commands = [action[0], action[1]]
+	if isPos or len(action) < 5:
+		return {
+			"type": widget,
+			"display_name": action[0],
+			"help": action[1],
+			"commands": [action[0]],
+			"dest": action[0],
+			"default": None,
+			"_other": {"nargs": ""},
+		}
 
+	default = action[3] if action[3] != "" else None
 	return {
 		"type": widget,
-		"display_name": name,
-		"help": action[-1],
-		"commands": commands,
-		"choices": [],
-		"dest": action[1] if not isPos and action[1] is not None else action[0],
-		"_other": {"nargs": action[2] if not isPos else ""},
+		"display_name": (action[1] or action[0]).replace("-", " ").strip(),
+		"help": action[4],
+		"commands": [x for x in action[0:2] if x != ""],
+		"dest": action[1] or action[0],
+		"default": default,
+		"_other": {"nargs": action[2]},
 	}
 
 
 def categorize(
-	actions: list[tuple[str, str, str, Any, str]], isPos: bool = False
-) -> Iterator[c2gtypes.Item]:
-	"""Catergorise each action and generate json."""
+	actions: list[tuple[str, str, int, Any, str]], isPos: bool = False
+) -> Iterator[types.Item]:
+	"""Catergorise each action and generate json.
+
+	Each action is in the form (short, long, argcount, value, help_message)
+
+	"""
 	for action in actions:
 		# ('-h', '--help', 0, False, 'show this help message and exit')
-		if not isPos and action[3] in (True, False):
-			yield actionToJson(action, "Bool", isPos)
+		if action[0] == "-h" and action[1] == "--help":
+			pass
+		elif not isPos and action[2] == 0:
+			yield actionToJson(action, types.ItemType.Bool, isPos)
 		else:
-			yield actionToJson(action, "TextBox", isPos)
+			yield actionToJson(action, types.ItemType.Text, isPos)
 
 
-def extract(parser: Any) -> list[c2gtypes.Group]:
+def extract(parser: Any) -> list[types.Group]:
 	"""Get the actions as json for the parser."""
 	return [
 		{
 			"name": "Positional Arguments",
-			"arg_items": list(categorize(parsePos(parser), True)),
+			"arg_items": list(categorize(parsePos(parser), True)),  # type: ignore
 			"groups": [],
 		},
 		{
@@ -70,7 +79,7 @@ def parseSection(name: str, source: Any) -> list[str]:
 	return [s.strip() for s in pattern.findall(source)]
 
 
-def parse(optionDescription: str) -> tuple[str, str, str, Any, str]:
+def parse(optionDescription: str) -> tuple[str, str, int, Any, str]:
 	"""Parse an option help text, adapted from docopt."""
 	short, long, argcount, value = "", "", 0, False
 	options, _, description = optionDescription.strip().partition("  ")
@@ -85,10 +94,10 @@ def parse(optionDescription: str) -> tuple[str, str, str, Any, str]:
 	if argcount > 0:
 		matched = re.findall(r"\[default: (.*)\]", description, flags=re.I)
 		value = matched[0] if matched else ""
-	return (short, long, str(argcount), value, description.strip())
+	return (short, long, argcount, value, description.strip())
 
 
-def parseOpt(doc: Any) -> list[tuple[str, str, str, Any, str]]:
+def parseOpt(doc: Any) -> list[tuple[str, str, int, Any, str]]:
 	"""Parse an option help text, adapted from docopt."""
 	defaults = []
 	for section in parseSection("options:", doc):
@@ -100,7 +109,7 @@ def parseOpt(doc: Any) -> list[tuple[str, str, str, Any, str]]:
 	return defaults
 
 
-def parsePos(doc: Any) -> list[tuple[str, str, str, Any, str]]:
+def parsePos(doc: Any) -> list[tuple[str, str]]:
 	"""Parse positional arguments from docstring."""
 	defaults = []
 	for section in parseSection("arguments:", doc):
@@ -111,13 +120,13 @@ def parsePos(doc: Any) -> list[tuple[str, str, str, Any, str]]:
 	return defaults
 
 
-def convert(parser: Any) -> c2gtypes.ParserRep:
+def convert(parser: Any) -> types.ParserRep:
 	"""Convert getopt to a dict.
 
 	Args:
 		parser (Any): docopt parser
 
 	Returns:
-		c2gtypes.ParserRep: dictionary representing parser object
+		types.ParserRep: dictionary representing parser object
 	"""
 	return {"parser_description": "", "widgets": extract(parser)}

@@ -3,6 +3,19 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2022.3 - 2022/12/31
+
+- Feature, support defaults https://github.com/FHPythonUtils/Cli2Gui/issues/11
+- Use full module namespace in-place of relative imports
+- Use `Enum` for widget types. eg. `types.ItemType.Bool`
+- Update internal types
+- Add more supported types for other parsers. e.g `click`
+	- Argparse supports: Bool, Int, Choice, File, Text
+	- Click supports: Bool, Int, Choice, Text
+	- DocOpt supports: Bool, Text
+	- GetOpt supports: Bool, Text
+	- Optparse supports: Bool, Int, Choice, Text
+
 ## 2022.2.1 - 2022/12/30
 
 - Fix https://github.com/FHPythonUtils/Cli2Gui/issues/13

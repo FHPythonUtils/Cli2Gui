@@ -1,5 +1,4 @@
-"""Widgets class holding methods to create widgets in addition to a sizes...
-
+"""Widgets class holding methods to create widgets in addition to a sizes.
 attribute that can be overridden to provide the end user with customisation over
 the size of the gui.
 """
@@ -11,10 +10,11 @@ from typing import Any
 from PIL import Image, ImageTk
 from PySimpleGUI import Element
 
+from cli2gui import types
+
 
 class Widgets:
-	"""Widgets class holding methods to create widgets in addition to a sizes...
-
+	"""Widgets class holding methods to create widgets in addition to a sizes.
 	attribute that can be overridden to provide the end user with customisation
 	over the size of the gui.
 	"""
@@ -62,19 +62,31 @@ class Widgets:
 	"""Individual widgets
 	"""
 
-	def inputText(self, key: str) -> Element:
+	def inputText(self, key: str, default=None) -> Element:
 		"""Return an input text field."""
 		return self.pySimpleGui.InputText(
+			default,
 			size=self.sizes["input_size"],
 			pad=self.sizes["padding"],
 			key=key,
 			font=("sans", self.sizes["text_size"]),
 		)
 
-	def check(self, key: str) -> Element:
+	def spin(self, key: str, default=None) -> Element:
+		"""Return an input text field."""
+		return self.pySimpleGui.Spin(
+			list(range(-50, 51)),
+			initial_value=default or 0,
+			size=self.sizes["input_size"],
+			pad=self.sizes["padding"],
+			key=key,
+			font=("sans", self.sizes["text_size"]),
+		)
+
+	def check(self, key: str, default=None) -> Element:
 		"""Return a checkbox."""
 		return self.pySimpleGui.Check(
-			"", size=self.sizes["input_size"], pad=self.sizes["padding"], key=key
+			"", size=self.sizes["input_size"], pad=self.sizes["padding"], key=key, default=default
 		)
 
 	def button(self, text: str) -> Element:
@@ -107,12 +119,13 @@ class Widgets:
 			key=key,
 		)
 
-	def fileBrowser(self, key: str) -> list[Element]:
+	def fileBrowser(self, key: str, default=None) -> list[Element]:
 		"""Return a fileBrowser button and field."""
 		height = self.sizes["input_size"][1]
 		width = self.sizes["input_size"][0]
 		return [
 			self.pySimpleGui.InputText(
+				default,
 				size=(width - int(width / 3), height),
 				pad=(0, self.sizes["padding"][1]),
 				key=key,
@@ -165,42 +178,72 @@ class Widgets:
 	"""
 
 	def helpFlagWidget(
-		self, displayName: str, commands: list[str], helpText: str, dest: str
+		self,
+		item: types.Item,
 	) -> list[Element]:
 		"""Return a set of widgets that make up an arg with true/ false."""
 		return [
-			self.helpArgNameAndHelp(commands, helpText, displayName),
-			self.pySimpleGui.Column([[self.check(dest)]], pad=(0, 0)),
+			self.helpArgNameAndHelp(item["commands"], item["help"], item["display_name"]),
+			self.pySimpleGui.Column(
+				[[self.check(item["dest"], default=item["default"])]], pad=(0, 0)
+			),
 		]
 
 	def helpTextWidget(
-		self, displayName: str, commands: list[str], helpText: str, dest: str
+		self,
+		item: types.Item,
 	) -> list[Element]:
 		"""Return a set of widgets that make up an arg with text."""
 		return [
-			self.helpArgNameAndHelp(commands, helpText, displayName),
-			self.pySimpleGui.Column([[self.inputText(dest)]], pad=(0, 0)),
+			self.helpArgNameAndHelp(item["commands"], item["help"], item["display_name"]),
+			self.pySimpleGui.Column(
+				[[self.inputText(item["dest"], default=item["default"])]], pad=(0, 0)
+			),
+		]
+
+	def helpCounterWidget(
+		self,
+		item: types.Item,
+	) -> list[Element]:
+		"""Return a set of widgets that make up an arg with text."""
+		return [
+			self.helpArgNameAndHelp(item["commands"], item["help"], item["display_name"]),
+			self.pySimpleGui.Column(
+				[[self.spin(item["dest"], default=item["default"])]], pad=(0, 0)
+			),
 		]
 
 	def helpFileWidget(
-		self, displayName: str, commands: list[str], helpText: str, dest: str
+		self,
+		item: types.Item,
 	) -> list[Element]:
 		"""Return a set of widgets that make up an arg with a file."""
 		return [
-			self.helpArgNameAndHelp(commands, helpText, displayName),
-			self.pySimpleGui.Column([self.fileBrowser(dest)], pad=(0, 0)),
+			self.helpArgNameAndHelp(item["commands"], item["help"], item["display_name"]),
+			self.pySimpleGui.Column([self.fileBrowser(item["dest"], item["default"])], pad=(0, 0)),
 		]
 
 	def helpDropdownWidget(
 		self,
-		displayName: str,
-		commands: list[str],
-		helpText: str,
-		dest: str,
-		choices: list[str],
+		item: types.Item,
 	) -> list[Element]:
 		"""Return a set of widgets that make up an arg with a choice."""
 		return [
-			self.helpArgNameAndHelp(commands, helpText, displayName),
-			self.pySimpleGui.Column([[self.dropdown(dest, choices)]], pad=(0, 0)),
+			self.helpArgNameAndHelp(item["commands"], item["help"], item["display_name"]),
+			self.pySimpleGui.Column(
+				[[self.dropdown(item["dest"], item["_other"]["choices"])]], pad=(0, 0)
+			),
 		]
+
+	def addWidgetFromItem(self, item: types.Item) -> list[Element]:
+		"""Add a widget from an item (types.Item)"""
+		functionMap = {
+			types.ItemType.Bool: self.helpFlagWidget,
+			types.ItemType.File: self.helpFileWidget,
+			types.ItemType.Choice: self.helpDropdownWidget,
+			types.ItemType.Int: self.helpCounterWidget,
+			types.ItemType.Text: self.helpTextWidget,
+		}
+		return functionMap[item["type"]](
+			item,
+		)

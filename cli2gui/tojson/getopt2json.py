@@ -5,12 +5,11 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import Generator
 
-from .. import c2gtypes
+from cli2gui import types
 
 
-def actionToJson(action: str, widget: str, short: bool = True) -> c2gtypes.Item:
-	"""Convert an arg to json, behave in the same way as argparse hence the large...
-
+def actionToJson(action: str, widget: types.ItemType, short: bool = True) -> types.Item:
+	"""Convert an arg to json, behave in the same way as argparse hence the large
 	amount of duplication.
 	"""
 	return {
@@ -18,8 +17,8 @@ def actionToJson(action: str, widget: str, short: bool = True) -> c2gtypes.Item:
 		"display_name": action,
 		"help": "",
 		"commands": [("-" if short else "--") + action],
-		"choices": [],
 		"dest": ("-" if short else "--") + action,
+		"default": None,
 		"_other": {},
 	}
 
@@ -29,9 +28,9 @@ def catLong(actions: list[str]):
 	for action in actions:
 		# True/ false
 		if "=" in action:
-			yield actionToJson(action[:-1], "TextBox", short=False)
+			yield actionToJson(action[:-1], types.ItemType.Text, short=False)
 		else:
-			yield actionToJson(action, "Bool", short=False)
+			yield actionToJson(action, types.ItemType.Bool, short=False)
 
 
 def catShort(actions: list[str]):
@@ -41,21 +40,21 @@ def catShort(actions: list[str]):
 		try:
 			# True/ false
 			if ":" in actions[index + 1]:
-				yield actionToJson(actions[index], "TextBox")
+				yield actionToJson(actions[index], types.ItemType.Text)
 				index += 2
 			else:
-				yield actionToJson(actions[index], "Bool")
+				yield actionToJson(actions[index], types.ItemType.Bool)
 				index += 1
 		except IndexError:
-			yield actionToJson(actions[index], "Bool")
+			yield actionToJson(actions[index], types.ItemType.Bool)
 			break
 
 
 def process(
 	group: list[str],
 	groupName: str,
-	categorize: Callable[[list[str]], Generator[c2gtypes.Item, None, None]],
-) -> list[c2gtypes.Group]:
+	categorize: Callable[[list[str]], Generator[types.Item, None, None]],
+) -> list[types.Group]:
 	"""Generate a group (or section)."""
 	return [
 		{
@@ -66,14 +65,14 @@ def process(
 	]
 
 
-def convert(parser: tuple[list[str], list[str]]) -> c2gtypes.ParserRep:
+def convert(parser: tuple[list[str], list[str]]) -> types.ParserRep:
 	"""Convert getopt to a dict.
 
 	Args:
 		parser (tuple[list[str], list[str]]): getopt parser
 
 	Returns:
-		c2gtypes.ParserRep: dictionary representing parser object
+		types.ParserRep: dictionary representing parser object
 	"""
 	return {
 		"parser_description": "",

@@ -1,23 +1,24 @@
-# C2gtypes
+# Types
 
 [Cli2gui Index](../README.md#cli2gui-index) /
 [Cli2gui](./index.md#cli2gui) /
-C2gtypes
+Types
 
-> Auto-generated documentation for [cli2gui.c2gtypes](../../../cli2gui/c2gtypes.py) module.
+> Auto-generated documentation for [cli2gui.types](../../../cli2gui/types.py) module.
 
-- [C2gtypes](#c2gtypes)
+- [Types](#types)
   - [BuildSpec](#buildspec)
   - [FullBuildSpec](#fullbuildspec)
   - [GUIType](#guitype)
   - [Group](#group)
   - [Item](#item)
+  - [ItemType](#itemtype)
   - [ParserRep](#parserrep)
   - [ParserType](#parsertype)
 
 ## BuildSpec
 
-[Show source in c2gtypes.py:15](../../../cli2gui/c2gtypes.py#L15)
+[Show source in types.py:15](../../../cli2gui/types.py#L15)
 
 Representation for the BuildSpec.
 
@@ -32,7 +33,7 @@ class BuildSpec(TypedDict):
 
 ## FullBuildSpec
 
-[Show source in c2gtypes.py:62](../../../cli2gui/c2gtypes.py#L62)
+[Show source in types.py:73](../../../cli2gui/types.py#L73)
 
 Representation for the FullBuildSpec (BuildSpec + ParserRep).
 
@@ -47,7 +48,7 @@ class FullBuildSpec(TypedDict):
 
 ## GUIType
 
-[Show source in c2gtypes.py:103](../../../cli2gui/c2gtypes.py#L103)
+[Show source in types.py:114](../../../cli2gui/types.py#L114)
 
 Supported gui types.
 
@@ -66,7 +67,7 @@ class GUIType(str, Enum):
 
 ## Group
 
-[Show source in c2gtypes.py:45](../../../cli2gui/c2gtypes.py#L45)
+[Show source in types.py:56](../../../cli2gui/types.py#L56)
 
 Representation for an argument group.
 
@@ -81,7 +82,7 @@ class Group(TypedDict):
 
 ## Item
 
-[Show source in c2gtypes.py:32](../../../cli2gui/c2gtypes.py#L32)
+[Show source in types.py:32](../../../cli2gui/types.py#L32)
 
 Representation for an arg_item.
 
@@ -94,9 +95,24 @@ class Item(TypedDict):
 
 
 
+## ItemType
+
+[Show source in types.py:44](../../../cli2gui/types.py#L44)
+
+Enum of ItemTypes:
+
+#### Signature
+
+```python
+class ItemType(Enum):
+    ...
+```
+
+
+
 ## ParserRep
 
-[Show source in c2gtypes.py:54](../../../cli2gui/c2gtypes.py#L54)
+[Show source in types.py:65](../../../cli2gui/types.py#L65)
 
 Representation for a parser.
 
@@ -111,7 +127,7 @@ class ParserRep(TypedDict):
 
 ## ParserType
 
-[Show source in c2gtypes.py:81](../../../cli2gui/c2gtypes.py#L81)
+[Show source in types.py:92](../../../cli2gui/types.py#L92)
 
 Supported parser types.
 

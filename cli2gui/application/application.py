@@ -3,7 +3,7 @@
 # pylint: disable=import-outside-toplevel
 from __future__ import annotations
 
-import json
+import logging
 import sys
 from pathlib import Path
 from typing import Any
@@ -15,9 +15,9 @@ except ImportError:
 import yaml
 from PySimpleGUI import Element, Window
 
-from .. import c2gtypes
-from .pysimplegui2args import argFormat
-from .widgets import Widgets
+from cli2gui import types
+from cli2gui.application.pysimplegui2args import argFormat
+from cli2gui.application.widgets import Widgets
 
 
 def themeFromFile(themeFile: str) -> list[str]:
@@ -163,14 +163,14 @@ def setupWidgets(gui: str, sizes: dict[str, Any], pySimpleGui: Any) -> Widgets:
 
 
 def addItemsAndGroups(
-	section: c2gtypes.Group,
+	section: types.Group,
 	argConstruct: list[list[Element]],
 	widgets: Widgets,
 ):
 	"""Add arg_items and groups to the argConstruct list.
 
 	Args:
-		section (c2gtypes.Group): contents/ section containing name, arg_items
+		section (types.Group): contents/ section containing name, arg_items
 		and groups
 		argConstruct (list[list[Element]]): list of widgets to
 		add to the program window
@@ -185,49 +185,16 @@ def addItemsAndGroups(
 		if item["type"] == "RadioGroup":
 			rGroup = item["_other"]["radio"]
 			for rElement in rGroup:
-				argConstruct.append(
-					widgets.helpFlagWidget(
-						rElement["display_name"],
-						rElement["commands"],
-						rElement["help"],
-						rElement["dest"],
-					)
-				)
-		elif item["type"] == "Bool":
-			argConstruct.append(
-				widgets.helpFlagWidget(
-					item["display_name"], item["commands"], item["help"], item["dest"]
-				)
-			)
-		elif item["type"] == "File":
-			argConstruct.append(
-				widgets.helpFileWidget(
-					item["display_name"], item["commands"], item["help"], item["dest"]
-				)
-			)
-		elif item["type"] == "Dropdown":
-			argConstruct.append(
-				widgets.helpDropdownWidget(
-					item["display_name"],
-					item["commands"],
-					item["help"],
-					item["dest"],
-					item["choices"],
-				)
-			)
+				argConstruct.append(widgets.helpFlagWidget(rElement))
 		else:
-			argConstruct.append(
-				widgets.helpTextWidget(
-					item["display_name"], item["commands"], item["help"], item["dest"]
-				)
-			)
+			argConstruct.append(widgets.addWidgetFromItem(item))
 	for group in section["groups"]:
 		argConstruct = addItemsAndGroups(group, argConstruct, widgets)
 	return argConstruct
 
 
 def generatePopup(
-	buildSpec: c2gtypes.FullBuildSpec,
+	buildSpec: types.FullBuildSpec,
 	values: dict[Any, Any] | list[Any],
 	widgets: Widgets,
 	pySimpleGui: Any,
@@ -235,7 +202,7 @@ def generatePopup(
 	"""Create the popup window.
 
 	Args:
-		buildSpec (c2gtypes.FullBuildSpec): [description]
+		buildSpec (types.FullBuildSpec): [description]
 		values (Union[dict[Any, Any]): Returned when a button is clicked. Such
 		as the menu
 		widgets (Widgets): class to build widgets
@@ -296,7 +263,7 @@ def generatePopup(
 
 
 def createLayout(
-	buildSpec: c2gtypes.FullBuildSpec,
+	buildSpec: types.FullBuildSpec,
 	widgets: Widgets,
 	pySimpleGui: Any,
 	menu: str | list[str],
@@ -304,7 +271,7 @@ def createLayout(
 	"""Create the pysimplegui layout from the build spec.
 
 	Args:
-		buildSpec (c2gtypes.FullBuildSpec): build spec containing widget
+		buildSpec (types.FullBuildSpec): build spec containing widget
 		widgets (Widgets): class to build widgets
 		pySimpleGui (Any): version of PySimpleGui to use
 		menu (list[str]]): menu data
@@ -358,11 +325,11 @@ def createLayout(
 	return layout
 
 
-def run(buildSpec: c2gtypes.FullBuildSpec):
+def run(buildSpec: types.FullBuildSpec):
 	"""Main entry point for the application.
 
 	Args:
-		buildSpec (c2gtypes.FullBuildSpec): args that customise the application such as the theme
+		buildSpec (types.FullBuildSpec): args that customise the application such as the theme
 		or the function to run
 	"""
 	import PySimpleGUI as psg  # pylint: disable=reimported
@@ -410,4 +377,4 @@ def run(buildSpec: c2gtypes.FullBuildSpec):
 					return args
 				buildSpec["run_function"](args)
 		except Exception as exception:  # pylint: disable=broad-except
-			print(repr(exception))
+			logging.exception(exception)

@@ -1,5 +1,4 @@
-"""Generate a dict describing argparse arguments...
-
+"""Generate a dict describing argparse arguments.
 pylint and pylance both want me to not access protected methods - I know better ;)
 """
 # pylint: disable=protected-access
@@ -20,7 +19,7 @@ from os import path
 from sys import argv
 from typing import Any, Generator, TypedDict
 
-from .. import c2gtypes
+from cli2gui import types
 
 
 class ArgparseGroup(TypedDict):
@@ -65,8 +64,7 @@ def containsActions(actionA: list[argparse.Action], actionB: list[argparse.Actio
 def reapplyMutexGroups(
 	mutexGroups: list[argparse._MutuallyExclusiveGroup], actionGroups: list[Any]
 ):
-	"""_argparse stores mutually exclusive groups independently...
-
+	"""_argparse stores mutually exclusive groups independently.
 	of all other groups. So, they must be manually re-combined
 	with the groups/subgroups to which they were originally declared
 	in order to have them appear in the correct location in the UI.
@@ -106,54 +104,55 @@ def extractRawGroups(actionGroup: argparse._ArgumentGroup) -> ArgparseGroup:
 	}
 
 
-def actionToJson(action: argparse.Action, widget: str) -> c2gtypes.Item:
+def actionToJson(action: argparse.Action, widget: types.ItemType) -> types.Item:
 	"""Generate json for an action and set the widget - used by the application."""
+	choices = [str(choice) for choice in action.choices] if action.choices else []
 	return {
 		"type": widget,
 		"display_name": str(action.metavar or action.dest),
 		"help": str(action.help),
 		"commands": list(action.option_strings),
-		"choices": [str(choice) for choice in action.choices] if action.choices else [],
 		"dest": action.dest,
-		"_other": {},
+		"default": action.default,
+		"_other": {"choices": choices, "nargs": action.nargs},
 	}
 
 
-def buildRadioGroup(mutexGroup: _MutuallyExclusiveGroup):
+def buildRadioGroup(mutexGroup: _MutuallyExclusiveGroup) -> types.Item:
 	"""Create a radio group for a mutex group of arguments."""
 	commands = [action.option_strings for action in mutexGroup._group_actions]
 	return {
-		"type": "RadioGroup",
+		"type": types.ItemType.RadioGroup,
 		"commands": commands,
-		"_other": {"radio": list(catergorizeItems(mutexGroup._group_actions))},
-	}
+		"_other": {"radio": list(categorizeItems(mutexGroup._group_actions))},
+	}  # type: ignore
 
 
-def catergorizeItems(
+def categorizeItems(
 	actions: list[argparse.Action],
-) -> Generator[c2gtypes.Item, None, None]:
+) -> Generator[types.Item, None, None]:
 	"""Catergorise each action and generate json."""
 	for action in actions:
 		if isinstance(action, _MutuallyExclusiveGroup):
 			yield buildRadioGroup(action)
 		elif isinstance(action, (_StoreTrueAction, _StoreFalseAction)):
-			yield actionToJson(action, "Bool")
+			yield actionToJson(action, types.ItemType.Bool)
 		elif isinstance(action, _CountAction):
-			yield actionToJson(action, "Counter")
+			yield actionToJson(action, types.ItemType.Int)
 		elif action.choices:
-			yield actionToJson(action, "Dropdown")
+			yield actionToJson(action, types.ItemType.Choice)
 		elif isinstance(action.type, argparse.FileType):
-			yield actionToJson(action, "File")
+			yield actionToJson(action, types.ItemType.File)
 		else:
-			yield actionToJson(action, "TextBox")
+			yield actionToJson(action, types.ItemType.Text)
 
 
-def categorizeGroups(groups: list[ArgparseGroup]) -> list[c2gtypes.Group]:
+def categorizeGroups(groups: list[ArgparseGroup]) -> list[types.Group]:
 	"""Categorize the parser groups and arg_items."""
 	return [
 		{
 			"name": group["name"],
-			"arg_items": list(catergorizeItems(group["arg_items"])),
+			"arg_items": list(categorizeItems(group["arg_items"])),
 			"groups": categorizeGroups(group["groups"]),
 		}
 		for group in groups
@@ -165,7 +164,7 @@ def stripEmpty(groups: list[ArgparseGroup]):
 	return [group for group in groups if group["arg_items"]]
 
 
-def process(parser: argparse.ArgumentParser) -> list[c2gtypes.Group]:
+def process(parser: argparse.ArgumentParser) -> list[types.Group]:
 	"""Reapply the mutex groups and then categorize them and the arg_items under the parser."""
 	mutexGroups = parser._mutually_exclusive_groups
 	rawActionGroups = [
@@ -175,17 +174,17 @@ def process(parser: argparse.ArgumentParser) -> list[c2gtypes.Group]:
 	return categorizeGroups(stripEmpty(correctedActionGroups))
 
 
-def convert(parser: argparse.ArgumentParser) -> c2gtypes.ParserRep:
+def convert(parser: argparse.ArgumentParser) -> types.ParserRep:
 	"""Convert argparse to a dict.
 
 	Args:
 		parser (argparse.ArgumentParser): argparse parser
 
 	Returns:
-		c2gtypes.ParserRep: dictionary representing parser object
+		types.ParserRep: dictionary representing parser object
 	"""
 	widgets = []
 	for _, subparser in iterParsers(parser):
 		widgets.extend(process(subparser))
 
-	return {"parser_description": parser.description, "widgets": widgets}
+	return {"parser_description": str(parser.description), "widgets": widgets}

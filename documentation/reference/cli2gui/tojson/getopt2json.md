@@ -18,14 +18,13 @@ Getopt2json
 
 [Show source in getopt2json.py:11](../../../../cli2gui/tojson/getopt2json.py#L11)
 
-Convert an arg to json, behave in the same way as argparse hence the large...
-
+Convert an arg to json, behave in the same way as argparse hence the large
 amount of duplication.
 
 #### Signature
 
 ```python
-def actionToJson(action: str, widget: str, short: bool = True) -> c2gtypes.Item:
+def actionToJson(action: str, widget: types.ItemType, short: bool = True) -> types.Item:
     ...
 ```
 
@@ -33,7 +32,7 @@ def actionToJson(action: str, widget: str, short: bool = True) -> c2gtypes.Item:
 
 ## catLong
 
-[Show source in getopt2json.py:27](../../../../cli2gui/tojson/getopt2json.py#L27)
+[Show source in getopt2json.py:26](../../../../cli2gui/tojson/getopt2json.py#L26)
 
 Categorize long args.
 
@@ -48,7 +47,7 @@ def catLong(actions: list[str]):
 
 ## catShort
 
-[Show source in getopt2json.py:37](../../../../cli2gui/tojson/getopt2json.py#L37)
+[Show source in getopt2json.py:36](../../../../cli2gui/tojson/getopt2json.py#L36)
 
 Categorize short args.
 
@@ -63,7 +62,7 @@ def catShort(actions: list[str]):
 
 ## convert
 
-[Show source in getopt2json.py:69](../../../../cli2gui/tojson/getopt2json.py#L69)
+[Show source in getopt2json.py:68](../../../../cli2gui/tojson/getopt2json.py#L68)
 
 Convert getopt to a dict.
 
@@ -73,12 +72,12 @@ parser (tuple[list[str], list[str]]): getopt parser
 
 #### Returns
 
-- `c2gtypes.ParserRep` - dictionary representing parser object
+- `types.ParserRep` - dictionary representing parser object
 
 #### Signature
 
 ```python
-def convert(parser: tuple[list[str], list[str]]) -> c2gtypes.ParserRep:
+def convert(parser: tuple[list[str], list[str]]) -> types.ParserRep:
     ...
 ```
 
@@ -86,7 +85,7 @@ def convert(parser: tuple[list[str], list[str]]) -> c2gtypes.ParserRep:
 
 ## process
 
-[Show source in getopt2json.py:54](../../../../cli2gui/tojson/getopt2json.py#L54)
+[Show source in getopt2json.py:53](../../../../cli2gui/tojson/getopt2json.py#L53)
 
 Generate a group (or section).
 
@@ -96,8 +95,8 @@ Generate a group (or section).
 def process(
     group: list[str],
     groupName: str,
-    categorize: Callable[[list[str]], Generator[c2gtypes.Item, None, None]],
-) -> list[c2gtypes.Group]:
+    categorize: Callable[[list[str]], Generator[types.Item, None, None]],
+) -> list[types.Group]:
     ...
 ```
 
