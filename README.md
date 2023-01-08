@@ -23,20 +23,20 @@ Use this module to convert a CLI program to a GUI
 - [Using Cli2Gui in your project](#using-cli2gui-in-your-project)
 	- [Decorator](#decorator)
 	- [Function](#function)
-	- [run_function (optional)](#run_function-optional)
-	- [auto_enable (optional)](#auto_enable-optional)
+	- [run\_function (optional)](#run_function-optional)
+	- [auto\_enable (optional)](#auto_enable-optional)
 	- [parser (optional)](#parser-optional)
 	- [gui (optional)](#gui-optional)
 	- [theme (optional)](#theme-optional)
 	- [darkTheme (optional)](#darktheme-optional)
 	- [sizes (optional)](#sizes-optional)
 	- [image (optional)](#image-optional)
-	- [program_name (optional)](#program_name-optional)
-	- [program_description (optional)](#program_description-optional)
-	- [max_args_shown (optional)](#max_args_shown-optional)
+	- [program\_name (optional)](#program_name-optional)
+	- [program\_description (optional)](#program_description-optional)
+	- [max\_args\_shown (optional)](#max_args_shown-optional)
 	- [menu (optional)](#menu-optional)
 - [Click2Gui](#click2gui)
-	- [run_function (required)](#run_function-required)
+	- [run\_function (required)](#run_function-required)
 	- [parser (not applicable)](#parser-not-applicable)
 - [Data Structures](#data-structures)
 - [Documentation](#documentation)
@@ -55,6 +55,7 @@ Use this module to convert a CLI program to a GUI
 - [How to run](#how-to-run)
 	- [Windows](#windows)
 	- [Linux/ MacOS](#linux-macos)
+- [Building](#building)
 - [Download Project](#download-project)
 	- [Clone](#clone)
 		- [Using The Command Line](#using-the-command-line)
@@ -382,8 +383,8 @@ Head to https://pypi.org/project/cli2gui/ for more info
 
 ### Built for
 
-This program has been written for Python versions 3.7 - 3.10 and has been tested with both 3.7 and
-3.10
+This program has been written for Python versions 3.8 - 3.11 and has been tested with both 3.8 and
+3.11
 
 ## Install Python on Windows
 
@@ -442,6 +443,22 @@ version.
 
 - File
 	`python3.x [file]` or `./[file]`
+
+## Building
+
+This project uses https://github.com/FHPythonUtils/FHMake to automate most of the building. This
+command generates the documentation, updates the requirements.txt and builds the library artefacts
+
+Note the functionality provided by fhmake can be approximated by the following
+
+```sh
+handsdown  --cleanup -o documentation/reference
+poetry export -f requirements.txt --output requirements.txt
+poetry export -f requirements.txt --with dev --output requirements_optional.txt
+poetry build
+```
+
+`fhmake audit` can be run to perform additional checks
 
 ## Download Project
 
