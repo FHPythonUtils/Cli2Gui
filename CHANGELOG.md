@@ -3,6 +3,10 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2023 - 2023/08/31
+
+- Update deps
+
 ## 2022.3 - 2022/12/31
 
 - Feature, support defaults https://github.com/FHPythonUtils/Cli2Gui/issues/11

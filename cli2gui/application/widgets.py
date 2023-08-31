@@ -244,6 +244,8 @@ class Widgets:
 			types.ItemType.Int: self.helpCounterWidget,
 			types.ItemType.Text: self.helpTextWidget,
 		}
-		return functionMap[item["type"]](
-			item,
-		)
+		if item["type"] in functionMap:
+			return functionMap[item["type"]](
+				item,
+			)
+		return []

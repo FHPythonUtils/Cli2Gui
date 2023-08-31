@@ -1,5 +1,9 @@
 import argparse
+import sys
+from pathlib import Path
 
+THISDIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(THISDIR.parent.parent))
 from cli2gui import Cli2Gui
 
 
