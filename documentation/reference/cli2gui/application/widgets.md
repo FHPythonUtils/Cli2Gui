@@ -307,5 +307,3 @@ Return a set of widgets that make up the application header.
 def title(self, text: str, image: str = "") -> list[Element]:
     ...
 ```
-
-

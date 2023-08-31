@@ -94,5 +94,3 @@ Get the actions as json for each item under a group.
 def extractOptions(optionGroup: optparse.OptionGroup) -> types.Group:
     ...
 ```
-
-

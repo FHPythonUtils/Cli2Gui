@@ -1,4 +1,4 @@
-Pillow<10,>=9.1.0
-PySimpleGUI<5,>=4.59.0
-PyYAML<7,>=6.0
+Pillow<11,>=10.0.0
+PySimpleGUI<5,>=4.60.5
+PyYAML<7,>=6.0.1
 getostheme<2023,>=2021

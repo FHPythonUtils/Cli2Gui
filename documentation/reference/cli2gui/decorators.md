@@ -175,5 +175,3 @@ def createFromParser(
 
 - [BuildSpec](./types.md#buildspec)
 - [FullBuildSpec](./types.md#fullbuildspec)
-
-

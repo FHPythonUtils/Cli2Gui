@@ -80,5 +80,3 @@ Get the actions as json for the parser.
 def extract(parser: Any) -> list[types.Group]:
     ...
 ```
-
-

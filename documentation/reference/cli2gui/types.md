@@ -145,5 +145,3 @@ CUSTOM = "input()"  # this seems like a pretty poor pattern to use
 class ParserType(str, Enum):
     ...
 ```
-
-

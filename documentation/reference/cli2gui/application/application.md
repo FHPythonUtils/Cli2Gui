@@ -213,5 +213,3 @@ Set the base24 theme from a base24 scheme.yaml to the application.
 def themeFromFile(themeFile: str) -> list[str]:
     ...
 ```
-
-

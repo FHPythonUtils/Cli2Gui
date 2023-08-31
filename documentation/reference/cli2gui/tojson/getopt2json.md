@@ -99,5 +99,3 @@ def process(
 ) -> list[types.Group]:
     ...
 ```
-
-

@@ -261,5 +261,3 @@ def stripEmpty(groups: list[ArgparseGroup]):
 #### See also
 
 - [ArgparseGroup](#argparsegroup)
-
-

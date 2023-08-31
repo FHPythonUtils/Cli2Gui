@@ -148,5 +148,3 @@ Taken from docopt.
 def parseSection(name: str, source: Any) -> list[str]:
     ...
 ```
-
-
