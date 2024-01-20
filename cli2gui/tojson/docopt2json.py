@@ -9,7 +9,7 @@ from cli2gui import types
 
 
 def actionToJson(
-	action: tuple[str, str, int, Any, str], widget: types.ItemType, isPos: bool
+	action: tuple[str, str, int, Any, str], widget: types.ItemType, *, isPos: bool
 ) -> types.Item:
 	"""Generate json for an action and set the widget - used by the application."""
 
@@ -37,7 +37,7 @@ def actionToJson(
 
 
 def categorize(
-	actions: list[tuple[str, str, int, Any, str]], isPos: bool = False
+	actions: list[tuple[str, str, int, Any, str]], *, isPos: bool = False
 ) -> Iterator[types.Item]:
 	"""Catergorise each action and generate json.
 
@@ -49,9 +49,9 @@ def categorize(
 		if action[0] == "-h" and action[1] == "--help":
 			pass
 		elif not isPos and action[2] == 0:
-			yield actionToJson(action, types.ItemType.Bool, isPos)
+			yield actionToJson(action, types.ItemType.Bool, isPos=isPos)
 		else:
-			yield actionToJson(action, types.ItemType.Text, isPos)
+			yield actionToJson(action, types.ItemType.Text, isPos=isPos)
 
 
 def extract(parser: Any) -> list[types.Group]:
@@ -59,7 +59,7 @@ def extract(parser: Any) -> list[types.Group]:
 	return [
 		{
 			"name": "Positional Arguments",
-			"arg_items": list(categorize(parsePos(parser), True)),  # type: ignore
+			"arg_items": list(categorize(parsePos(parser), isPos=True)),  # type: ignore
 			"groups": [],
 		},
 		{
@@ -70,7 +70,7 @@ def extract(parser: Any) -> list[types.Group]:
 	]
 
 
-def parseSection(name: str, source: Any) -> list[str]:
+def parseSection(name: str, source: str) -> list[str]:
 	"""Taken from docopt."""
 	pattern = re.compile(
 		"^([^\n]*" + name + "[^\n]*\n?(?:[ \t].*?(?:\n|$))*)",
@@ -109,7 +109,7 @@ def parseOpt(doc: Any) -> list[tuple[str, str, int, Any, str]]:
 	return defaults
 
 
-def parsePos(doc: Any) -> list[tuple[str, str]]:
+def parsePos(doc: str) -> list[tuple[str, str]]:
 	"""Parse positional arguments from docstring."""
 	defaults = []
 	for section in parseSection("arguments:", doc):
@@ -124,9 +124,11 @@ def convert(parser: Any) -> types.ParserRep:
 	"""Convert getopt to a dict.
 
 	Args:
+	----
 		parser (Any): docopt parser
 
 	Returns:
+	-------
 		types.ParserRep: dictionary representing parser object
 	"""
 	return {"parser_description": "", "widgets": extract(parser)}

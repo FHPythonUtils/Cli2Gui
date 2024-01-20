@@ -1,17 +1,17 @@
 """Decorator and entry point for the program.
 """
-# pylint: disable=import-outside-toplevel, deprecated-module
+
 from __future__ import annotations
 
-import getopt  # Parser
+import getopt
 import sys
 import warnings
-from argparse import ArgumentParser  # Parser
+from argparse import ArgumentParser
 from collections.abc import Callable
-from optparse import OptionParser  # Parser
-from os import path
+from optparse import OptionParser
+from pathlib import Path
 from shlex import quote
-from typing import Any
+from typing import Any, Iterable
 
 from cli2gui.application import application
 from cli2gui.tojson import (
@@ -38,18 +38,21 @@ def createFromParser(
 	"""Generate a buildSpec from a parser.
 
 	Args:
-		selfParser (object): A parser that acts on self. eg. ArgumentParser.parse_args
-		argsParser (Union[tuple[Any, Any]]): A parser that acts on function
+	----
+		selfParser (Any): A parser that acts on self. eg. ArgumentParser.parse_args
+		argsParser (tuple[Any, ...]): A parser that acts on function
 		arguments. eg. getopt.getopt
-		kwargsParser (Union[dict[Any, Any]]): A parser that acts on named params
+		kwargsParser (dict[Any, Any]): A parser that acts on named params
 		sourcePath (str): Program source path
-		buildSpec (types.BuildSpec): Build spec
+		buildSpec (BuildSpec): Build spec
 		**kwargs (dict[Any, Any]): kwargs
 
 	Returns:
+	-------
 		types.FullBuildSpec: buildSpec to be used by the application
 
 	Raises:
+	------
 		RuntimeError: Throw error if incorrect parser selected
 	"""
 	_ = kwargsParser
@@ -59,7 +62,7 @@ def createFromParser(
 			runCmd = quote(sourcePath)
 		else:
 			runCmd = f"{quote(sys.executable)} -u {quote(sourcePath)}"
-	buildSpec["program_name"] = buildSpec["program_name"] or path.basename(sys.argv[0]).replace(
+	buildSpec["program_name"] = buildSpec["program_name"] or Path(sys.argv[0]).name.replace(
 		".py", ""
 	)
 
@@ -68,11 +71,9 @@ def createFromParser(
 		buildSpec["parser"] = input(
 			f"!Custom parser selected! Choose one of: {[x.value for x in ParserType]}"
 		)
-		if (
-			buildSpec["parser"]
-			not in ParserType._value2member_map_  # pylint:disable=no-member, protected-access
-		):
-			raise RuntimeError(f"!Custom parser must be one of: {[x.value for x in ParserType]}")
+		if buildSpec["parser"] not in ParserType._value2member_map_:  # noqa: SLF001
+			msg = f"!Custom parser must be one of: {[x.value for x in ParserType]}"
+			raise RuntimeError(msg)
 
 	parser = buildSpec["parser"]
 	# Select parser
@@ -96,10 +97,11 @@ def createFromParser(
 	if parser == ParserType.CLICK:
 		return FullBuildSpec(**click2json.convert(buildSpec["run_function"]), **buildSpec)
 
-	raise RuntimeError(f"!Parser must be one of: {[x.value for x in ParserType]}")
+	msg = f"!Parser must be one of: {[x.value for x in ParserType]}"
+	raise RuntimeError(msg)
 
 
-def Click2Gui(  # pylint: disable=invalid-name
+def Click2Gui(
 	run_function: Callable[..., Any],
 	gui: str | GUIType = "pysimplegui",
 	theme: str | list[str] = "",
@@ -111,11 +113,12 @@ def Click2Gui(  # pylint: disable=invalid-name
 	max_args_shown: int = 5,
 	menu: str | dict[str, Any] = "",
 	**kwargs: dict[str, Any],
-) -> Any:
-	"""Decorator to use in the function that contains the argument parser.
-	Serialises data to JSON and launches the Cli2Gui application.
+) -> None:
+	"""Use this decorator in the function containing the argument parser.
+	Serializes data to JSON and launches the Cli2Gui application.
 
 	Args:
+	----
 		run_function (Callable[..., Any]): The name of the function to call eg.
 		gui (str, optional): Override the gui to use. Current options are:
 		"pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
@@ -141,22 +144,21 @@ def Click2Gui(  # pylint: disable=invalid-name
 		**kwargs (dict[Any, Any]): kwargs
 
 	Returns:
+	-------
 		Any: Runs the application
 	"""
 	bSpec = BuildSpec(
-		**{
-			"run_function": run_function,
-			"parser": ParserType.CLICK,
-			"gui": gui,
-			"theme": theme,
-			"darkTheme": darkTheme,
-			"sizes": sizes,
-			"image": image,
-			"program_name": program_name,
-			"program_description": program_description,
-			"max_args_shown": max_args_shown,
-			"menu": menu,
-		}
+		run_function=run_function,
+		parser=ParserType.CLICK,
+		gui=gui,
+		theme=theme,
+		darkTheme=darkTheme,
+		sizes=sizes,
+		image=image,
+		program_name=program_name,
+		program_description=program_description,
+		max_args_shown=max_args_shown,
+		menu=menu,
 	)
 
 	buildSpec = createFromParser(
@@ -165,7 +167,7 @@ def Click2Gui(  # pylint: disable=invalid-name
 	return application.run(buildSpec)
 
 
-def Cli2Gui(  # pylint: disable=invalid-name
+def Cli2Gui(
 	run_function: Callable[..., Any],
 	auto_enable: bool = False,
 	parser: str | ParserType = "argparse",
@@ -179,10 +181,11 @@ def Cli2Gui(  # pylint: disable=invalid-name
 	max_args_shown: int = 5,
 	menu: str | dict[str, Any] = "",
 ) -> Any:
-	"""Decorator to use in the function that contains the argument parser.
+	"""Use this decorator in the function containing the argument parser.
 	Serialises data to JSON and launches the Cli2Gui application.
 
 	Args:
+	----
 		run_function (Callable[..., Any]): The name of the function to call eg.
 		auto_enable (bool, optional): Enable the GUI by default. If enabled by
 		default requires `--disable-cli2gui`, otherwise requires `--cli2gui`.
@@ -213,44 +216,40 @@ def Cli2Gui(  # pylint: disable=invalid-name
 		menu={"File": THIS_DIR + "/file.md"}
 
 	Returns:
+	-------
 		Any: Runs the application
 	"""
 	bSpec = BuildSpec(
-		**{
-			"run_function": run_function,
-			"parser": parser,
-			"gui": gui,
-			"theme": theme,
-			"darkTheme": darkTheme,
-			"sizes": sizes,
-			"image": image,
-			"program_name": program_name,
-			"program_description": program_description,
-			"max_args_shown": max_args_shown,
-			"menu": menu,
-		}
+		run_function=run_function,
+		parser=parser,
+		gui=gui,
+		theme=theme,
+		darkTheme=darkTheme,
+		sizes=sizes,
+		image=image,
+		program_name=program_name,
+		program_description=program_description,
+		max_args_shown=max_args_shown,
+		menu=menu,
 	)
 
 	def build(callingFunction: Callable[..., Any]) -> Callable[..., Any]:
 		"""Generate the buildspec and run the GUI.
 
 		Args:
+		----
 			callingFunction (Callable[..., Any]): The calling function eg.
 			ArgumentParser.parse_args
 
 		Returns:
+		-------
 			Callable[..., Any]: some calling function
 		"""
 
-		def runCli2Gui(self, *args: Any, **kwargs: Any) -> Any:
-			"""runCli2Gui. run the gui/ application.
+		def runCli2Gui(self: Any, *args: Iterable[Any], **kwargs: dict[str, Any]) -> None:
+			"""Run the gui/ application.
 
-			Args:
-				*args (Any): Unpack args
-				**kwargs (Any): Unpack kwargs
-
-			Returns:
-				Any: run the gui/ application
+			:return None: the gui/ application
 			"""
 			buildSpec = createFromParser(
 				self,
@@ -266,7 +265,8 @@ def Cli2Gui(  # pylint: disable=invalid-name
 			"""Replace the inner functions with run_cli2gui. eg. When.
 			ArgumentParser.parse_args is called, do run_cli2gui.
 
-			Returns:
+			Returns
+			-------
 				Any: Do the calling_function
 			"""
 			getopt.getopt = runCli2Gui
@@ -294,7 +294,7 @@ def Cli2Gui(  # pylint: disable=invalid-name
 		return inner
 
 	def runWithoutCli2Gui(callingFunction: Callable[..., Any]) -> Callable[..., Any]:
-		def inner(*args: tuple[Any, Any], **kwargs: dict[Any, Any]):
+		def inner(*args: Iterable[Any], **kwargs: dict[Any, Any]) -> Any:
 			# Using type=argparse.FileType('r') leads to a resource warning
 			with warnings.catch_warnings():
 				warnings.filterwarnings("ignore", category=ResourceWarning)

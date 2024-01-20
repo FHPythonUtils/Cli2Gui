@@ -17,9 +17,7 @@ def argparseFormat(values: dict[str, Any]) -> argparse.Namespace:
 			args[key] = None
 		# Paths end in '#', set the base key (used by argparse)
 		elif key[-1] == "#":  # File
-			args[key[:-1]] = open(  # pylint:disable=consider-using-with
-				values[key], encoding="utf-8"
-			)
+			args[key[:-1]] = open(values[key], encoding="utf-8")
 		else:
 			args[key] = values[key]
 	return argparse.Namespace(**args)
@@ -62,10 +60,12 @@ def argFormat(values: dict[str, Any], argumentParser: str | ParserType) -> Any:
 	"""Format the args for the desired parser.
 
 	Args:
+	----
 		values (dict[str, Any]): values from simple gui
 		argumentParser (str): argument parser to use
 
 	Returns:
+	-------
 		Any: args
 	"""
 	formattedArgs = None

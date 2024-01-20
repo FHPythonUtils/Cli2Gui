@@ -1,8 +1,6 @@
 # Types
 
-[Cli2gui Index](../README.md#cli2gui-index) /
-[Cli2gui](./index.md#cli2gui) /
-Types
+[Cli2gui Index](../README.md#cli2gui-index) / [Cli2gui](./index.md#cli2gui) / Types
 
 > Auto-generated documentation for [cli2gui.types](../../../cli2gui/types.py) module.
 
@@ -18,37 +16,35 @@ Types
 
 ## BuildSpec
 
-[Show source in types.py:15](../../../cli2gui/types.py#L15)
+[Show source in types.py:13](../../../cli2gui/types.py#L13)
 
 Representation for the BuildSpec.
 
 #### Signature
 
 ```python
-class BuildSpec(TypedDict):
-    ...
+class BuildSpec(TypedDict): ...
 ```
 
 
 
 ## FullBuildSpec
 
-[Show source in types.py:73](../../../cli2gui/types.py#L73)
+[Show source in types.py:71](../../../cli2gui/types.py#L71)
 
 Representation for the FullBuildSpec (BuildSpec + ParserRep).
 
 #### Signature
 
 ```python
-class FullBuildSpec(TypedDict):
-    ...
+class FullBuildSpec(TypedDict): ...
 ```
 
 
 
 ## GUIType
 
-[Show source in types.py:114](../../../cli2gui/types.py#L114)
+[Show source in types.py:112](../../../cli2gui/types.py#L112)
 
 Supported gui types.
 
@@ -59,75 +55,70 @@ QT = "pysimpleguiqt"
 #### Signature
 
 ```python
-class GUIType(str, Enum):
-    ...
+class GUIType(str, Enum): ...
 ```
 
 
 
 ## Group
 
-[Show source in types.py:56](../../../cli2gui/types.py#L56)
+[Show source in types.py:54](../../../cli2gui/types.py#L54)
 
 Representation for an argument group.
 
 #### Signature
 
 ```python
-class Group(TypedDict):
-    ...
+class Group(TypedDict): ...
 ```
 
 
 
 ## Item
 
-[Show source in types.py:32](../../../cli2gui/types.py#L32)
+[Show source in types.py:30](../../../cli2gui/types.py#L30)
 
 Representation for an arg_item.
 
 #### Signature
 
 ```python
-class Item(TypedDict):
-    ...
+class Item(TypedDict): ...
 ```
 
 
 
 ## ItemType
 
-[Show source in types.py:44](../../../cli2gui/types.py#L44)
+[Show source in types.py:42](../../../cli2gui/types.py#L42)
 
-Enum of ItemTypes:
+Enum of ItemTypes.
 
 #### Signature
 
 ```python
-class ItemType(Enum):
-    ...
+class ItemType(Enum): ...
 ```
 
 
 
 ## ParserRep
 
-[Show source in types.py:65](../../../cli2gui/types.py#L65)
+[Show source in types.py:63](../../../cli2gui/types.py#L63)
 
 Representation for a parser.
 
 #### Signature
 
 ```python
-class ParserRep(TypedDict):
-    ...
+class ParserRep(TypedDict): ...
 ```
 
 
 
 ## ParserType
 
-[Show source in types.py:92](../../../cli2gui/types.py#L92)
+[Show source in types.py:90](../../../cli2gui/types.py#L90)
 
 Supported parser types.
 
@@ -142,6 +133,5 @@ CUSTOM = "input()"  # this seems like a pretty poor pattern to use
 #### Signature
 
 ```python
-class ParserType(str, Enum):
-    ...
+class ParserType(str, Enum): ...
 ```

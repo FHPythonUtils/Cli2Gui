@@ -7,11 +7,11 @@ sys.path.insert(0, str(THISDIR.parent.parent))
 from cli2gui import Cli2Gui
 
 
-def run(args):
+def run(args: argparse.Namespace) -> None:
 	print(args.arg)
 
 
-def main():
+def main() -> None:
 	parser = argparse.ArgumentParser(description="this is an example parser")
 	parser.add_argument("--arg", type=str, default="foo", help="keyword arg")
 	parser.add_argument("--bool", action="store_true", default=True, help="boolean arg")

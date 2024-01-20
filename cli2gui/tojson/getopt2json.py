@@ -7,8 +7,10 @@ from typing import Generator
 
 from cli2gui import types
 
+# ruff: noqa: SLF001
 
-def actionToJson(action: str, widget: types.ItemType, short: bool = True) -> types.Item:
+
+def actionToJson(action: str, widget: types.ItemType, *, short: bool = True) -> types.Item:
 	"""Convert an arg to json, behave in the same way as argparse hence the large
 	amount of duplication.
 	"""
@@ -23,7 +25,7 @@ def actionToJson(action: str, widget: types.ItemType, short: bool = True) -> typ
 	}
 
 
-def catLong(actions: list[str]):
+def catLong(actions: list[str]) -> Generator[types.Item, None, None]:
 	"""Categorize long args."""
 	for action in actions:
 		# True/ false
@@ -33,7 +35,7 @@ def catLong(actions: list[str]):
 			yield actionToJson(action, types.ItemType.Bool, short=False)
 
 
-def catShort(actions: list[str]):
+def catShort(actions: list[str]) -> Generator[types.Item, None, None]:
 	"""Categorize short args."""
 	index = 0
 	while index < len(actions):
@@ -69,9 +71,11 @@ def convert(parser: tuple[list[str], list[str]]) -> types.ParserRep:
 	"""Convert getopt to a dict.
 
 	Args:
+	----
 		parser (tuple[list[str], list[str]]): getopt parser
 
 	Returns:
+	-------
 		types.ParserRep: dictionary representing parser object
 	"""
 	return {

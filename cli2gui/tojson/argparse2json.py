@@ -1,8 +1,8 @@
 """Generate a dict describing argparse arguments.
-pylint and pylance both want me to not access protected methods - I know better ;)
+pylint and pylance both want me to not access protected methods - I know better ;).
 """
-# pylint: disable=protected-access
-# pyright: reportPrivateUsage=false
+# ruff: noqa: SLF001
+
 from __future__ import annotations
 
 import argparse
@@ -23,7 +23,7 @@ from cli2gui import types
 
 
 class ArgparseGroup(TypedDict):
-	"""Class to represent an ArgparseGroup"""
+	"""Class to represent an ArgparseGroup."""
 
 	name: str
 	arg_items: list[argparse.Action]
@@ -56,14 +56,17 @@ def chooseName(name: str, subparser: argparse.ArgumentParser) -> str:
 	return name if isDefaultProgname(name, subparser) else subparser.prog
 
 
-def containsActions(actionA: list[argparse.Action], actionB: list[argparse.Action]):
+def containsActions(
+	actionA: list[argparse.Action], actionB: list[argparse.Action]
+) -> set[argparse.Action]:
 	"""Check if any actions(a) are present in actions(b)."""
 	return set(actionA).intersection(set(actionB))
 
 
 def reapplyMutexGroups(
-	mutexGroups: list[argparse._MutuallyExclusiveGroup], actionGroups: list[Any]
-):
+	mutexGroups: list[argparse._MutuallyExclusiveGroup],
+	actionGroups: list[Any],
+) -> list[Any]:
 	"""_argparse stores mutually exclusive groups independently.
 	of all other groups. So, they must be manually re-combined
 	with the groups/subgroups to which they were originally declared
@@ -74,7 +77,7 @@ def reapplyMutexGroups(
 	where the two groups intersect.
 	"""
 
-	def swapActions(actions: list[Action]):
+	def swapActions(actions: list[Action]) -> list[Action]:
 		for mutexgroup in mutexGroups:
 			mutexActions = mutexgroup._group_actions
 			if containsActions(mutexActions, actions):
@@ -159,7 +162,7 @@ def categorizeGroups(groups: list[ArgparseGroup]) -> list[types.Group]:
 	]
 
 
-def stripEmpty(groups: list[ArgparseGroup]):
+def stripEmpty(groups: list[ArgparseGroup]) -> list[ArgparseGroup]:
 	"""Remove groups where group['arg_items'] is false."""
 	return [group for group in groups if group["arg_items"]]
 
@@ -178,9 +181,11 @@ def convert(parser: argparse.ArgumentParser) -> types.ParserRep:
 	"""Convert argparse to a dict.
 
 	Args:
+	----
 		parser (argparse.ArgumentParser): argparse parser
 
 	Returns:
+	-------
 		types.ParserRep: dictionary representing parser object
 	"""
 	widgets = []

@@ -12,13 +12,13 @@ sys.path.insert(0, str(Path(THISDIR).parent.parent))
 from cli2gui import Cli2Gui
 
 
-def handle(args):
+def handle(args: argparse.Namespace) -> None:
 	"""Handle the args."""
 	print(args)
 
 
 @Cli2Gui(run_function=handle)
-def cli():
+def cli() -> None:
 	"""Cli entrypoint."""
 	parser = argparse.ArgumentParser("Simple Parser")
 

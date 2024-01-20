@@ -12,7 +12,7 @@ sys.path.insert(0, str(THISDIR.parent.parent))
 from cli2gui import Cli2Gui
 
 
-def handle(args):
+def handle(args: argparse.Namespace) -> None:
 	"""Handle the args."""
 	print(args)
 
@@ -24,7 +24,7 @@ def handle(args):
 		"Another File": f"{THISDIR}/another_file.md",
 	},
 )
-def cli():
+def cli() -> None:
 	"""Cli entrypoint."""
 	parser = argparse.ArgumentParser("Simple Parser")
 

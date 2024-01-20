@@ -15,7 +15,7 @@ from cli2gui import Click2Gui
 
 @click.command()
 @click.option("--hash-type", type=click.Choice(["MD5", "SHA1"], case_sensitive=False))
-def digest(hash_type):
+def digest(hash_type: str) -> None:
 	click.echo(hash_type)
 
 

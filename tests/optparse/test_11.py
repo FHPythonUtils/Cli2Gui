@@ -6,19 +6,20 @@ from __future__ import annotations
 import optparse
 import sys
 from pathlib import Path
+from typing import Any
 
 THISDIR = str(Path(__file__).resolve().parent)
 sys.path.insert(0, str(Path(THISDIR).parent.parent))
 from cli2gui import Cli2Gui
 
 
-def handle(args):
+def handle(args: tuple[Any, list[str]]) -> None:
 	"""Handle the args."""
 	print(args)
 
 
 @Cli2Gui(run_function=handle, parser="optparse")
-def cli():
+def cli() -> None:
 	"""Cli entrypoint."""
 	parser = optparse.OptionParser("Simple Parser")
 

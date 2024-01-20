@@ -1,9 +1,6 @@
 # Docopt2json
 
-[Cli2gui Index](../../README.md#cli2gui-index) /
-[Cli2gui](../index.md#cli2gui) /
-[Tojson](./index.md#tojson) /
-Docopt2json
+[Cli2gui Index](../../README.md#cli2gui-index) / [Cli2gui](../index.md#cli2gui) / [Tojson](./index.md#tojson) / Docopt2json
 
 > Auto-generated documentation for [cli2gui.tojson.docopt2json](../../../../cli2gui/tojson/docopt2json.py) module.
 
@@ -28,8 +25,7 @@ Generate json for an action and set the widget - used by the application.
 ```python
 def actionToJson(
     action: tuple[str, str, int, Any, str], widget: types.ItemType, isPos: bool
-) -> types.Item:
-    ...
+) -> types.Item: ...
 ```
 
 
@@ -47,8 +43,7 @@ Each action is in the form (short, long, argcount, value, help_message)
 ```python
 def categorize(
     actions: list[tuple[str, str, int, Any, str]], isPos: bool = False
-) -> Iterator[types.Item]:
-    ...
+) -> Iterator[types.Item]: ...
 ```
 
 
@@ -61,17 +56,18 @@ Convert getopt to a dict.
 
 #### Arguments
 
-- `parser` *Any* - docopt parser
+----
+ - `parser` *Any* - docopt parser
 
 #### Returns
 
-- `types.ParserRep` - dictionary representing parser object
+-------
+ - `types.ParserRep` - dictionary representing parser object
 
 #### Signature
 
 ```python
-def convert(parser: Any) -> types.ParserRep:
-    ...
+def convert(parser: Any) -> types.ParserRep: ...
 ```
 
 
@@ -85,8 +81,7 @@ Get the actions as json for the parser.
 #### Signature
 
 ```python
-def extract(parser: Any) -> list[types.Group]:
-    ...
+def extract(parser: Any) -> list[types.Group]: ...
 ```
 
 
@@ -100,8 +95,7 @@ Parse an option help text, adapted from docopt.
 #### Signature
 
 ```python
-def parse(optionDescription: str) -> tuple[str, str, int, Any, str]:
-    ...
+def parse(optionDescription: str) -> tuple[str, str, int, Any, str]: ...
 ```
 
 
@@ -115,8 +109,7 @@ Parse an option help text, adapted from docopt.
 #### Signature
 
 ```python
-def parseOpt(doc: Any) -> list[tuple[str, str, int, Any, str]]:
-    ...
+def parseOpt(doc: Any) -> list[tuple[str, str, int, Any, str]]: ...
 ```
 
 
@@ -130,8 +123,7 @@ Parse positional arguments from docstring.
 #### Signature
 
 ```python
-def parsePos(doc: Any) -> list[tuple[str, str]]:
-    ...
+def parsePos(doc: str) -> list[tuple[str, str]]: ...
 ```
 
 
@@ -145,6 +137,5 @@ Taken from docopt.
 #### Signature
 
 ```python
-def parseSection(name: str, source: Any) -> list[str]:
-    ...
+def parseSection(name: str, source: str) -> list[str]: ...
 ```

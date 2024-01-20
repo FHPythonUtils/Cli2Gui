@@ -8,8 +8,6 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, TypedDict
 
-# pylint: disable=invalid-name, too-many-instance-attributes
-
 
 @dataclass
 class BuildSpec(TypedDict):
@@ -42,7 +40,7 @@ class Item(TypedDict):
 
 
 class ItemType(Enum):
-	"""Enum of ItemTypes:"""
+	"""Enum of ItemTypes."""
 
 	RadioGroup = "RadioGroup"
 	Bool = "Bool"

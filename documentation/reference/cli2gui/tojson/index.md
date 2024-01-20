@@ -1,8 +1,6 @@
 # Tojson
 
-[Cli2gui Index](../../README.md#cli2gui-index) /
-[Cli2gui](../index.md#cli2gui) /
-Tojson
+[Cli2gui Index](../../README.md#cli2gui-index) / [Cli2gui](../index.md#cli2gui) / Tojson
 
 > Auto-generated documentation for [cli2gui.tojson](../../../../cli2gui/tojson/__init__.py) module.
 

@@ -14,19 +14,31 @@ from cli2gui import types
 
 
 class Widgets:
-	"""Widgets class holding methods to create widgets in addition to a sizes.
-	attribute that can be overridden to provide the end user with customisation
-	over the size of the gui.
+	"""
+	Methods to create widgets and a sizes attribute to provide users with
+	customization options for the size of the GUI.
+
+	Utility functions within the class manipulate images and text and create PySimpleGUI
+	Elements
 	"""
 
-	def __init__(self, sizes: dict[str, Any], pySimpleGui: Any):
+	def __init__(self, sizes: dict[str, Any], pySimpleGui: Any) -> None:
+		"""Methods to create widgets and a sizes attribute to provide users with
+		customization options for the size of the GUI.
+
+		Utility functions within the class manipulate images and text and create PySimpleGUI
+		Elements
+
+		:param dict[str, Any] sizes: A dictionary specifying sizes.
+		:param Any pySimpleGui: PySimpleGui module object
+		"""
 		self.sizes = sizes
 		self.pySimpleGui = pySimpleGui
 
 	"""Utility functions that manipulate images and text.
 	"""
 
-	def getImgData(self, imagePath: str, first: bool = False) -> bytes:
+	def getImgData(self, imagePath: str, *, first: bool = False) -> bytes:
 		"""Generate image data using PIL."""
 		img = Image.open(imagePath)
 		img.thumbnail((self.sizes["title_size"] * 3, self.sizes["title_size"] * 3))
@@ -37,7 +49,7 @@ class Widgets:
 			return bio.getvalue()
 		return ImageTk.PhotoImage(img)  # type:ignore
 
-	def stringTitlecase(self, string: str, splitStr: str = "ALL"):
+	def stringTitlecase(self, string: str, splitStr: str = "ALL") -> str:
 		"""Convert a string to title case."""
 		_ = self
 		titleCase = ""
@@ -62,7 +74,7 @@ class Widgets:
 	"""Individual widgets
 	"""
 
-	def inputText(self, key: str, default=None) -> Element:
+	def inputText(self, key: str, default: str | None = None) -> Element:
 		"""Return an input text field."""
 		return self.pySimpleGui.InputText(
 			default,
@@ -72,7 +84,7 @@ class Widgets:
 			font=("sans", self.sizes["text_size"]),
 		)
 
-	def spin(self, key: str, default=None) -> Element:
+	def spin(self, key: str, default: str | None = None) -> Element:
 		"""Return an input text field."""
 		return self.pySimpleGui.Spin(
 			list(range(-50, 51)),
@@ -83,7 +95,7 @@ class Widgets:
 			font=("sans", self.sizes["text_size"]),
 		)
 
-	def check(self, key: str, default=None) -> Element:
+	def check(self, key: str, default: str | None = None) -> Element:
 		"""Return a checkbox."""
 		return self.pySimpleGui.Check(
 			"", size=self.sizes["input_size"], pad=self.sizes["padding"], key=key, default=default
@@ -119,7 +131,7 @@ class Widgets:
 			key=key,
 		)
 
-	def fileBrowser(self, key: str, default=None) -> list[Element]:
+	def fileBrowser(self, key: str, default: str | None = None) -> list[Element]:
 		"""Return a fileBrowser button and field."""
 		height = self.sizes["input_size"][1]
 		width = self.sizes["input_size"][0]
@@ -236,7 +248,7 @@ class Widgets:
 		]
 
 	def addWidgetFromItem(self, item: types.Item) -> list[Element]:
-		"""Add a widget from an item (types.Item)"""
+		"""Add a widget from an item (types.Item)."""
 		functionMap = {
 			types.ItemType.Bool: self.helpFlagWidget,
 			types.ItemType.File: self.helpFileWidget,

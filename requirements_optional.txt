@@ -1,7 +1,7 @@
-Pillow<11,>=10.0.0
+Pillow<11,>=10.2.0
 PySimpleGUI<5,>=4.60.5
 PySimpleGUIQt<2,>=0.35.0
 PySimpleGUIWeb<2,>=0.39.0
 PyYAML<7,>=6.0.1
-catpandoc<2024,>=2022.2
-getostheme<2023,>=2021
+catpandoc<2026,>=2024
+getostheme<2026,>=2024.0.1

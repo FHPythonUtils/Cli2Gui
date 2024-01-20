@@ -1,7 +1,6 @@
 # Cli2gui
 
-[Cli2gui Index](../README.md#cli2gui-index) /
-Cli2gui
+[Cli2gui Index](../README.md#cli2gui-index) / Cli2gui
 
 > Auto-generated documentation for [cli2gui](../../../cli2gui/__init__.py) module.
 

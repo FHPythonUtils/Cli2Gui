@@ -7,11 +7,11 @@ sys.path.insert(0, str(THISDIR.parent.parent))
 from cli2gui import Cli2Gui
 
 
-def run(args):
+def run(args: argparse.Namespace) -> None:
 	print(args)
 
 
-def main():
+def main() -> None:
 	parser = argparse.ArgumentParser(description="this is an example parser")
 	subparsers = parser.add_subparsers(help="types of A")
 	parser.add_argument(
@@ -19,7 +19,7 @@ def main():
 	)
 
 	a_parser = subparsers.add_parser("A")
-	b_parser = subparsers.add_parser("B")
+	_b_parser = subparsers.add_parser("B")
 
 	a_parser.add_argument("something", choices=["a1", "a2"])
 

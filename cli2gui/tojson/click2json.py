@@ -1,7 +1,8 @@
 """Generate a dict describing optparse arguments."""
-# pylint: disable=protected-access
+
 from __future__ import annotations
 
+import contextlib
 from typing import Any, Generator
 
 from cli2gui import types
@@ -32,10 +33,8 @@ def extract(parser: Any) -> list[types.Group]:
 def actionToJson(action: Any, widget: types.ItemType, other: dict | None = None) -> types.Item:
 	"""Generate json for an action and set the widget - used by the application."""
 	nargs = ""
-	try:
+	with contextlib.suppress(AttributeError):
 		nargs = action.params[0].nargs if len(action.params) > 0 else "" or ""
-	except AttributeError:
-		pass
 
 	commands = action.opts + action.secondary_opts
 	return {
@@ -45,7 +44,7 @@ def actionToJson(action: Any, widget: types.ItemType, other: dict | None = None)
 		"commands": commands,
 		"dest": action.callback or commands[0],
 		"default": action.default,
-		"_other": {**{"nargs": nargs}, **(other or {})},
+		"_other": {"nargs": nargs, **(other or {})},
 	}
 
 
@@ -68,9 +67,11 @@ def convert(parser: Any) -> types.ParserRep:
 	"""Convert click to a dict.
 
 	Args:
+	----
 		parser (click.core.Command): click parser
 
 	Returns:
+	-------
 		types.ParserRep: dictionary representing parser object
 	"""
 	return {"parser_description": "", "widgets": extract(parser)}

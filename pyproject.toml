@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cli2gui"
-version = "2023"
+version = "2024"
 license = "mit"
 description = "Use this module to convert a cli program to a gui"
 authors = ["FredHappyface"]
@@ -26,13 +26,13 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-getostheme = "<2023,>=2021"
-Pillow = "<11,>=10.0.0"
+Pillow = "<11,>=10.2.0"
 PySimpleGUI = "<5,>=4.60.5"
 PyYAML = "<7,>=6.0.1"
-catpandoc = {version = "<2024,>=2022.2", optional = true}
+catpandoc = {version = "<2026,>=2024", optional = true}
 PySimpleGUIWeb = {version = "<2,>=0.39.0", optional = true}
 PySimpleGUIQt = {version = "<2,>=0.35.0", optional = true}
+getostheme = "<2026,>=2024.0.1"
 
 [tool.poetry.extras]
 web = ["PySimpleGUIWeb"]
@@ -40,40 +40,43 @@ qt = ["PySimpleGUIQt"]
 pandoc = ["catpandoc"]
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.4.0"
-pylint = "^2.17.5"
-handsdown = "^2.0.1"
-coverage = "^7.3.0"
-
-[tool.black]
-line-length = 100
-target-version = ["py38"]
-
-[tool.isort]
-profile = "black"
-indent = "Tab"
-
-[tool.pydocstyle]
-convention = "google"
-ignore = "D205,D415"
+pytest = "^7.4.4"
+handsdown = "^2.1.0"
+coverage = "^7.4.0"
+ruff = "^0.1.13"
+blackt = "^2024.0.1"
+pyright = "^1.1.347"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.pylint.basic]
-argument-naming-style = "camelCase"
-attr-naming-style = "camelCase"
-function-naming-style = "camelCase"
-method-naming-style = "camelCase"
-variable-naming-style = "camelCase"
+[tool.ruff]
+line-length = 100
+indent-width = 4
+target-version = "py38"
 
-[tool.pylint.format]
-indent-string = "\t"
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "ANN101",  # type annotation for self in method
+    "COM812",  # enforce trailing comma
+	"D2",  # pydocstyle formatting
+    "N802", "N803", "N806", "N812", "N813",  # pep8 naming
+    "PLR09",  # pylint refactor too many
+	"T201",
+    "TCH",  # type check blocks
+    "W191"  # ignore this to allow tabs
+]
+fixable = ["ALL"]
 
-[tool.pylint.master]
-ignore-paths = ["tests"]
+[tool.ruff.lint.per-file-ignores]
+"**/{tests,docs,tools}/*" = ["D", "S101", "E402"]
 
-[tool.pylint.messages_control]
-enable = ["F", "E", "W", "R", "C"]
-disable = ["pointless-string-statement", "superfluous-parens"]
+[tool.black]
+line-length = 100
+target-version = ["py38"]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"

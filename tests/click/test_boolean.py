@@ -17,7 +17,7 @@ from cli2gui import Click2Gui
 
 @click.command()
 @click.option("--print-version", default=True, help="Print the version?")
-def hello(print_version):
+def hello(*, print_version: bool) -> None:
 	if print_version:
 		print("v1.0")
 

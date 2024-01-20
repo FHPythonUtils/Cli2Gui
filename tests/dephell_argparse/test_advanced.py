@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import sys
 from pathlib import Path
 
@@ -13,13 +14,13 @@ sys.path.insert(0, str(Path(THISDIR).parent.parent))
 from cli2gui import Cli2Gui
 
 
-def handle(args):
+def handle(args: argparse.Namespace) -> None:
 	"""Handle the args."""
 	print(args)
 
 
 @Cli2Gui(run_function=handle, parser="dephell_argparse")
-def cli():
+def cli() -> None:
 	"""Cli entrypoint."""
 	parser = dephell_argparse.Parser()
 

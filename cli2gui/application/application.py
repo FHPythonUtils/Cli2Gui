@@ -1,6 +1,6 @@
 """Application here uses PySimpleGUI.
 """
-# pylint: disable=import-outside-toplevel
+
 from __future__ import annotations
 
 import logging
@@ -11,7 +11,12 @@ from typing import Any
 try:
 	from getostheme import isDarkMode
 except ImportError:
-	isDarkMode = lambda: True
+
+	def isDarkMode() -> bool:
+		"""Monkeypatch for getostheme.isDarkMode."""
+		return True
+
+
 import yaml
 from PySimpleGUI import Element, Window
 
@@ -24,13 +29,15 @@ def themeFromFile(themeFile: str) -> list[str]:
 	"""Set the base24 theme from a base24 scheme.yaml to the application.
 
 	Args:
+	----
 		themeFile (str): path to file
 
 	Returns:
+	-------
 		list[str]: theme to set
 	"""
 	schemeDictTheme = yaml.safe_load(Path(themeFile).read_text(encoding="utf-8"))
-	return ["#" + schemeDictTheme[f"base{x:02X}"] for x in range(0, 24)]
+	return ["#" + schemeDictTheme[f"base{x:02X}"] for x in range(24)]
 
 
 def setBase24Theme(
@@ -41,6 +48,7 @@ def setBase24Theme(
 	"""Set the base24 theme to the application.
 
 	Args:
+	----
 		theme (Union[str, list[str]]): the light theme
 		darkTheme (Union[str, list[str]]): the dark theme
 		pySimpleGui (Any): pysimplegui module
@@ -119,18 +127,20 @@ def setBase24Theme(
 		"SLIDER_DEPTH": 0,
 		"PROGRESS_DEPTH": 0,
 	}
-	pySimpleGui.theme("theme")  # type: ignore
+	pySimpleGui.theme("theme")
 
 
 def setupWidgets(gui: str, sizes: dict[str, Any], pySimpleGui: Any) -> Widgets:
 	"""Set the widget sizes to the application.
 
 	Args:
+	----
 		gui (str): user selected gui eg. pysimpleguiqt
 		sizes (Union[dict[str, Any]]): widget sizes
 		pySimpleGui (Any): pysimplegui module
 
 	Returns:
+	-------
 		Widgets: widgets object all set up nicely
 	"""
 	if sizes:
@@ -166,10 +176,11 @@ def addItemsAndGroups(
 	section: types.Group,
 	argConstruct: list[list[Element]],
 	widgets: Widgets,
-):
+) -> list[list[Element]]:
 	"""Add arg_items and groups to the argConstruct list.
 
 	Args:
+	----
 		section (types.Group): contents/ section containing name, arg_items
 		and groups
 		argConstruct (list[list[Element]]): list of widgets to
@@ -178,7 +189,8 @@ def addItemsAndGroups(
 		argConstruct
 
 	Returns:
-		list: updated argConstruct
+	-------
+		list[list[Element]]: updated argConstruct
 	"""
 	argConstruct.append([widgets.label(widgets.stringTitlecase(section["name"], " "), 14)])
 	for item in section["arg_items"]:
@@ -202,6 +214,7 @@ def generatePopup(
 	"""Create the popup window.
 
 	Args:
+	----
 		buildSpec (types.FullBuildSpec): [description]
 		values (Union[dict[Any, Any]): Returned when a button is clicked. Such
 		as the menu
@@ -209,6 +222,7 @@ def generatePopup(
 		pySimpleGui (Any): PySimpleGui class
 
 	Returns:
+	-------
 		pySimpleGui.Window: A PySimpleGui Window
 	"""
 	maxLines = 30 if buildSpec["gui"] == "pysimpleguiqt" else 200
@@ -220,7 +234,7 @@ def generatePopup(
 			popupText = "\n".join(lines[:maxLines]) + "\n\nMORE TEXT IN SRC FILE"
 		else:
 			popupText = "\n".join(lines)
-	except:
+	except ImportError:
 		popupText = Path(buildSpec["menu"][values[0]]).read_text(encoding="utf-8")
 	if buildSpec["gui"] == "pysimplegui":
 		popupLayout = [
@@ -271,12 +285,14 @@ def createLayout(
 	"""Create the pysimplegui layout from the build spec.
 
 	Args:
+	----
 		buildSpec (types.FullBuildSpec): build spec containing widget
 		widgets (Widgets): class to build widgets
 		pySimpleGui (Any): version of PySimpleGui to use
 		menu (list[str]]): menu data
 
 	Returns:
+	-------
 		list[list[Element]]: list of widgets (layout list)
 	"""
 	argConstruct = []
@@ -325,20 +341,21 @@ def createLayout(
 	return layout
 
 
-def run(buildSpec: types.FullBuildSpec):
-	"""Main entry point for the application.
+def run(buildSpec: types.FullBuildSpec) -> None:
+	"""Establish the main entry point.
 
 	Args:
+	----
 		buildSpec (types.FullBuildSpec): args that customise the application such as the theme
 		or the function to run
 	"""
-	import PySimpleGUI as psg  # pylint: disable=reimported
+	import PySimpleGUI as psg
 
 	if buildSpec["gui"] == "pysimpleguiqt":
 		import PySimpleGUIQt as psg
 	elif buildSpec["gui"] == "pysimpleguiweb":
 		import PySimpleGUIWeb as psg
-	pySimpleGui: Any = psg  # type: ignore
+	pySimpleGui: Any = psg
 
 	# Set the theme
 	setBase24Theme(buildSpec["theme"], buildSpec["darkTheme"], pySimpleGui)
@@ -358,7 +375,7 @@ def run(buildSpec: types.FullBuildSpec):
 
 	# While the application is running
 	while True:
-		eventAndValues: tuple[Any, dict[Any, Any] | list[Any]] = window.read()  # type: ignore
+		eventAndValues: tuple[Any, dict[Any, Any] | list[Any]] = window.read()
 		event, values = eventAndValues
 		if event in (None, "Exit"):
 			sys.exit(0)
@@ -367,7 +384,7 @@ def run(buildSpec: types.FullBuildSpec):
 			if values is not None:
 				if 0 in values and values[0] is not None:
 					popup = generatePopup(buildSpec, values, widgets, pySimpleGui)
-					popup.read()  # type: ignore
+					popup.read()
 				args = {}
 				for key in values:
 					if key != 0:
@@ -376,5 +393,5 @@ def run(buildSpec: types.FullBuildSpec):
 				if not buildSpec["run_function"]:
 					return args
 				buildSpec["run_function"](args)
-		except Exception as exception:  # pylint: disable=broad-except
-			logging.exception(exception)
+		except Exception:
+			logging.exception("Something went wrong: ")

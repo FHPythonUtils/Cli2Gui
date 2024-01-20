@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from typing import Any
 
 import docopt
 
@@ -30,13 +31,13 @@ sys.path.insert(0, str(Path(THISDIR).parent.parent))
 from cli2gui import Cli2Gui
 
 
-def handle(args):
+def handle(args: dict[str, Any]) -> None:
 	"""Handle the args."""
 	print(args)
 
 
 @Cli2Gui(run_function=handle, parser="docopt")
-def cli():
+def cli() -> None:
 	"""Cli entrypoint."""
 	args = docopt.docopt(__doc__)
 	handle(args)
