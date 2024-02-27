@@ -77,6 +77,7 @@ def convert(parser: tuple[list[str], list[str]]) -> types.ParserRep:
 	Returns:
 	-------
 		types.ParserRep: dictionary representing parser object
+
 	"""
 	return {
 		"parser_description": "",

@@ -16,7 +16,7 @@
 
 ## addItemsAndGroups
 
-[Show source in application.py:175](../../../../cli2gui/application/application.py#L175)
+[Show source in application.py:178](../../../../cli2gui/application/application.py#L178)
 
 Add arg_items and groups to the argConstruct list.
 
@@ -51,7 +51,7 @@ def addItemsAndGroups(
 
 ## createLayout
 
-[Show source in application.py:279](../../../../cli2gui/application/application.py#L279)
+[Show source in application.py:284](../../../../cli2gui/application/application.py#L284)
 
 Create the pysimplegui layout from the build spec.
 
@@ -87,7 +87,7 @@ def createLayout(
 
 ## generatePopup
 
-[Show source in application.py:208](../../../../cli2gui/application/application.py#L208)
+[Show source in application.py:212](../../../../cli2gui/application/application.py#L212)
 
 Create the popup window.
 
@@ -138,7 +138,7 @@ def isDarkMode() -> bool: ...
 
 ## run
 
-[Show source in application.py:344](../../../../cli2gui/application/application.py#L344)
+[Show source in application.py:350](../../../../cli2gui/application/application.py#L350)
 
 Establish the main entry point.
 
@@ -158,7 +158,7 @@ def run(buildSpec: types.FullBuildSpec) -> None: ...
 
 ## setBase24Theme
 
-[Show source in application.py:43](../../../../cli2gui/application/application.py#L43)
+[Show source in application.py:44](../../../../cli2gui/application/application.py#L44)
 
 Set the base24 theme to the application.
 
@@ -181,7 +181,7 @@ def setBase24Theme(
 
 ## setupWidgets
 
-[Show source in application.py:133](../../../../cli2gui/application/application.py#L133)
+[Show source in application.py:135](../../../../cli2gui/application/application.py#L135)
 
 Set the widget sizes to the application.
 

@@ -35,6 +35,7 @@ def themeFromFile(themeFile: str) -> list[str]:
 	Returns:
 	-------
 		list[str]: theme to set
+
 	"""
 	schemeDictTheme = yaml.safe_load(Path(themeFile).read_text(encoding="utf-8"))
 	return ["#" + schemeDictTheme[f"base{x:02X}"] for x in range(24)]
@@ -52,6 +53,7 @@ def setBase24Theme(
 		theme (Union[str, list[str]]): the light theme
 		darkTheme (Union[str, list[str]]): the dark theme
 		pySimpleGui (Any): pysimplegui module
+
 	"""
 	# Light theme
 	theme = theme or [
@@ -142,6 +144,7 @@ def setupWidgets(gui: str, sizes: dict[str, Any], pySimpleGui: Any) -> Widgets:
 	Returns:
 	-------
 		Widgets: widgets object all set up nicely
+
 	"""
 	if sizes:
 		return Widgets(sizes, pySimpleGui)
@@ -191,6 +194,7 @@ def addItemsAndGroups(
 	Returns:
 	-------
 		list[list[Element]]: updated argConstruct
+
 	"""
 	argConstruct.append([widgets.label(widgets.stringTitlecase(section["name"], " "), 14)])
 	for item in section["arg_items"]:
@@ -224,6 +228,7 @@ def generatePopup(
 	Returns:
 	-------
 		pySimpleGui.Window: A PySimpleGui Window
+
 	"""
 	maxLines = 30 if buildSpec["gui"] == "pysimpleguiqt" else 200
 	try:
@@ -294,6 +299,7 @@ def createLayout(
 	Returns:
 	-------
 		list[list[Element]]: list of widgets (layout list)
+
 	"""
 	argConstruct = []
 	for section in buildSpec["widgets"]:
@@ -348,6 +354,7 @@ def run(buildSpec: types.FullBuildSpec) -> None:
 	----
 		buildSpec (types.FullBuildSpec): args that customise the application such as the theme
 		or the function to run
+
 	"""
 	import PySimpleGUI as psg
 

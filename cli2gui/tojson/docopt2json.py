@@ -130,5 +130,6 @@ def convert(parser: Any) -> types.ParserRep:
 	Returns:
 	-------
 		types.ParserRep: dictionary representing parser object
+
 	"""
 	return {"parser_description": "", "widgets": extract(parser)}

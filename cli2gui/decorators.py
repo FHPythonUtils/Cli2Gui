@@ -54,6 +54,7 @@ def createFromParser(
 	Raises:
 	------
 		RuntimeError: Throw error if incorrect parser selected
+
 	"""
 	_ = kwargsParser
 	runCmd = kwargs.get("target")
@@ -146,6 +147,7 @@ def Click2Gui(
 	Returns:
 	-------
 		Any: Runs the application
+
 	"""
 	bSpec = BuildSpec(
 		run_function=run_function,
@@ -218,6 +220,7 @@ def Cli2Gui(
 	Returns:
 	-------
 		Any: Runs the application
+
 	"""
 	bSpec = BuildSpec(
 		run_function=run_function,
@@ -244,6 +247,7 @@ def Cli2Gui(
 		Returns:
 		-------
 			Callable[..., Any]: some calling function
+
 		"""
 
 		def runCli2Gui(self: Any, *args: Iterable[Any], **kwargs: dict[str, Any]) -> None:
@@ -268,6 +272,7 @@ def Cli2Gui(
 			Returns
 			-------
 				Any: Do the calling_function
+
 			"""
 			getopt.getopt = runCli2Gui
 			getopt.gnu_getopt = runCli2Gui

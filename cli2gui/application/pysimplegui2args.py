@@ -67,6 +67,7 @@ def argFormat(values: dict[str, Any], argumentParser: str | ParserType) -> Any:
 	Returns:
 	-------
 		Any: args
+
 	"""
 	formattedArgs = None
 	convertMap = {

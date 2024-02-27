@@ -11,7 +11,7 @@
 
 ## Cli2Gui
 
-[Show source in decorators.py:170](../../../cli2gui/decorators.py#L170)
+[Show source in decorators.py:172](../../../cli2gui/decorators.py#L172)
 
 Use this decorator in the function containing the argument parser.
 Serialises data to JSON and launches the Cli2Gui application.
@@ -76,7 +76,7 @@ def Cli2Gui(
 
 ## Click2Gui
 
-[Show source in decorators.py:104](../../../cli2gui/decorators.py#L104)
+[Show source in decorators.py:105](../../../cli2gui/decorators.py#L105)
 
 Use this decorator in the function containing the argument parser.
 Serializes data to JSON and launches the Cli2Gui application.

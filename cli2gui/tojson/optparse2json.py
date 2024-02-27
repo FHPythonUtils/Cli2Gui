@@ -81,5 +81,6 @@ def convert(parser: optparse.OptionParser) -> types.ParserRep:
 	Returns:
 	-------
 		types.ParserRep: dictionary representing parser object
+
 	"""
 	return {"parser_description": "", "widgets": [extractGroups(parser)]}

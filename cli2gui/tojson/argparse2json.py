@@ -187,6 +187,7 @@ def convert(parser: argparse.ArgumentParser) -> types.ParserRep:
 	Returns:
 	-------
 		types.ParserRep: dictionary representing parser object
+
 	"""
 	widgets = []
 	for _, subparser in iterParsers(parser):

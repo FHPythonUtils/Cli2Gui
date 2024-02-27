@@ -1,6 +1,6 @@
 Pillow<11,>=10.2.0
-PySimpleGUI<5,>=4.60.5
-PySimpleGUIQt<2,>=0.35.0
+PySimpleGUI<6,>=5.0.2
+PySimpleGUIQt<6,>=5.0.0
 PySimpleGUIWeb<2,>=0.39.0
 PyYAML<7,>=6.0.1
 catpandoc<2026,>=2024
