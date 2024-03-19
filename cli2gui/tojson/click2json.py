@@ -44,7 +44,7 @@ def actionToJson(action: Any, widget: types.ItemType, other: dict | None = None)
 		"commands": commands,
 		"dest": action.callback or commands[0],
 		"default": action.default,
-		"_other": {"nargs": nargs, **(other or {})},
+		"additional_properties": {"nargs": nargs, **(other or {})},
 	}
 
 

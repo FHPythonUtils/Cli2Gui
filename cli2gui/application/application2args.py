@@ -1,4 +1,4 @@
-"""Functions to create args from pysimplegui values.
+"""Functions to create args from key/value pairs.
 """
 from __future__ import annotations
 

@@ -21,7 +21,7 @@ def actionToJson(action: str, widget: types.ItemType, *, short: bool = True) -> 
 		"commands": [("-" if short else "--") + action],
 		"dest": ("-" if short else "--") + action,
 		"default": None,
-		"_other": {},
+		"additional_properties": {},
 	}
 
 

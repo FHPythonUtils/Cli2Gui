@@ -36,7 +36,10 @@ class Item(TypedDict):
 	help: str
 	dest: str
 	default: Any
-	_other: dict[str, Any]
+	required: bool = False
+	choices: list[Any] = None
+	nargs: str = None
+	additional_properties: dict[str, Any] = None
 
 
 class ItemType(Enum):
@@ -48,6 +51,10 @@ class ItemType(Enum):
 	Choice = "Choice"
 	Int = "Int"
 	Text = "Text"
+	Float = "Float"
+	List = "List"
+	Tuple = "Tuple"
+	DateTime = "DateTime"
 
 
 @dataclass

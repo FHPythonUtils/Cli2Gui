@@ -104,7 +104,7 @@ def createFromParser(
 
 def Click2Gui(
 	run_function: Callable[..., Any],
-	gui: str | GUIType = "pysimplegui",
+	gui: str | GUIType = "dearpygui",
 	theme: str | list[str] = "",
 	darkTheme: str | list[str] = "",
 	sizes: str | dict[str, int] = "",
@@ -122,8 +122,8 @@ def Click2Gui(
 	----
 		run_function (Callable[..., Any]): The name of the function to call eg.
 		gui (str, optional): Override the gui to use. Current options are:
-		"pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
-		"pysimplegui".
+		"dearpygui", "pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
+		"dearpygui".
 		theme (Union[str, list[str]], optional): Set a base24 theme. Can
 		also pass a base24 scheme file. eg. one-light.yaml. Defaults to "".
 		darkTheme (Union[str, list[str]], optional): Set a base24 dark
@@ -173,7 +173,7 @@ def Cli2Gui(
 	run_function: Callable[..., Any],
 	auto_enable: bool = False,
 	parser: str | ParserType = "argparse",
-	gui: str | ParserType = "pysimplegui",
+	gui: str | ParserType = "dearpygui",
 	theme: str | list[str] = "",
 	darkTheme: str | list[str] = "",
 	sizes: str | dict[str, int] = "",
@@ -196,8 +196,8 @@ def Cli2Gui(
 		options are: "argparse", "getopt", "optparse", "docopt",
 		"dephell_argparse". Defaults to "argparse".
 		gui (str, optional): Override the gui to use. Current options are:
-		"pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
-		"pysimplegui".
+		"dearpygui" ,"pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
+		"dearpygui".
 		theme (Union[str, list[str]], optional): Set a base24 theme. Can
 		also pass a base24 scheme file. eg. one-light.yaml. Defaults to "".
 		darkTheme (Union[str, list[str]], optional): Set a base24 dark

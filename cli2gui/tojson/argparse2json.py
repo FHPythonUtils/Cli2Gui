@@ -117,7 +117,7 @@ def actionToJson(action: argparse.Action, widget: types.ItemType) -> types.Item:
 		"commands": list(action.option_strings),
 		"dest": action.dest,
 		"default": action.default,
-		"_other": {"choices": choices, "nargs": action.nargs},
+		"additional_properties": {"choices": choices, "nargs": action.nargs},
 	}
 
 
@@ -127,7 +127,7 @@ def buildRadioGroup(mutexGroup: _MutuallyExclusiveGroup) -> types.Item:
 	return {
 		"type": types.ItemType.RadioGroup,
 		"commands": commands,
-		"_other": {"radio": list(categorizeItems(mutexGroup._group_actions))},
+		"additional_properties": {"radio": list(categorizeItems(mutexGroup._group_actions))},
 	}  # type: ignore
 
 
@@ -193,4 +193,4 @@ def convert(parser: argparse.ArgumentParser) -> types.ParserRep:
 	for _, subparser in iterParsers(parser):
 		widgets.extend(process(subparser))
 
-	return {"parser_description": str(parser.description), "widgets": widgets}
+	return {"parser_description": f"{parser.prog}: {parser.description or ''}", "widgets": widgets}

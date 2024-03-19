@@ -49,7 +49,7 @@ def actionToJson(action: optparse.Option, widget: types.ItemType) -> types.Item:
 		"commands": action._long_opts + action._short_opts,
 		"dest": action.dest or "",
 		"default": default,
-		"_other": {
+		"additional_properties": {
 			"nargs": str(action.nargs or ""),
 			"choices": choices,
 		},

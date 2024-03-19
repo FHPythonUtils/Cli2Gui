@@ -3,6 +3,11 @@
 All major and minor version changes will be documented in this file. Details of
 patch-level version changes can be found in [commit messages](../../commits/master).
 
+## 2024.1 - 2024/03/19
+
+- Add `dearpygui` support as default, (download the `psg` extra for `pysimplegui` support)
+- fix types for `argparse..add_mutually_exclusive_group()`
+
 ## 2024 - 2024/01/20
 
 - Update deps

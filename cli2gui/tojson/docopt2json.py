@@ -21,7 +21,7 @@ def actionToJson(
 			"commands": [action[0]],
 			"dest": action[0],
 			"default": None,
-			"_other": {"nargs": ""},
+			"additional_properties": {"nargs": ""},
 		}
 
 	default = action[3] if action[3] != "" else None
@@ -32,7 +32,7 @@ def actionToJson(
 		"commands": [x for x in action[0:2] if x != ""],
 		"dest": action[1] or action[0],
 		"default": default,
-		"_other": {"nargs": action[2]},
+		"additional_properties": {"nargs": action[2]},
 	}
 
 

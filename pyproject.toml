@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cli2gui"
-version = "2024"
+version = "2024.1"
 license = "mit"
 description = "Use this module to convert a cli program to a gui"
 authors = ["FredHappyface"]
@@ -26,25 +26,27 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-Pillow = "<11,>=10.2.0"
-PySimpleGUI = "<6,>=5.0.2"
-PyYAML = "<7,>=6.0.1"
-catpandoc = {version = "<2026,>=2024", optional = true}
-PySimpleGUIWeb = {version = "<2,>=0.39.0", optional = true}
-PySimpleGUIQt = {version = "<6,>=5.0.0", optional = true}
-getostheme = "<2026,>=2024.0.1"
+Pillow = "^10.2.0"
+PyYAML = "^6.0.1"
+catpandoc = {version = "^2024", optional = true}
+PySimpleGUIWeb = {version = "^0.39.0", optional = true}
+PySimpleGUIQt = {version = "^5.0.0", optional = true}
+getostheme = "^2024.0.1"
+dearpygui = "^1.11.1"
+pysimplegui = {version = "^5.0.3", optional = true}
 
 [tool.poetry.extras]
+psg = ["pysimplegui"]
 web = ["PySimpleGUIWeb"]
 qt = ["PySimpleGUIQt"]
 pandoc = ["catpandoc"]
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.0.2"
+pytest = "^8.1.1"
 handsdown = "^2.1.0"
-coverage = "^7.4.3"
-ruff = "^0.2.2"
-pyright = "^1.1.351"
+coverage = "^7.4.4"
+ruff = "^0.3.3"
+pyright = "^1.1.354"
 
 [build-system]
 requires = ["poetry-core"]
@@ -58,25 +60,27 @@ target-version = "py38"
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "ANN101",  # type annotation for self in method
-    "COM812",  # enforce trailing comma
+	"ANN101",  # type annotation for self in method
+	"COM812",  # enforce trailing comma
 	"D2",  # pydocstyle formatting
-    "N802", "N803", "N806", "N812", "N813",  # pep8 naming
-    "PLR09",  # pylint refactor too many
-	"T201",
-    "TCH",  # type check blocks
-    "W191"  # ignore this to allow tabs
+	"ISC001",
+	"N802", "N803", "N806", "N812", "N813",  # pep8 naming
+	"PLR09",  # pylint refactor too many
+	"TCH",  # type check blocks
+	"W191"  # ignore this to allow tabs
 ]
 fixable = ["ALL"]
 
 [tool.ruff.lint.per-file-ignores]
-"**/{tests,docs,tools}/*" = ["D", "S101", "E402"]
+"**/{tests,docs,tools}/*" = ["D", "S101", "E402", "T201"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all" # Disallow all relative imports.
 
 [tool.ruff.format]
 indent-style = "tab"
 docstring-code-format = true
 line-ending = "lf"
-
 
 [tool.pyright]
 venvPath = "."
