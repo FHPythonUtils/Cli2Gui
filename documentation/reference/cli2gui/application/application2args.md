@@ -1,10 +1,10 @@
-# Pysimplegui2args
+# Application2args
 
-[Cli2gui Index](../../README.md#cli2gui-index) / [Cli2gui](../index.md#cli2gui) / [Application](./index.md#application) / Pysimplegui2args
+[Cli2gui Index](../../README.md#cli2gui-index) / [Cli2gui](../index.md#cli2gui) / [Application](./index.md#application) / Application2args
 
-> Auto-generated documentation for [cli2gui.application.pysimplegui2args](../../../../cli2gui/application/pysimplegui2args.py) module.
+> Auto-generated documentation for [cli2gui.application.application2args](../../../../cli2gui/application/application2args.py) module.
 
-- [Pysimplegui2args](#pysimplegui2args)
+- [Application2args](#application2args)
   - [argFormat](#argformat)
   - [argparseFormat](#argparseformat)
   - [clickFormat](#clickformat)
@@ -14,7 +14,7 @@
 
 ## argFormat
 
-[Show source in pysimplegui2args.py:59](../../../../cli2gui/application/pysimplegui2args.py#L59)
+[Show source in application2args.py:59](../../../../cli2gui/application/application2args.py#L59)
 
 Format the args for the desired parser.
 
@@ -39,7 +39,7 @@ def argFormat(values: dict[str, Any], argumentParser: str | ParserType) -> Any: 
 
 ## argparseFormat
 
-[Show source in pysimplegui2args.py:11](../../../../cli2gui/application/pysimplegui2args.py#L11)
+[Show source in application2args.py:11](../../../../cli2gui/application/application2args.py#L11)
 
 Format args for argparse.
 
@@ -53,7 +53,7 @@ def argparseFormat(values: dict[str, Any]) -> argparse.Namespace: ...
 
 ## clickFormat
 
-[Show source in pysimplegui2args.py:49](../../../../cli2gui/application/pysimplegui2args.py#L49)
+[Show source in application2args.py:49](../../../../cli2gui/application/application2args.py#L49)
 
 Format args for click.
 
@@ -67,7 +67,7 @@ def clickFormat(values: dict[str, Any]) -> list[Any]: ...
 
 ## docoptFormat
 
-[Show source in pysimplegui2args.py:39](../../../../cli2gui/application/pysimplegui2args.py#L39)
+[Show source in application2args.py:39](../../../../cli2gui/application/application2args.py#L39)
 
 Format args for docopt.
 
@@ -81,7 +81,7 @@ def docoptFormat(values: dict[str, Any]) -> dict[str, Any]: ...
 
 ## getoptFormat
 
-[Show source in pysimplegui2args.py:34](../../../../cli2gui/application/pysimplegui2args.py#L34)
+[Show source in application2args.py:34](../../../../cli2gui/application/application2args.py#L34)
 
 Format args for getopt.
 
@@ -95,7 +95,7 @@ def getoptFormat(values: dict[str, Any]) -> tuple[list[Any], list[Any]]: ...
 
 ## optparseFormat
 
-[Show source in pysimplegui2args.py:26](../../../../cli2gui/application/pysimplegui2args.py#L26)
+[Show source in application2args.py:26](../../../../cli2gui/application/application2args.py#L26)
 
 Format args for optparse.
 

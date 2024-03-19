@@ -107,7 +107,6 @@ def Click2Gui(
 	gui: str | GUIType = "dearpygui",
 	theme: str | list[str] = "",
 	darkTheme: str | list[str] = "",
-	sizes: str | dict[str, int] = "",
 	image: str = "",
 	program_name: str = "",
 	program_description: str = "",
@@ -129,8 +128,6 @@ def Click2Gui(
 		darkTheme (Union[str, list[str]], optional): Set a base24 dark
 		theme variant. Can also pass a base24 scheme file. eg. one-dark.yaml.
 		Defaults to "".
-		sizes (Union[dict[str, int]], optional): Set the UI sizes such as
-		the button size. Defaults to "".
 		image (str, optional): Set the program icon. File
 		extensions can be any that PIL supports. Defaults to "".
 		program_name (str, optional): Override the program name.
@@ -155,7 +152,6 @@ def Click2Gui(
 		gui=gui,
 		theme=theme,
 		darkTheme=darkTheme,
-		sizes=sizes,
 		image=image,
 		program_name=program_name,
 		program_description=program_description,
@@ -176,7 +172,6 @@ def Cli2Gui(
 	gui: str | ParserType = "dearpygui",
 	theme: str | list[str] = "",
 	darkTheme: str | list[str] = "",
-	sizes: str | dict[str, int] = "",
 	image: str = "",
 	program_name: str = "",
 	program_description: str = "",
@@ -203,8 +198,6 @@ def Cli2Gui(
 		darkTheme (Union[str, list[str]], optional): Set a base24 dark
 		theme variant. Can also pass a base24 scheme file. eg. one-dark.yaml.
 		Defaults to "".
-		sizes (Union[dict[str, int]], optional): Set the UI sizes such as
-		the button size. Defaults to "".
 		image (str, optional): Set the program icon. File
 		extensions can be any that PIL supports. Defaults to "".
 		program_name (str, optional): Override the program name.
@@ -228,7 +221,6 @@ def Cli2Gui(
 		gui=gui,
 		theme=theme,
 		darkTheme=darkTheme,
-		sizes=sizes,
 		image=image,
 		program_name=program_name,
 		program_description=program_description,

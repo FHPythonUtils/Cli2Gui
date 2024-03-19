@@ -11,5 +11,6 @@
 
 - [Application](application/index.md)
 - [Decorators](./decorators.md)
+- [Gui](gui/index.md)
 - [Tojson](tojson/index.md)
 - [Types](./types.md)

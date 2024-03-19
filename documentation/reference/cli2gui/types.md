@@ -30,7 +30,7 @@ class BuildSpec(TypedDict): ...
 
 ## FullBuildSpec
 
-[Show source in types.py:71](../../../cli2gui/types.py#L71)
+[Show source in types.py:77](../../../cli2gui/types.py#L77)
 
 Representation for the FullBuildSpec (BuildSpec + ParserRep).
 
@@ -44,7 +44,7 @@ class FullBuildSpec(TypedDict): ...
 
 ## GUIType
 
-[Show source in types.py:112](../../../cli2gui/types.py#L112)
+[Show source in types.py:117](../../../cli2gui/types.py#L117)
 
 Supported gui types.
 
@@ -62,7 +62,7 @@ class GUIType(str, Enum): ...
 
 ## Group
 
-[Show source in types.py:54](../../../cli2gui/types.py#L54)
+[Show source in types.py:60](../../../cli2gui/types.py#L60)
 
 Representation for an argument group.
 
@@ -76,7 +76,7 @@ class Group(TypedDict): ...
 
 ## Item
 
-[Show source in types.py:30](../../../cli2gui/types.py#L30)
+[Show source in types.py:29](../../../cli2gui/types.py#L29)
 
 Representation for an arg_item.
 
@@ -90,7 +90,7 @@ class Item(TypedDict): ...
 
 ## ItemType
 
-[Show source in types.py:42](../../../cli2gui/types.py#L42)
+[Show source in types.py:44](../../../cli2gui/types.py#L44)
 
 Enum of ItemTypes.
 
@@ -104,7 +104,7 @@ class ItemType(Enum): ...
 
 ## ParserRep
 
-[Show source in types.py:63](../../../cli2gui/types.py#L63)
+[Show source in types.py:69](../../../cli2gui/types.py#L69)
 
 Representation for a parser.
 
@@ -118,7 +118,7 @@ class ParserRep(TypedDict): ...
 
 ## ParserType
 
-[Show source in types.py:90](../../../cli2gui/types.py#L90)
+[Show source in types.py:95](../../../cli2gui/types.py#L95)
 
 Supported parser types.
 

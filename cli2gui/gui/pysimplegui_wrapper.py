@@ -40,7 +40,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 
 		if psg_lib in ["pysimpleguiqt", "pysimpleguiweb"]:
 			self.sizes = {
-				"title_size": 28,
+				"title_size": 18,
 				"label_size": (600, None),
 				"input_size": (30, 1),
 				"button": (10, 1),
@@ -387,9 +387,15 @@ class PySimpleGUIWrapper(AbstractGUI):
 						argConstruct,
 						size=(
 							850,
-							buildSpec["max_args_shown"]
-							* 3.5
-							* (self.sizes["help_text_size"] + self.sizes["text_size"]),
+							min(
+								max(
+									280,
+									buildSpec["max_args_shown"]
+									* 3.5
+									* (self.sizes["help_text_size"] + self.sizes["text_size"]),
+								),
+								700,
+							),
 						),
 						pad=(0, 0),
 						scrollable=True,

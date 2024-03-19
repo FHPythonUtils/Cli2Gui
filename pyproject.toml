@@ -26,14 +26,14 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-Pillow = "^10.2.0"
-PyYAML = "^6.0.1"
-catpandoc = {version = "^2024", optional = true}
-PySimpleGUIWeb = {version = "^0.39.0", optional = true}
-PySimpleGUIQt = {version = "^5.0.0", optional = true}
-getostheme = "^2024.0.1"
-dearpygui = "^1.11.1"
-pysimplegui = {version = "^5.0.3", optional = true}
+Pillow = "<11,>=10.2.0"
+PyYAML = "<7,>=6.0.1"
+catpandoc = {version = "<2026,>=2024", optional = true}
+PySimpleGUIWeb = {version = "<2,>=0.39.0", optional = true}
+PySimpleGUIQt = {version = "<6,>=5.0.0", optional = true}
+getostheme = "<2026,>=2024.0.1"
+dearpygui = "<2,>=1.11.1"
+pysimplegui = {version = "<6,>=5.0.3", optional = true}
 
 [tool.poetry.extras]
 psg = ["pysimplegui"]

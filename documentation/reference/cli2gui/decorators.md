@@ -11,7 +11,7 @@
 
 ## Cli2Gui
 
-[Show source in decorators.py:172](../../../cli2gui/decorators.py#L172)
+[Show source in decorators.py:168](../../../cli2gui/decorators.py#L168)
 
 Use this decorator in the function containing the argument parser.
 Serialises data to JSON and launches the Cli2Gui application.
@@ -27,15 +27,13 @@ Serialises data to JSON and launches the Cli2Gui application.
  - `options` *are* - "argparse", "getopt", "optparse", "docopt",
  "dephell_argparse". Defaults to "argparse".
  - `gui` *str, optional* - Override the gui to use. Current options are:
- "pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
- "pysimplegui".
+ "dearpygui" ,"pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
+ "dearpygui".
  theme (Union[str, list[str]], optional): Set a base24 theme. Can
  also pass a base24 scheme file. eg. one-light.yaml. Defaults to "".
  darkTheme (Union[str, list[str]], optional): Set a base24 dark
  theme variant. Can also pass a base24 scheme file. eg. one-dark.yaml.
  Defaults to "".
- sizes (Union[dict[str, int]], optional): Set the UI sizes such as
- the button size. Defaults to "".
  - `image` *str, optional* - Set the program icon. File
  extensions can be any that PIL supports. Defaults to "".
  - `program_name` *str, optional* - Override the program name.
@@ -60,10 +58,9 @@ def Cli2Gui(
     run_function: Callable[..., Any],
     auto_enable: bool = False,
     parser: str | ParserType = "argparse",
-    gui: str | ParserType = "pysimplegui",
+    gui: str | ParserType = "dearpygui",
     theme: str | list[str] = "",
     darkTheme: str | list[str] = "",
-    sizes: str | dict[str, int] = "",
     image: str = "",
     program_name: str = "",
     program_description: str = "",
@@ -86,15 +83,13 @@ Serializes data to JSON and launches the Cli2Gui application.
 ----
  run_function (Callable[..., Any]): The name of the function to call eg.
  - `gui` *str, optional* - Override the gui to use. Current options are:
- "pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
- "pysimplegui".
+ "dearpygui", "pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
+ "dearpygui".
  theme (Union[str, list[str]], optional): Set a base24 theme. Can
  also pass a base24 scheme file. eg. one-light.yaml. Defaults to "".
  darkTheme (Union[str, list[str]], optional): Set a base24 dark
  theme variant. Can also pass a base24 scheme file. eg. one-dark.yaml.
  Defaults to "".
- sizes (Union[dict[str, int]], optional): Set the UI sizes such as
- the button size. Defaults to "".
  - `image` *str, optional* - Set the program icon. File
  extensions can be any that PIL supports. Defaults to "".
  - `program_name` *str, optional* - Override the program name.
@@ -118,10 +113,9 @@ Serializes data to JSON and launches the Cli2Gui application.
 ```python
 def Click2Gui(
     run_function: Callable[..., Any],
-    gui: str | GUIType = "pysimplegui",
+    gui: str | GUIType = "dearpygui",
     theme: str | list[str] = "",
     darkTheme: str | list[str] = "",
-    sizes: str | dict[str, int] = "",
     image: str = "",
     program_name: str = "",
     program_description: str = "",

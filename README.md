@@ -28,7 +28,6 @@ Use this module to convert a CLI program to a GUI
 	- [gui (optional)](#gui-optional)
 	- [theme (optional)](#theme-optional)
 	- [darkTheme (optional)](#darktheme-optional)
-	- [sizes (optional)](#sizes-optional)
 	- [image (optional)](#image-optional)
 	- [program\_name (optional)](#program_name-optional)
 	- [program\_description (optional)](#program_description-optional)
@@ -266,21 +265,6 @@ Set a base24 dark theme variant. Can also pass a base24 scheme file. eg.
 		"#98c379", "#56b6c2", "#61afef", "#c678dd", "#be5046", "#21252b",
 		"#181a1f", "#ff7b86", "#efb074", "#b1e18b", "#63d4e0", "#67cdff",
 		"#e48bff"])
-```
-
-### sizes (optional)
-
-Set the UI sizes such as the button size
-
-```python
-@Cli2Gui(sizes={
-		"title_size": 28,
-		"label_size": (30, None),
-		"input_size": (30, 1),
-		"button":(10, 1),
-		"padding":(5, 10),
-		"helpText_size": 14,
-		"text_size": 11})
 ```
 
 ### image (optional)

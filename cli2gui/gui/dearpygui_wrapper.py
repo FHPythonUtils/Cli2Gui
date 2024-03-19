@@ -186,7 +186,7 @@ class DearPyGuiWrapper(AbstractGUI):
 			)
 			dpg.add_theme_color(
 				dpg.mvThemeCol_MenuBarBg,
-				hex_to_rgb(self.base24Theme[2]),
+				hex_to_rgb(self.base24Theme[0]),
 				category=dpg.mvThemeCat_Core,
 			)
 			dpg.add_theme_color(
@@ -284,7 +284,11 @@ class DearPyGuiWrapper(AbstractGUI):
 		# Create Window, set up Menu and Widgets
 		################
 
-		dpg.create_viewport(title=buildSpec["program_name"], width=875, height=600)
+		dpg.create_viewport(
+			title=buildSpec["program_name"],
+			width=875,
+			height=min(max(400, 120 * buildSpec["max_args_shown"]), 1080),
+		)
 
 		with dpg.window(label="", tag="primary"):
 			if len(buildSpec["menu"]) > 0:

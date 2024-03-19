@@ -10,5 +10,4 @@
 ## Modules
 
 - [Application](./application.md)
-- [Pysimplegui2args](./pysimplegui2args.md)
-- [Widgets](./widgets.md)
+- [Application2args](./application2args.md)

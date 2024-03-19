@@ -18,7 +18,6 @@ class BuildSpec(TypedDict):
 	gui: str | GUIType
 	theme: str | list[str]
 	darkTheme: str | list[str]
-	sizes: str | dict[str, Any]
 	image: str
 	program_name: str
 	program_description: str
@@ -83,7 +82,6 @@ class FullBuildSpec(TypedDict):
 	gui: str
 	theme: str | list[str]
 	darkTheme: str | list[str]
-	sizes: str | dict[str, Any]
 	image: str
 	program_name: str
 	program_description: str
