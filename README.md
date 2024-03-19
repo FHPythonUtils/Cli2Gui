@@ -148,7 +148,7 @@ from cli2gui import Cli2Gui
 
 ```python
 @Cli2Gui(run_function, auto_enable=False, parser="argparse", gui="pysimplegui",
-		theme="", darkTheme="", sizes="", image="", program_name="",
+		theme="", darkTheme="", image="", program_name="",
 		program_description="", max_args_shown=5, **kwargs)
 ```
 
@@ -318,7 +318,7 @@ Works significantly better with pysimplegui than pysimpleguiqt
 
 ```python
 def Click2Gui(run_function, gui="pysimplegui", theme="", darkTheme="",
-		sizes="", image="", program_name="", program_description="",
+		image="", program_name="", program_description="",
 		max_args_shown=5, menu="", **kwargs):
 ```
 

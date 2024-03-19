@@ -2,7 +2,7 @@
 
 ```python
 @Cli2Gui(run_function, auto_enable=False, parser="argparse", gui="pysimplegui",
-		theme="", darkTheme="", sizes="", image="", program_name="",
+		theme="", darkTheme="", image="", program_name="",
 		program_description="", max_args_shown=5, **kwargs)
 ```
 
@@ -79,21 +79,6 @@ Set a base24 dark theme variant. Can also pass a base24 scheme file. eg.
 		"#e48bff"])
 ```
 
-### sizes (optional)
-
-Set the UI sizes such as the button size
-
-```python
-@Cli2Gui(sizes={
-		"title_size": 28,
-		"label_size": (30, None),
-		"input_size": (30, 1),
-		"button":(10, 1),
-		"padding":(5, 10),
-		"helpText_size": 14,
-		"text_size": 11})
-```
-
 ### image (optional)
 
 Set the program icon. File extensions can be any that PIL supports
@@ -145,7 +130,7 @@ Works significantly better with pysimplegui than pysimpleguiqt
 
 ```python
 def Click2Gui(run_function, gui="pysimplegui", theme="", darkTheme="",
-		sizes="", image="", program_name="", program_description="",
+		image="", program_name="", program_description="",
 		max_args_shown=5, menu="", **kwargs):
 ```
 
