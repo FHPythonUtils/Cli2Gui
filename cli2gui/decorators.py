@@ -122,8 +122,7 @@ def Click2Gui(
 		run_function (Callable[..., Any]): The name of the function to call eg.
 		gui (str, optional): Override the gui to use. Current options are:
 		"dearpygui", "pysimplegui", "pysimpleguiqt","pysimpleguiweb","freesimplegui",
-		"freesimpleguiwx","freesimpleguiweb","freesimpleguiqt". Defaults to
-		"dearpygui".
+		Defaults to "dearpygui".
 		theme (Union[str, list[str]], optional): Set a base24 theme. Can
 		also pass a base24 scheme file. eg. one-light.yaml. Defaults to "".
 		darkTheme (Union[str, list[str]], optional): Set a base24 dark
@@ -193,8 +192,7 @@ def Cli2Gui(
 		"dephell_argparse". Defaults to "argparse".
 		gui (str, optional): Override the gui to use. Current options are:
 		"dearpygui", "pysimplegui", "pysimpleguiqt","pysimpleguiweb","freesimplegui",
-		"freesimpleguiwx","freesimpleguiweb","freesimpleguiqt". Defaults to
-		"dearpygui".
+		Defaults to "dearpygui".
 		theme (Union[str, list[str]], optional): Set a base24 theme. Can
 		also pass a base24 scheme file. eg. one-light.yaml. Defaults to "".
 		darkTheme (Union[str, list[str]], optional): Set a base24 dark

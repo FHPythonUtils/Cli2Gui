@@ -30,12 +30,6 @@ class PySimpleGUIWrapper(AbstractGUI):
 		elif psg_lib == "pysimpleguiweb":
 			import PySimpleGUIWeb as gui_lib
 
-		if psg_lib == "freesimpleguiqt":
-			import FreeSimpleGUIQt as gui_lib
-		elif psg_lib == "freesimpleguiwx":
-			import FreeSimpleGUIWx as gui_lib
-		elif psg_lib == "freesimpleguiweb":
-			import FreeSimpleGUIWeb as gui_lib
 		self.sg = gui_lib
 		self.psg_lib = psg_lib
 		self.sizes = {

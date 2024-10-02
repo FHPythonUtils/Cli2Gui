@@ -1,5 +1,4 @@
-"""Application here uses PySimpleGUI.
-"""
+"""Application here uses PySimpleGUI."""
 
 from __future__ import annotations
 
@@ -27,20 +26,19 @@ def run(buildSpec: types.FullBuildSpec) -> None:
 	# Set the theme
 	theme = helpers.get_base24_theme(buildSpec["theme"], buildSpec["darkTheme"])
 
-	gui_wrapper = {
-		"dearpygui": DearPyGuiWrapper,
-		"pysimplegui": PySimpleGUIWrapper,
-		"pysimpleguiqt": PySimpleGUIWrapper,
-		"pysimpleguiweb": PySimpleGUIWrapper,
-		"freesimplegui": PySimpleGUIWrapper,
-		"freesimpleguiqt": PySimpleGUIWrapper,
-		"freesimpleguiweb": PySimpleGUIWrapper,
-		"freesimpleguiwx": PySimpleGUIWrapper,
-	}.get(buildSpec["gui"], DearPyGuiWrapper)
-
-	if "pysimplegui" in buildSpec["gui"] or "freesimplegui" in buildSpec["gui"]:
-		gui = gui_wrapper(theme, buildSpec["gui"])
+	if buildSpec["gui"] in [
+		"pysimplegui",
+		"pysimpleguiqt",
+		"pysimpleguiweb",
+		"freesimplegui",
+	]:
+		gui_wrapper = PySimpleGUIWrapper
 	else:
+		gui_wrapper = DearPyGuiWrapper
+
+	if isinstance(gui_wrapper, PySimpleGUIWrapper):
+		gui = gui_wrapper(theme, buildSpec["gui"])
+	elif isinstance(gui_wrapper, DearPyGuiWrapper):
 		gui = gui_wrapper(theme)
 
 	def quit_callback() -> None:
