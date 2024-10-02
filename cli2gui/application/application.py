@@ -30,9 +30,10 @@ def run(buildSpec: types.FullBuildSpec) -> None:
 	gui_wrapper = {
 		"dearpygui": DearPyGuiWrapper,
 		"pysimplegui": PySimpleGUIWrapper,
+		"freesimplegui": PySimpleGUIWrapper,
 	}.get(buildSpec["gui"], DearPyGuiWrapper)
 
-	if "pysimplegui" in buildSpec["gui"]:
+	if "pysimplegui" in buildSpec["gui"] or "freesimplegui" in buildSpec["gui"]:
 		gui = gui_wrapper(theme, buildSpec["gui"])
 	else:
 		gui = gui_wrapper(theme)
