@@ -36,9 +36,9 @@ def run(buildSpec: types.FullBuildSpec) -> None:
 	else:
 		gui_wrapper = DearPyGuiWrapper
 
-	if isinstance(gui_wrapper, PySimpleGUIWrapper):
+	if gui_wrapper is PySimpleGUIWrapper:
 		gui = gui_wrapper(theme, buildSpec["gui"])
-	elif isinstance(gui_wrapper, DearPyGuiWrapper):
+	elif gui_wrapper is DearPyGuiWrapper:
 		gui = gui_wrapper(theme)
 
 	def quit_callback() -> None:
