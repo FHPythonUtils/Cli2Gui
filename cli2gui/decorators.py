@@ -192,7 +192,8 @@ def Cli2Gui(
 		options are: "argparse", "getopt", "optparse", "docopt",
 		"dephell_argparse". Defaults to "argparse".
 		gui (str, optional): Override the gui to use. Current options are:
-		"dearpygui" ,"pysimplegui", "pysimpleguiqt","pysimpleguiweb". Defaults to
+		"dearpygui", "pysimplegui", "pysimpleguiqt","pysimpleguiweb","freesimplegui",
+		"freesimpleguiwx","freesimpleguiweb","freesimpleguiqt". Defaults to
 		"dearpygui".
 		theme (Union[str, list[str]], optional): Set a base24 theme. Can
 		also pass a base24 scheme file. eg. one-light.yaml. Defaults to "".
