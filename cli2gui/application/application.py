@@ -30,7 +30,12 @@ def run(buildSpec: types.FullBuildSpec) -> None:
 	gui_wrapper = {
 		"dearpygui": DearPyGuiWrapper,
 		"pysimplegui": PySimpleGUIWrapper,
+		"pysimpleguiqt": PySimpleGUIWrapper,
+		"pysimpleguiweb": PySimpleGUIWrapper,
 		"freesimplegui": PySimpleGUIWrapper,
+		"freesimpleguiqt": PySimpleGUIWrapper,
+		"freesimpleguiweb": PySimpleGUIWrapper,
+		"freesimpleguiwx": PySimpleGUIWrapper,
 	}.get(buildSpec["gui"], DearPyGuiWrapper)
 
 	if "pysimplegui" in buildSpec["gui"] or "freesimplegui" in buildSpec["gui"]:
