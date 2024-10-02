@@ -6,3 +6,7 @@ catpandoc<2026,>=2024
 dearpygui<2,>=1.11.1
 getostheme<2026,>=2024.0.1
 pysimplegui<6,>=5.0.3
+freesimplegui<6,>=5.0.0
+FreeSimpleGUIWx<2,>=1.0.0
+FreeSimpleGUIQt<2,>=1.0.0
+FreeSimpleGUIWeb<2,>=1.0.0
