@@ -383,7 +383,10 @@ class PySimpleGUIWrapper(AbstractGUI):
 				],
 			]
 		)
-		if len(argConstruct) > buildSpec["max_args_shown"] and self.psg_lib in ("pysimplegui", "freesimplegui"):
+		if len(argConstruct) > buildSpec["max_args_shown"] and self.psg_lib in (
+			"pysimplegui",
+			"freesimplegui",
+		):
 			layout.append(
 				[
 					self.sg.Column(

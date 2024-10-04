@@ -284,13 +284,25 @@ class DearPyGuiWrapper(AbstractGUI):
 		# Create Window, set up Menu and Widgets
 		################
 
+		# Define "Run" and "Exit" buttons
+		def _run_callback() -> None:
+			_items = [item for item in items if "dest" in item]
+			myd = {item["dest"]: dpg.get_value(item["dest"]) for item in _items}
+			run_callback(myd)
+
+		def close_dpg() -> None:
+			dpg.destroy_context()
+			quit_callback()
+
 		dpg.create_viewport(
 			title=buildSpec["program_name"],
 			width=875,
 			height=min(max(400, 120 * buildSpec["max_args_shown"]), 1080),
 		)
 
-		with dpg.window(label="", tag="primary"):
+		dpg.set_exit_callback(close_dpg)
+
+		with dpg.window(label="", tag="primary", on_close=close_dpg):
 			if len(buildSpec["menu"]) > 0:
 				with dpg.menu_bar(), dpg.menu(label="Open"):
 					for menu_item in buildSpec["menu"]:
@@ -310,16 +322,6 @@ class DearPyGuiWrapper(AbstractGUI):
 			items = []
 			for widget in buildSpec["widgets"]:
 				items.extend(self.addItemsAndGroups(widget))
-
-			# Define "Run" and "Exit" buttons
-			def _run_callback() -> None:
-				_items = [item for item in items if "dest" in item]
-				myd = {item["dest"]: dpg.get_value(item["dest"]) for item in _items}
-				run_callback(myd)
-
-			def close_dpg() -> None:
-				dpg.destroy_context()
-				quit_callback()
 
 			dpg.add_button(label="Run", callback=_run_callback)
 			dpg.add_button(label="Exit", callback=close_dpg)
