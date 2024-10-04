@@ -11,7 +11,7 @@ from cli2gui.gui import helpers
 from cli2gui.gui.abstract_gui import AbstractGUI
 
 if TYPE_CHECKING:
-	import PySimpleGUI as gui_lib
+	import FreeSimpleGUI as gui_lib
 
 
 class PySimpleGUIWrapper(AbstractGUI):
@@ -20,15 +20,14 @@ class PySimpleGUIWrapper(AbstractGUI):
 	def __init__(self, base24Theme: list[str], psg_lib: str) -> None:
 		super().__init__()
 
-		if psg_lib.startswith("pysimplegui"):
+		if psg_lib == "pysimplegui":
 			import PySimpleGUI as gui_lib
-		else:
-			import FreeSimpleGUI as gui_lib
-
-		if psg_lib == "pysimpleguiqt":
+		elif psg_lib == "pysimpleguiqt":
 			import PySimpleGUIQt as gui_lib
 		elif psg_lib == "pysimpleguiweb":
 			import PySimpleGUIWeb as gui_lib
+		else:
+			import FreeSimpleGUI as gui_lib
 
 		self.sg = gui_lib
 		self.psg_lib = psg_lib
@@ -384,7 +383,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 				],
 			]
 		)
-		if len(argConstruct) > buildSpec["max_args_shown"] and self.psg_lib == "pysimplegui":
+		if len(argConstruct) > buildSpec["max_args_shown"] and self.psg_lib in ("pysimplegui", "freesimplegui"):
 			layout.append(
 				[
 					self.sg.Column(

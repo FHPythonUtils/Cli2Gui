@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cli2gui"
-version = "2024.1"
+version = "2024.2"
 license = "mit"
 description = "Use this module to convert a cli program to a gui"
 authors = ["FredHappyface"]
@@ -34,9 +34,11 @@ PySimpleGUIQt = {version = "<6,>=5.0.0", optional = true}
 getostheme = "<2026,>=2024.0.1"
 dearpygui = "<2,>=1.11.1"
 pysimplegui = {version = "<6,>=5.0.3", optional = true}
+freesimplegui = {version = "<6,>=5.1.1", optional = true}
 
 [tool.poetry.extras]
 psg = ["pysimplegui"]
+fsg = ["freesimplegui"]
 web = ["PySimpleGUIWeb"]
 qt = ["PySimpleGUIQt"]
 pandoc = ["catpandoc"]
