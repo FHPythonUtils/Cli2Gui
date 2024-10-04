@@ -51,6 +51,7 @@ Supported gui types.
 DEFAULT = "pysimplegui"
 WEB = "pysimpleguiweb"
 QT = "pysimpleguiqt"
+FSG = "freesimplegui"
 
 #### Signature
 

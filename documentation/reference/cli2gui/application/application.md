@@ -9,7 +9,7 @@
 
 ## run
 
-[Show source in application.py:17](../../../../cli2gui/application/application.py#L17)
+[Show source in application.py:16](../../../../cli2gui/application/application.py#L16)
 
 Establish the main entry point.
 
