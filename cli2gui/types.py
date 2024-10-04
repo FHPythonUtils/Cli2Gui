@@ -120,8 +120,10 @@ class GUIType(str, Enum):
 	DEFAULT = "pysimplegui"
 	WEB = "pysimpleguiweb"
 	QT = "pysimpleguiqt"
+	FSG = "freesimplegui"
 	"""
 
 	DEFAULT = "pysimplegui"
 	WEB = "pysimpleguiweb"
 	QT = "pysimpleguiqt"
+	FSG = "freesimplegui"

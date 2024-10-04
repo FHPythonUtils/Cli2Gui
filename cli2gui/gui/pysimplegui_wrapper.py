@@ -20,12 +20,16 @@ class PySimpleGUIWrapper(AbstractGUI):
 	def __init__(self, base24Theme: list[str], psg_lib: str) -> None:
 		super().__init__()
 
-		import PySimpleGUI as gui_lib
+		if psg_lib.startswith("pysimplegui"):
+			import PySimpleGUI as gui_lib
+		else:
+			import FreeSimpleGUI as gui_lib
 
 		if psg_lib == "pysimpleguiqt":
 			import PySimpleGUIQt as gui_lib
 		elif psg_lib == "pysimpleguiweb":
 			import PySimpleGUIWeb as gui_lib
+
 		self.sg = gui_lib
 		self.psg_lib = psg_lib
 		self.sizes = {
@@ -38,7 +42,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 			"text_size": 11,
 		}
 
-		if psg_lib in ["pysimpleguiqt", "pysimpleguiweb"]:
+		if psg_lib not in ["pysimplegui", "freesimplegui"]:
 			self.sizes = {
 				"title_size": 18,
 				"label_size": (600, None),
