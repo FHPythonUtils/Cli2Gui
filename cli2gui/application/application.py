@@ -13,7 +13,7 @@ from cli2gui.gui.dearpygui_wrapper import DearPyGuiWrapper
 from cli2gui.gui.pysimplegui_wrapper import PySimpleGUIWrapper
 
 
-def run(buildSpec: types.FullBuildSpec) -> None:
+def run(buildSpec: types.FullBuildSpec) -> Any:
 	"""Establish the main entry point.
 
 	Args:
