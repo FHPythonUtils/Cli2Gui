@@ -31,7 +31,7 @@
 
 ## PySimpleGUIWrapper
 
-[Show source in pysimplegui_wrapper.py:17](../../../../cli2gui/gui/pysimplegui_wrapper.py#L17)
+[Show source in pysimplegui_wrapper.py:16](../../../../cli2gui/gui/pysimplegui_wrapper.py#L16)
 
 Wrapper class for PySimpleGUI.
 
@@ -48,43 +48,43 @@ class PySimpleGUIWrapper(AbstractGUI):
 
 ### PySimpleGUIWrapper()._button
 
-[Show source in pysimplegui_wrapper.py:100](../../../../cli2gui/gui/pysimplegui_wrapper.py#L100)
+[Show source in pysimplegui_wrapper.py:99](../../../../cli2gui/gui/pysimplegui_wrapper.py#L99)
 
 Return a button.
 
 #### Signature
 
 ```python
-def _button(self, text: str) -> gui_lib.Element: ...
+def _button(self, text: str) -> Any: ...
 ```
 
 ### PySimpleGUIWrapper()._check
 
-[Show source in pysimplegui_wrapper.py:90](../../../../cli2gui/gui/pysimplegui_wrapper.py#L90)
+[Show source in pysimplegui_wrapper.py:89](../../../../cli2gui/gui/pysimplegui_wrapper.py#L89)
 
 Return a checkbox.
 
 #### Signature
 
 ```python
-def _check(self, key: str, default: str | None = None) -> gui_lib.Element: ...
+def _check(self, key: str, default: str | None = None) -> Any: ...
 ```
 
 ### PySimpleGUIWrapper()._dropdown
 
-[Show source in pysimplegui_wrapper.py:121](../../../../cli2gui/gui/pysimplegui_wrapper.py#L121)
+[Show source in pysimplegui_wrapper.py:120](../../../../cli2gui/gui/pysimplegui_wrapper.py#L120)
 
 Return a dropdown.
 
 #### Signature
 
 ```python
-def _dropdown(self, key: str, argItems: list[str]) -> gui_lib.Element: ...
+def _dropdown(self, key: str, argItems: list[str]) -> Any: ...
 ```
 
 ### PySimpleGUIWrapper()._fileBrowser
 
-[Show source in pysimplegui_wrapper.py:130](../../../../cli2gui/gui/pysimplegui_wrapper.py#L130)
+[Show source in pysimplegui_wrapper.py:129](../../../../cli2gui/gui/pysimplegui_wrapper.py#L129)
 
 Return a fileBrowser button and field.
 
@@ -92,37 +92,41 @@ Return a fileBrowser button and field.
 
 ```python
 def _fileBrowser(
-    self, key: str, default: str | None = None
-) -> list[gui_lib.Element]: ...
+    self, key: str, default: str | None = None, _type: ItemType = ItemType.File
+) -> list[Any]: ...
 ```
+
+#### See also
+
+- [ItemType](../types.md#itemtype)
 
 ### PySimpleGUIWrapper()._helpArgHelp
 
-[Show source in pysimplegui_wrapper.py:157](../../../../cli2gui/gui/pysimplegui_wrapper.py#L157)
+[Show source in pysimplegui_wrapper.py:158](../../../../cli2gui/gui/pysimplegui_wrapper.py#L158)
 
 Return a label for the arg help text.
 
 #### Signature
 
 ```python
-def _helpArgHelp(self, helpText: str) -> gui_lib.Element: ...
+def _helpArgHelp(self, helpText: str) -> Any: ...
 ```
 
 ### PySimpleGUIWrapper()._helpArgName
 
-[Show source in pysimplegui_wrapper.py:153](../../../../cli2gui/gui/pysimplegui_wrapper.py#L153)
+[Show source in pysimplegui_wrapper.py:154](../../../../cli2gui/gui/pysimplegui_wrapper.py#L154)
 
 Return a label for the arg name.
 
 #### Signature
 
 ```python
-def _helpArgName(self, displayName: str, commands: list[str]) -> gui_lib.Element: ...
+def _helpArgName(self, displayName: str, commands: list[str]) -> Any: ...
 ```
 
 ### PySimpleGUIWrapper()._helpArgNameAndHelp
 
-[Show source in pysimplegui_wrapper.py:161](../../../../cli2gui/gui/pysimplegui_wrapper.py#L161)
+[Show source in pysimplegui_wrapper.py:162](../../../../cli2gui/gui/pysimplegui_wrapper.py#L162)
 
 Return a column containing the argument name and help text.
 
@@ -131,124 +135,146 @@ Return a column containing the argument name and help text.
 ```python
 def _helpArgNameAndHelp(
     self, commands: list[str], helpText: str, displayName: str
-) -> gui_lib.Element: ...
+) -> Any: ...
 ```
 
 ### PySimpleGUIWrapper()._helpCounterWidget
 
-[Show source in pysimplegui_wrapper.py:209](../../../../cli2gui/gui/pysimplegui_wrapper.py#L209)
+[Show source in pysimplegui_wrapper.py:213](../../../../cli2gui/gui/pysimplegui_wrapper.py#L213)
 
 Return a set of self that make up an arg with text.
 
 #### Signature
 
 ```python
-def _helpCounterWidget(self, item: types.Item) -> list[gui_lib.Element]: ...
+def _helpCounterWidget(self, item: Item) -> list[Any]: ...
 ```
+
+#### See also
+
+- [Item](../types.md#item)
 
 ### PySimpleGUIWrapper()._helpDropdownWidget
 
-[Show source in pysimplegui_wrapper.py:229](../../../../cli2gui/gui/pysimplegui_wrapper.py#L229)
+[Show source in pysimplegui_wrapper.py:235](../../../../cli2gui/gui/pysimplegui_wrapper.py#L235)
 
 Return a set of self that make up an arg with a choice.
 
 #### Signature
 
 ```python
-def _helpDropdownWidget(self, item: types.Item) -> list[gui_lib.Element]: ...
+def _helpDropdownWidget(self, item: Item) -> list[Any]: ...
 ```
+
+#### See also
+
+- [Item](../types.md#item)
 
 ### PySimpleGUIWrapper()._helpFileWidget
 
-[Show source in pysimplegui_wrapper.py:219](../../../../cli2gui/gui/pysimplegui_wrapper.py#L219)
+[Show source in pysimplegui_wrapper.py:225](../../../../cli2gui/gui/pysimplegui_wrapper.py#L225)
 
 Return a set of self that make up an arg with a file.
 
 #### Signature
 
 ```python
-def _helpFileWidget(self, item: types.Item) -> list[gui_lib.Element]: ...
+def _helpFileWidget(self, item: Item) -> list[Any]: ...
 ```
+
+#### See also
+
+- [Item](../types.md#item)
 
 ### PySimpleGUIWrapper()._helpFlagWidget
 
-[Show source in pysimplegui_wrapper.py:189](../../../../cli2gui/gui/pysimplegui_wrapper.py#L189)
+[Show source in pysimplegui_wrapper.py:188](../../../../cli2gui/gui/pysimplegui_wrapper.py#L188)
 
 Return a set of self that make up an arg with true/ false.
 
 #### Signature
 
 ```python
-def _helpFlagWidget(self, item: types.Item) -> list[gui_lib.Element]: ...
+def _helpFlagWidget(self, item: Item) -> list[Any]: ...
 ```
+
+#### See also
+
+- [Item](../types.md#item)
 
 ### PySimpleGUIWrapper()._helpTextWidget
 
-[Show source in pysimplegui_wrapper.py:199](../../../../cli2gui/gui/pysimplegui_wrapper.py#L199)
+[Show source in pysimplegui_wrapper.py:200](../../../../cli2gui/gui/pysimplegui_wrapper.py#L200)
 
 Return a set of self that make up an arg with text.
 
 #### Signature
 
 ```python
-def _helpTextWidget(self, item: types.Item) -> list[gui_lib.Element]: ...
+def _helpTextWidget(self, item: Item) -> list[Any]: ...
 ```
+
+#### See also
+
+- [Item](../types.md#item)
 
 ### PySimpleGUIWrapper()._inputText
 
-[Show source in pysimplegui_wrapper.py:69](../../../../cli2gui/gui/pysimplegui_wrapper.py#L69)
+[Show source in pysimplegui_wrapper.py:68](../../../../cli2gui/gui/pysimplegui_wrapper.py#L68)
 
 Return an input text field.
 
 #### Signature
 
 ```python
-def _inputText(self, key: str, default: str | None = None) -> gui_lib.Element: ...
+def _inputText(self, key: str, default: str | None = None) -> Any: ...
 ```
 
 ### PySimpleGUIWrapper()._label
 
-[Show source in pysimplegui_wrapper.py:109](../../../../cli2gui/gui/pysimplegui_wrapper.py#L109)
+[Show source in pysimplegui_wrapper.py:108](../../../../cli2gui/gui/pysimplegui_wrapper.py#L108)
 
 Return a label.
 
 #### Signature
 
 ```python
-def _label(self, text: str, font: int = 11) -> gui_lib.Element: ...
+def _label(self, text: str, font: int = 11) -> Any: ...
 ```
 
 ### PySimpleGUIWrapper()._spin
 
-[Show source in pysimplegui_wrapper.py:79](../../../../cli2gui/gui/pysimplegui_wrapper.py#L79)
+[Show source in pysimplegui_wrapper.py:78](../../../../cli2gui/gui/pysimplegui_wrapper.py#L78)
 
 Return an input text field.
 
 #### Signature
 
 ```python
-def _spin(self, key: str, default: str | None = None) -> gui_lib.Element: ...
+def _spin(self, key: str, default: str | None = None) -> Any: ...
 ```
 
 ### PySimpleGUIWrapper()._title
 
-[Show source in pysimplegui_wrapper.py:170](../../../../cli2gui/gui/pysimplegui_wrapper.py#L170)
+[Show source in pysimplegui_wrapper.py:169](../../../../cli2gui/gui/pysimplegui_wrapper.py#L169)
 
 Return a set of self that make up the application header.
 
 #### Signature
 
 ```python
-def _title(self, text: str, image: str = "") -> list[gui_lib.Element]: ...
+def _title(self, text: str, image: str = "") -> list[Any]: ...
 ```
 
 ### PySimpleGUIWrapper().addItemsAndGroups
 
-[Show source in pysimplegui_wrapper.py:320](../../../../cli2gui/gui/pysimplegui_wrapper.py#L320)
+[Show source in pysimplegui_wrapper.py:337](../../../../cli2gui/gui/pysimplegui_wrapper.py#L337)
 
 Items and groups and return a list of psg Elements.
 
-:param types.Group section: section with a name to display and items
+#### Arguments
+
+- `section` *Group* - section with a name to display and items
 
 #### Returns
 
@@ -258,58 +284,72 @@ updated argConstruct
 #### Signature
 
 ```python
-def addItemsAndGroups(self, section: types.Group) -> list[list[gui_lib.Element]]: ...
+def addItemsAndGroups(self, section: Group) -> list[list[Any]]: ...
 ```
+
+#### See also
+
+- [Group](../types.md#group)
 
 ### PySimpleGUIWrapper().addWidgetFromItem
 
-[Show source in pysimplegui_wrapper.py:242](../../../../cli2gui/gui/pysimplegui_wrapper.py#L242)
+[Show source in pysimplegui_wrapper.py:254](../../../../cli2gui/gui/pysimplegui_wrapper.py#L254)
 
 Select a widget based on the item type.
 
-:param types.Item item: the item
+#### Arguments
+
+- `item` *Item* - the item
 
 #### Signature
 
 ```python
-def addWidgetFromItem(self, item: types.Item) -> list[gui_lib.Element]: ...
+def addWidgetFromItem(self, item: Item) -> list[Any]: ...
 ```
+
+#### See also
+
+- [Item](../types.md#item)
 
 ### PySimpleGUIWrapper().createLayout
 
-[Show source in pysimplegui_wrapper.py:345](../../../../cli2gui/gui/pysimplegui_wrapper.py#L345)
+[Show source in pysimplegui_wrapper.py:362](../../../../cli2gui/gui/pysimplegui_wrapper.py#L362)
 
 Create the pysimplegui layout from the build spec.
 
 #### Arguments
 
 ----
- - `buildSpec` *types.FullBuildSpec* - build spec containing widget
+ - `buildSpec` *FullBuildSpec* - build spec containing widget
  - `self` *self* - class to build self
 
 #### Returns
 
 -------
- - `list[list[gui_lib.Element]]` - list of self (layout list)
+ - `list[list[Any]]` - list of self (layout list)
 
 #### Signature
 
 ```python
 def createLayout(
-    self, buildSpec: types.FullBuildSpec, menu: str | list[str]
-) -> list[list[gui_lib.Element]]: ...
+    self, buildSpec: FullBuildSpec, menu: str | list[str]
+) -> list[list[Any]]: ...
 ```
+
+#### See also
+
+- [FullBuildSpec](../types.md#fullbuildspec)
 
 ### PySimpleGUIWrapper().generatePopup
 
-[Show source in pysimplegui_wrapper.py:260](../../../../cli2gui/gui/pysimplegui_wrapper.py#L260)
+[Show source in pysimplegui_wrapper.py:277](../../../../cli2gui/gui/pysimplegui_wrapper.py#L277)
 
 Create the popup window.
 
 #### Arguments
 
 ----
- - `buildSpec` *types.FullBuildSpec* - [description]
+ - `buildSpec` *FullBuildSpec* - [description]
  values (Union[dict[Any, Any]): Returned when a button is clicked. Such
  as the menu
 
@@ -322,13 +362,17 @@ Create the popup window.
 
 ```python
 def generatePopup(
-    self, buildSpec: types.FullBuildSpec, values: dict[Any, Any] | list[gui_lib.Element]
-) -> gui_lib.Window: ...
+    self, buildSpec: FullBuildSpec, values: dict[Any, Any] | list[Any]
+) -> Any: ...
 ```
+
+#### See also
+
+- [FullBuildSpec](../types.md#fullbuildspec)
 
 ### PySimpleGUIWrapper().getImgData
 
-[Show source in pysimplegui_wrapper.py:459](../../../../cli2gui/gui/pysimplegui_wrapper.py#L459)
+[Show source in pysimplegui_wrapper.py:479](../../../../cli2gui/gui/pysimplegui_wrapper.py#L479)
 
 Generate image data using PIL.
 
@@ -340,11 +384,13 @@ def getImgData(self, imagePath: str, first: bool = False) -> bytes: ...
 
 ### PySimpleGUIWrapper().main
 
-[Show source in pysimplegui_wrapper.py:414](../../../../cli2gui/gui/pysimplegui_wrapper.py#L414)
+[Show source in pysimplegui_wrapper.py:434](../../../../cli2gui/gui/pysimplegui_wrapper.py#L434)
 
 Run the gui (psg) with a given buildSpec, quit_callback, and run_callback.
 
-:param types.FullBuildSpec buildSpec: Full cli parse/ build spec
+#### Arguments
+
+- `buildSpec` *FullBuildSpec* - Full cli parse/ build spec
 :param Callable[[], None] quit_callback: generic callable used to quit
 :param Callable[[dict[str, Any]], None] run_callback: generic callable used to run
 
@@ -353,8 +399,12 @@ Run the gui (psg) with a given buildSpec, quit_callback, and run_callback.
 ```python
 def main(
     self,
-    buildSpec: types.FullBuildSpec,
+    buildSpec: FullBuildSpec,
     quit_callback: Callable[[], None],
     run_callback: Callable[[dict[str, Any]], None],
 ) -> None: ...
 ```
+
+#### See also
+
+- [FullBuildSpec](../types.md#fullbuildspec)

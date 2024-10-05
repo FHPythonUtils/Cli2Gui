@@ -31,40 +31,53 @@ class DearPyGuiWrapper(AbstractGUI):
 
 ### DearPyGuiWrapper().addItemsAndGroups
 
-[Show source in dearpygui_wrapper.py:86](../../../../cli2gui/gui/dearpygui_wrapper.py#L86)
+[Show source in dearpygui_wrapper.py:104](../../../../cli2gui/gui/dearpygui_wrapper.py#L104)
 
 Items and groups and return a list of these so we can get values from the dpg widgets.
 
-:param types.Group section: section with a name to display and items
+#### Arguments
+
+- `section` *Group* - section with a name to display and items
 
 #### Returns
 
-Type: *list[types.Item]*
+Type: *list[Item]*
 flattened list of items
 
 #### Signature
 
 ```python
-def addItemsAndGroups(self, section: types.Group) -> list[types.Item]: ...
+def addItemsAndGroups(self, section: Group) -> list[Item]: ...
 ```
+
+#### See also
+
+- [Group](../types.md#group)
+- [Item](../types.md#item)
 
 ### DearPyGuiWrapper().addWidgetFromItem
 
-[Show source in dearpygui_wrapper.py:70](../../../../cli2gui/gui/dearpygui_wrapper.py#L70)
+[Show source in dearpygui_wrapper.py:83](../../../../cli2gui/gui/dearpygui_wrapper.py#L83)
 
 Select a widget based on the item type.
 
-:param types.Item item: the item
+#### Arguments
+
+- `item` *Item* - the item
 
 #### Signature
 
 ```python
-def addWidgetFromItem(self, item: types.Item) -> None: ...
+def addWidgetFromItem(self, item: Item) -> None: ...
 ```
+
+#### See also
+
+- [Item](../types.md#item)
 
 ### DearPyGuiWrapper().main
 
-[Show source in dearpygui_wrapper.py:130](../../../../cli2gui/gui/dearpygui_wrapper.py#L130)
+[Show source in dearpygui_wrapper.py:148](../../../../cli2gui/gui/dearpygui_wrapper.py#L148)
 
 Run the gui (dpg) with a given buildSpec, quit_callback, and run_callback.
 
@@ -73,7 +86,9 @@ Run the gui (dpg) with a given buildSpec, quit_callback, and run_callback.
 - Create Window, set up Menu and Widgets
 - Then, start dpg
 
-:param types.FullBuildSpec buildSpec: Full cli parse/ build spec
+#### Arguments
+
+- `buildSpec` *FullBuildSpec* - Full cli parse/ build spec
 :param Callable[[], None] quit_callback: generic callable used to quit
 :param Callable[[dict[str, Any]], None] run_callback: generic callable used to run
 
@@ -82,15 +97,19 @@ Run the gui (dpg) with a given buildSpec, quit_callback, and run_callback.
 ```python
 def main(
     self,
-    buildSpec: types.FullBuildSpec,
+    buildSpec: FullBuildSpec,
     quit_callback: Callable[[], None],
     run_callback: Callable[[dict[str, Any]], None],
 ) -> None: ...
 ```
 
+#### See also
+
+- [FullBuildSpec](../types.md#fullbuildspec)
+
 ### DearPyGuiWrapper().open_menu_item
 
-[Show source in dearpygui_wrapper.py:116](../../../../cli2gui/gui/dearpygui_wrapper.py#L116)
+[Show source in dearpygui_wrapper.py:134](../../../../cli2gui/gui/dearpygui_wrapper.py#L134)
 
 Open a menu item.
 

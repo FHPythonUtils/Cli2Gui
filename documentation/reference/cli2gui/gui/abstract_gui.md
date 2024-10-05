@@ -18,12 +18,13 @@ Abstract base class for GUI wrappers.
 
 ```python
 class AbstractGUI(ABC):
+    @abstractmethod
     def __init__(self) -> None: ...
 ```
 
 ### AbstractGUI().main
 
-[Show source in abstract_gui.py:14](../../../../cli2gui/gui/abstract_gui.py#L14)
+[Show source in abstract_gui.py:15](../../../../cli2gui/gui/abstract_gui.py#L15)
 
 Abstract method for the main function.
 

@@ -12,31 +12,38 @@
 
 ## actionToJson
 
-[Show source in click2json.py:33](../../../../cli2gui/tojson/click2json.py#L33)
+[Show source in click2json.py:29](../../../../cli2gui/tojson/click2json.py#L29)
 
 Generate json for an action and set the widget - used by the application.
 
 #### Signature
 
 ```python
-def actionToJson(
-    action: Any, widget: types.ItemType, other: dict | None = None
-) -> types.Item: ...
+def actionToJson(action: Any, widget: ItemType, other: dict | None = None) -> Item: ...
 ```
+
+#### See also
+
+- [ItemType](../types.md#itemtype)
+- [Item](../types.md#item)
 
 
 
 ## categorize
 
-[Show source in click2json.py:51](../../../../cli2gui/tojson/click2json.py#L51)
+[Show source in click2json.py:47](../../../../cli2gui/tojson/click2json.py#L47)
 
 Catergorise each action and generate json.
 
 #### Signature
 
 ```python
-def categorize(actions: list[Any]) -> Generator[types.Item, None, None]: ...
+def categorize(actions: list[Any]) -> Generator[Item, None, None]: ...
 ```
+
+#### See also
+
+- [Item](../types.md#item)
 
 
 
@@ -54,13 +61,17 @@ Convert click to a dict.
 #### Returns
 
 -------
- - `types.ParserRep` - dictionary representing parser object
+ - `ParserRep` - dictionary representing parser object
 
 #### Signature
 
 ```python
-def convert(parser: Any) -> types.ParserRep: ...
+def convert(parser: Any) -> ParserRep: ...
 ```
+
+#### See also
+
+- [ParserRep](../types.md#parserrep)
 
 
 
@@ -73,5 +84,9 @@ Get the actions as json for the parser.
 #### Signature
 
 ```python
-def extract(parser: Any) -> list[types.Group]: ...
+def extract(parser: Any) -> list[Group]: ...
 ```
+
+#### See also
+
+- [Group](../types.md#group)

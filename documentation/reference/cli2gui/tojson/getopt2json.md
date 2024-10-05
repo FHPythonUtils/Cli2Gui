@@ -21,10 +21,13 @@ amount of duplication.
 #### Signature
 
 ```python
-def actionToJson(
-    action: str, widget: types.ItemType, short: bool = True
-) -> types.Item: ...
+def actionToJson(action: str, widget: ItemType, short: bool = True) -> Item: ...
 ```
+
+#### See also
+
+- [ItemType](../types.md#itemtype)
+- [Item](../types.md#item)
 
 
 
@@ -37,8 +40,12 @@ Categorize long args.
 #### Signature
 
 ```python
-def catLong(actions: list[str]) -> Generator[types.Item, None, None]: ...
+def catLong(actions: list[str]) -> Generator[Item, None, None]: ...
 ```
+
+#### See also
+
+- [Item](../types.md#item)
 
 
 
@@ -51,14 +58,18 @@ Categorize short args.
 #### Signature
 
 ```python
-def catShort(actions: list[str]) -> Generator[types.Item, None, None]: ...
+def catShort(actions: list[str]) -> Generator[Item, None, None]: ...
 ```
+
+#### See also
+
+- [Item](../types.md#item)
 
 
 
 ## convert
 
-[Show source in getopt2json.py:70](../../../../cli2gui/tojson/getopt2json.py#L70)
+[Show source in getopt2json.py:64](../../../../cli2gui/tojson/getopt2json.py#L64)
 
 Convert getopt to a dict.
 
@@ -70,13 +81,17 @@ Convert getopt to a dict.
 #### Returns
 
 -------
- - `types.ParserRep` - dictionary representing parser object
+ - `ParserRep` - dictionary representing parser object
 
 #### Signature
 
 ```python
-def convert(parser: tuple[list[str], list[str]]) -> types.ParserRep: ...
+def convert(parser: tuple[list[str], list[str]]) -> ParserRep: ...
 ```
+
+#### See also
+
+- [ParserRep](../types.md#parserrep)
 
 
 
@@ -92,6 +107,11 @@ Generate a group (or section).
 def process(
     group: list[str],
     groupName: str,
-    categorize: Callable[[list[str]], Generator[types.Item, None, None]],
-) -> list[types.Group]: ...
+    categorize: Callable[[list[str]], Generator[Item, None, None]],
+) -> list[Group]: ...
 ```
+
+#### See also
+
+- [Group](../types.md#group)
+- [Item](../types.md#item)

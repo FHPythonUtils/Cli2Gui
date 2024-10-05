@@ -11,10 +11,11 @@
   - [docoptFormat](#docoptformat)
   - [getoptFormat](#getoptformat)
   - [optparseFormat](#optparseformat)
+  - [processValue](#processvalue)
 
 ## argFormat
 
-[Show source in application2args.py:59](../../../../cli2gui/application/application2args.py#L59)
+[Show source in application2args.py:86](../../../../cli2gui/application/application2args.py#L86)
 
 Format the args for the desired parser.
 
@@ -39,7 +40,7 @@ def argFormat(values: dict[str, Any], argumentParser: str | ParserType) -> Any: 
 
 ## argparseFormat
 
-[Show source in application2args.py:11](../../../../cli2gui/application/application2args.py#L11)
+[Show source in application2args.py:41](../../../../cli2gui/application/application2args.py#L41)
 
 Format args for argparse.
 
@@ -53,7 +54,7 @@ def argparseFormat(values: dict[str, Any]) -> argparse.Namespace: ...
 
 ## clickFormat
 
-[Show source in application2args.py:49](../../../../cli2gui/application/application2args.py#L49)
+[Show source in application2args.py:75](../../../../cli2gui/application/application2args.py#L75)
 
 Format args for click.
 
@@ -67,7 +68,7 @@ def clickFormat(values: dict[str, Any]) -> list[Any]: ...
 
 ## docoptFormat
 
-[Show source in application2args.py:39](../../../../cli2gui/application/application2args.py#L39)
+[Show source in application2args.py:64](../../../../cli2gui/application/application2args.py#L64)
 
 Format args for docopt.
 
@@ -81,7 +82,7 @@ def docoptFormat(values: dict[str, Any]) -> dict[str, Any]: ...
 
 ## getoptFormat
 
-[Show source in application2args.py:34](../../../../cli2gui/application/application2args.py#L34)
+[Show source in application2args.py:59](../../../../cli2gui/application/application2args.py#L59)
 
 Format args for getopt.
 
@@ -95,12 +96,24 @@ def getoptFormat(values: dict[str, Any]) -> tuple[list[Any], list[Any]]: ...
 
 ## optparseFormat
 
-[Show source in application2args.py:26](../../../../cli2gui/application/application2args.py#L26)
+[Show source in application2args.py:50](../../../../cli2gui/application/application2args.py#L50)
 
 Format args for optparse.
 
 #### Signature
 
 ```python
-def optparseFormat(values: dict[str, Any]) -> dict[str, Any]: ...
+def optparseFormat(values: dict[str, Any]) -> tuple[optparse.Values, list[str]]: ...
+```
+
+
+
+## processValue
+
+[Show source in application2args.py:13](../../../../cli2gui/application/application2args.py#L13)
+
+#### Signature
+
+```python
+def processValue(key: str, value: str) -> tuple[str, Any]: ...
 ```

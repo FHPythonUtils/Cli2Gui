@@ -16,35 +16,35 @@
 
 ## BuildSpec
 
-[Show source in types.py:13](../../../cli2gui/types.py#L13)
+[Show source in types.py:15](../../../cli2gui/types.py#L15)
 
 Representation for the BuildSpec.
 
 #### Signature
 
 ```python
-class BuildSpec(TypedDict): ...
+class BuildSpec: ...
 ```
 
 
 
 ## FullBuildSpec
 
-[Show source in types.py:77](../../../cli2gui/types.py#L77)
+[Show source in types.py:80](../../../cli2gui/types.py#L80)
 
 Representation for the FullBuildSpec (BuildSpec + ParserRep).
 
 #### Signature
 
 ```python
-class FullBuildSpec(TypedDict): ...
+class FullBuildSpec: ...
 ```
 
 
 
 ## GUIType
 
-[Show source in types.py:117](../../../cli2gui/types.py#L117)
+[Show source in types.py:120](../../../cli2gui/types.py#L120)
 
 Supported gui types.
 
@@ -63,35 +63,35 @@ class GUIType(str, Enum): ...
 
 ## Group
 
-[Show source in types.py:60](../../../cli2gui/types.py#L60)
+[Show source in types.py:63](../../../cli2gui/types.py#L63)
 
 Representation for an argument group.
 
 #### Signature
 
 ```python
-class Group(TypedDict): ...
+class Group: ...
 ```
 
 
 
 ## Item
 
-[Show source in types.py:29](../../../cli2gui/types.py#L29)
+[Show source in types.py:31](../../../cli2gui/types.py#L31)
 
 Representation for an arg_item.
 
 #### Signature
 
 ```python
-class Item(TypedDict): ...
+class Item: ...
 ```
 
 
 
 ## ItemType
 
-[Show source in types.py:44](../../../cli2gui/types.py#L44)
+[Show source in types.py:46](../../../cli2gui/types.py#L46)
 
 Enum of ItemTypes.
 
@@ -105,21 +105,21 @@ class ItemType(Enum): ...
 
 ## ParserRep
 
-[Show source in types.py:69](../../../cli2gui/types.py#L69)
+[Show source in types.py:72](../../../cli2gui/types.py#L72)
 
 Representation for a parser.
 
 #### Signature
 
 ```python
-class ParserRep(TypedDict): ...
+class ParserRep: ...
 ```
 
 
 
 ## ParserType
 
-[Show source in types.py:95](../../../cli2gui/types.py#L95)
+[Show source in types.py:98](../../../cli2gui/types.py#L98)
 
 Supported parser types.
 
