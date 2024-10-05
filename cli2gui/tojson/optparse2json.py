@@ -9,21 +9,20 @@ from __future__ import annotations
 import optparse
 from typing import Generator
 
-from cli2gui.types import ParserRep, Item, ItemType, Group
+from cli2gui.types import Group, Item, ItemType, ParserRep
 
 
 def extractOptions(optionGroup: optparse.OptionGroup) -> Group:
 	"""Get the actions as json for each item under a group."""
-	return Group(**{
-		"name": optionGroup.title,  # type: ignore[general-type-issues] # title is confirmed to exist
-		# List of arg_items that are not help messages
-		"arg_items": list(
+	return Group(
+		name=optionGroup.title,
+		arg_items=list(
 			categorize(
 				[action for action in optionGroup.option_list if action.action not in "help"]
 			)
 		),
-		"groups": [],
-	})
+		groups=[],
+	)
 
 
 def extractGroups(parser: optparse.OptionParser) -> Group:
@@ -31,29 +30,29 @@ def extractGroups(parser: optparse.OptionParser) -> Group:
 	argItems = list(
 		categorize([action for action in parser.option_list if action.action not in "help"])
 	)
-	return Group(**{
-		"name": "Arguments",
-		"arg_items": argItems,
-		"groups": [extractOptions(group) for group in parser.option_groups],
-	})
+	return Group(
+		name="Arguments",
+		arg_items=argItems,
+		groups=[extractOptions(group) for group in parser.option_groups],
+	)
 
 
 def actionToJson(action: optparse.Option, widget: ItemType) -> Item:
 	"""Generate json for an action and set the widget - used by the application."""
 	choices = action.choices or []  # type: ignore[general-type-issues] # choices is confirmed to exist\
 	default = action.default if action.default != ("NO", "DEFAULT") else None
-	return Item(**{
-		"type": widget,
-		"display_name": str(action.metavar or action.dest),
-		"help": str(action.help),
-		"commands": action._long_opts + action._short_opts,
-		"dest": action.dest or "",
-		"default": default,
-		"additional_properties": {
+	return Item(
+		type=widget,
+		display_name=str(action.metavar or action.dest),
+		help=str(action.help),
+		commands=action._long_opts + action._short_opts,
+		dest=action.dest or "",
+		default=default,
+		additional_properties={
 			"nargs": str(action.nargs or ""),
 			"choices": choices,
 		},
-	})
+	)
 
 
 def categorize(actions: list[optparse.Option]) -> Generator[Item, None, None]:
@@ -83,4 +82,4 @@ def convert(parser: optparse.OptionParser) -> ParserRep:
 		ParserRep: dictionary representing parser object
 
 	"""
-	return ParserRep(**{"parser_description": "", "widgets": [extractGroups(parser)]})
+	return ParserRep(parser_description="", widgets=[extractGroups(parser)])

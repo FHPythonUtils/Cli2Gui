@@ -6,9 +6,12 @@ from typing import Any, Callable
 
 from PIL import Image, ImageTk
 
-from cli2gui.types import ItemType, Item, SEP, FullBuildSpec
 from cli2gui.gui import helpers
 from cli2gui.gui.abstract_gui import AbstractGUI
+from cli2gui.types import SEP, FullBuildSpec, Group, Item, ItemType
+
+# ruff: noqa: ANN401
+
 
 class PySimpleGUIWrapper(AbstractGUI):
 	"""Wrapper class for PySimpleGUI."""
@@ -123,7 +126,9 @@ class PySimpleGUIWrapper(AbstractGUI):
 			key=key,
 		)
 
-	def _fileBrowser(self, key: str, default: str | None = None, _type: ItemType = ItemType.File) -> list[Any]:
+	def _fileBrowser(
+		self, key: str, default: str | None = None, _type: ItemType = ItemType.File
+	) -> list[Any]:
 		"""Return a fileBrowser button and field."""
 		height = self.sizes["input_size"][1]
 		width = self.sizes["input_size"][0]
@@ -154,9 +159,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 		"""Return a label for the arg help text."""
 		return self._label(helpers.stringSentencecase(helpText))
 
-	def _helpArgNameAndHelp(
-		self, commands: list[str], helpText: str, displayName: str
-	) -> Any:
+	def _helpArgNameAndHelp(self, commands: list[str], helpText: str, displayName: str) -> Any:
 		"""Return a column containing the argument name and help text."""
 		return self.sg.Column(
 			[[self._helpArgName(displayName, commands)], [self._helpArgHelp(helpText)]],
@@ -189,7 +192,9 @@ class PySimpleGUIWrapper(AbstractGUI):
 		"""Return a set of self that make up an arg with true/ false."""
 		return [
 			self._helpArgNameAndHelp(item.commands, item.help, item.display_name),
-			self.sg.Column([[self._check(f"{item.dest}{SEP}{item.type}", default=item.default)]], pad=(0, 0)),
+			self.sg.Column(
+				[[self._check(f"{item.dest}{SEP}{item.type}", default=item.default)]], pad=(0, 0)
+			),
 		]
 
 	def _helpTextWidget(
@@ -199,7 +204,10 @@ class PySimpleGUIWrapper(AbstractGUI):
 		"""Return a set of self that make up an arg with text."""
 		return [
 			self._helpArgNameAndHelp(item.commands, item.help, item.display_name),
-			self.sg.Column([[self._inputText(f"{item.dest}{SEP}{item.type}", default=item.default)]], pad=(0, 0)),
+			self.sg.Column(
+				[[self._inputText(f"{item.dest}{SEP}{item.type}", default=item.default)]],
+				pad=(0, 0),
+			),
 		]
 
 	def _helpCounterWidget(
@@ -209,7 +217,9 @@ class PySimpleGUIWrapper(AbstractGUI):
 		"""Return a set of self that make up an arg with text."""
 		return [
 			self._helpArgNameAndHelp(item.commands, item.help, item.display_name),
-			self.sg.Column([[self._spin(f"{item.dest}{SEP}{item.type}", default=item.default)]], pad=(0, 0)),
+			self.sg.Column(
+				[[self._spin(f"{item.dest}{SEP}{item.type}", default=item.default)]], pad=(0, 0)
+			),
 		]
 
 	def _helpFileWidget(
@@ -230,7 +240,13 @@ class PySimpleGUIWrapper(AbstractGUI):
 		return [
 			self._helpArgNameAndHelp(item.commands, item.help, item.display_name),
 			self.sg.Column(
-				[[self._dropdown(f"{item.dest}{SEP}{item.type}", item.additional_properties["choices"])]],
+				[
+					[
+						self._dropdown(
+							f"{item.dest}{SEP}{item.type}", item.additional_properties["choices"]
+						)
+					]
+				],
 				pad=(0, 0),
 			),
 		]

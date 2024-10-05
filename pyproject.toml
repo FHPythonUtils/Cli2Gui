@@ -69,7 +69,7 @@ ignore = [
 	"COM812",  # enforce trailing comma
 	"D2",  # pydocstyle formatting
 	"ISC001",
-	"N802", "N803", "N806", "N812", "N813",  # pep8 naming
+	"N802", "N803", "N806", "N812", "N813", "N815",  # pep8 naming
 	"PLR09",  # pylint refactor too many
 	"TCH",  # type check blocks
 	"W191"  # ignore this to allow tabs

@@ -8,6 +8,7 @@ from cli2gui import types
 class AbstractGUI(ABC):
 	"""Abstract base class for GUI wrappers."""
 
+	@abstractmethod
 	def __init__(self) -> None:
 		pass
 

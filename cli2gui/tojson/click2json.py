@@ -5,27 +5,23 @@ from __future__ import annotations
 import contextlib
 from typing import Any, Generator
 
-from cli2gui.types import ParserRep, Item, ItemType, Group
+from cli2gui.types import Group, Item, ItemType, ParserRep
 
 
 def extract(parser: Any) -> list[Group]:
 	"""Get the actions as json for the parser."""
 	try:
 		argumentList = [
-			Group(**{
-				"name": "Positional Arguments",
-				"arg_items": list(categorize([parser.commands[key] for key in parser.commands])),
-				"groups": [],
-			})
+			Group(
+				name="Positional Arguments",
+				arg_items=list(categorize([parser.commands[key] for key in parser.commands])),
+				groups=[],
+			)
 		]
 	except AttributeError:
 		argumentList: list[Group] = []
 	argumentList.append(
-		Group(**{
-			"name": "Optional Arguments",
-			"arg_items": list(categorize(parser.params)),
-			"groups": [],
-		})
+		Group(name="Optional Arguments", arg_items=list(categorize(parser.params)), groups=[])
 	)
 	return argumentList
 
@@ -37,15 +33,15 @@ def actionToJson(action: Any, widget: ItemType, other: dict | None = None) -> It
 		nargs = action.params[0].nargs if len(action.params) > 0 else "" or ""
 
 	commands = action.opts + action.secondary_opts
-	return Item(**{
-		"type": widget,
-		"display_name": action.name,
-		"help": action.help,
-		"commands": commands,
-		"dest": action.callback or commands[0],
-		"default": action.default,
-		"additional_properties": {"nargs": nargs, **(other or {})},
-	})
+	return Item(
+		type=widget,
+		display_name=action.name,
+		help=action.help,
+		commands=commands,
+		dest=action.callback or commands[0],
+		default=action.default,
+		additional_properties={"nargs": nargs, **(other or {})},
+	)
 
 
 def categorize(actions: list[Any]) -> Generator[Item, None, None]:
@@ -79,4 +75,4 @@ def convert(parser: Any) -> ParserRep:
 		ParserRep: dictionary representing parser object
 
 	"""
-	return ParserRep(**{"parser_description": "", "widgets": extract(parser)})
+	return ParserRep(parser_description="", widgets=extract(parser))

@@ -20,7 +20,7 @@ from pathlib import Path
 from sys import argv
 from typing import Any, Generator, TypedDict
 
-from cli2gui.types import ParserRep, Group, Item, ItemType
+from cli2gui.types import Group, Item, ItemType, ParserRep
 
 
 class ArgparseGroup(TypedDict):
@@ -111,29 +111,29 @@ def extractRawGroups(actionGroup: argparse._ArgumentGroup) -> ArgparseGroup:
 def actionToJson(action: argparse.Action, widget: ItemType) -> Item:
 	"""Generate json for an action and set the widget - used by the application."""
 	choices = [str(choice) for choice in action.choices] if action.choices else []
-	return Item(**{
-		"type": widget,
-		"display_name": str(action.metavar or action.dest),
-		"help": str(action.help),
-		"commands": list(action.option_strings),
-		"dest": action.dest,
-		"default": action.default,
-		"additional_properties": {"choices": choices, "nargs": action.nargs},
-	})
+	return Item(
+		type=widget,
+		display_name=str(action.metavar or action.dest),
+		help=str(action.help),
+		commands=list(action.option_strings),
+		dest=action.dest,
+		default=action.default,
+		additional_properties={"choices": choices, "nargs": action.nargs},
+	)
 
 
 def buildRadioGroup(mutexGroup: _MutuallyExclusiveGroup) -> Item:
 	"""Create a radio group for a mutex group of arguments."""
 	commands = [action.option_strings for action in mutexGroup._group_actions]
-	return Item(**{
-		"display_name": "",
-		"help": "",
-		"dest": "",
-		"default": "",
-		"type": ItemType.RadioGroup,
-		"commands": commands,
-		"additional_properties": {"radio": list(categorizeItems(mutexGroup._group_actions))},
-	} )
+	return Item(
+		display_name="",
+		help="",
+		dest="",
+		default="",
+		type=ItemType.RadioGroup,
+		commands=commands,
+		additional_properties={"radio": list(categorizeItems(mutexGroup._group_actions))},
+	)
 
 
 def categorizeItems(
@@ -164,11 +164,11 @@ def categorizeItems(
 def categorizeGroups(groups: list[ArgparseGroup]) -> list[Group]:
 	"""Categorize the parser groups and arg_items."""
 	return [
-		Group(**{
-			"name": group["name"],
-			"arg_items": list(categorizeItems(group["arg_items"])),
-			"groups": categorizeGroups(group["groups"]),
-		})
+		Group(
+			name=group["name"],
+			arg_items=list(categorizeItems(group["arg_items"])),
+			groups=categorizeGroups(group["groups"]),
+		)
 		for group in groups
 	]
 
@@ -204,4 +204,6 @@ def convert(parser: argparse.ArgumentParser) -> ParserRep:
 	for _, subparser in iterParsers(parser):
 		widgets.extend(process(subparser))
 
-	return ParserRep(parser_description= f"{parser.prog}: {parser.description or ''}", widgets= widgets)
+	return ParserRep(
+		parser_description=f"{parser.prog}: {parser.description or ''}", widgets=widgets
+	)

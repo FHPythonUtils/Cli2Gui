@@ -5,9 +5,9 @@ from typing import Any, Callable
 
 import dearpygui.dearpygui as dpg
 
-from cli2gui.types import SEP, Item, ItemType, Group, FullBuildSpec
 from cli2gui.gui import helpers
 from cli2gui.gui.abstract_gui import AbstractGUI
+from cli2gui.types import SEP, FullBuildSpec, Group, Item, ItemType
 
 THISDIR = Path(__file__).resolve().parent
 
@@ -30,7 +30,7 @@ class DearPyGuiWrapper(AbstractGUI):
 
 	def _helpText(self, item: Item) -> None:
 		dpg.add_text(
-			helpers.stringSentencecase(f'\n- {item.dest}: {item.commands}'),
+			helpers.stringSentencecase(f"\n- {item.dest}: {item.commands}"),
 			color=hex_to_rgb(self.base24Theme[13]),
 		)
 		dpg.add_text(helpers.stringSentencecase(item.help))
@@ -304,7 +304,7 @@ class DearPyGuiWrapper(AbstractGUI):
 
 		# Define "Run" and "Exit" buttons
 		def _run_callback() -> None:
-			_items = [item for item in items if getattr(item, "dest")]
+			_items = [item for item in items if item.dest]
 			myd = {f"{item.dest}{SEP}{item.type}": dpg.get_value(item.dest) for item in _items}
 			run_callback(myd)
 

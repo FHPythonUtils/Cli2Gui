@@ -5,35 +5,33 @@ from __future__ import annotations
 import re
 from typing import Any, Iterator
 
-from cli2gui.types import ParserRep, Item, ItemType, Group
+from cli2gui.types import Group, Item, ItemType, ParserRep
 
 
-def actionToJson(
-	action: tuple[str, str, int, Any, str], widget: ItemType, *, isPos: bool
-) -> Item:
+def actionToJson(action: tuple[str, str, int, Any, str], widget: ItemType, *, isPos: bool) -> Item:
 	"""Generate json for an action and set the widget - used by the application."""
 
 	if isPos or len(action) < 5:
-		return Item(**{
-			"type": widget,
-			"display_name": action[0],
-			"help": action[1],
-			"commands": [action[0]],
-			"dest": action[0],
-			"default": None,
-			"additional_properties": {"nargs": ""},
-		})
+		return Item(
+			type=widget,
+			display_name=action[0],
+			help=action[1],
+			commands=[action[0]],
+			dest=action[0],
+			default=None,
+			additional_properties={"nargs": ""},
+		)
 
 	default = action[3] if action[3] != "" else None
-	return Item(**{
-		"type": widget,
-		"display_name": (action[1] or action[0]).replace("-", " ").strip(),
-		"help": action[4],
-		"commands": [x for x in action[0:2] if x != ""],
-		"dest": action[1] or action[0],
-		"default": default,
-		"additional_properties": {"nargs": action[2]},
-	})
+	return Item(
+		type=widget,
+		display_name=(action[1] or action[0]).replace("-", " ").strip(),
+		help=action[4],
+		commands=[x for x in action[0:2] if x != ""],
+		dest=action[1] or action[0],
+		default=default,
+		additional_properties={"nargs": action[2]},
+	)
 
 
 def categorize(
@@ -57,16 +55,12 @@ def categorize(
 def extract(parser: Any) -> list[Group]:
 	"""Get the actions as json for the parser."""
 	return [
-		Group(**{
-			"name": "Positional Arguments",
-			"arg_items": list(categorize(parsePos(parser), isPos=True)),
-			"groups": [],
-		}),
-		Group(**{
-			"name": "Optional Arguments",
-			"arg_items": list(categorize(parseOpt(parser))),
-			"groups": [],
-		}),
+		Group(
+			name="Positional Arguments",
+			arg_items=list(categorize(parsePos(parser), isPos=True)),
+			groups=[],
+		),
+		Group(name="Optional Arguments", arg_items=list(categorize(parseOpt(parser))), groups=[]),
 	]
 
 
@@ -132,4 +126,4 @@ def convert(parser: Any) -> ParserRep:
 		ParserRep: dictionary representing parser object
 
 	"""
-	return ParserRep(**{"parser_description": "", "widgets": extract(parser)})
+	return ParserRep(parser_description="", widgets=extract(parser))

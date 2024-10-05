@@ -63,9 +63,7 @@ def createFromParser(
 			runCmd = quote(sourcePath)
 		else:
 			runCmd = f"{quote(sys.executable)} -u {quote(sourcePath)}"
-	buildSpec.program_name = buildSpec.program_name or Path(sys.argv[0]).name.replace(
-		".py", ""
-	)
+	buildSpec.program_name = buildSpec.program_name or Path(sys.argv[0]).name.replace(".py", "")
 
 	# CUSTOM: this seems like a pretty poor pattern to use...
 	if buildSpec.parser == ParserType.CUSTOM:
@@ -90,13 +88,19 @@ def createFromParser(
 		},
 	}
 	if parser in convertMap["self"]:
-		return FullBuildSpec(**convertMap["self"][parser](selfParser).__dict__, **buildSpec.__dict__)
+		return FullBuildSpec(
+			**convertMap["self"][parser](selfParser).__dict__, **buildSpec.__dict__
+		)
 	if parser in convertMap["args"]:
-		return FullBuildSpec(**convertMap["args"][parser](argsParser).__dict__, **buildSpec.__dict__)
+		return FullBuildSpec(
+			**convertMap["args"][parser](argsParser).__dict__, **buildSpec.__dict__
+		)
 
 	# click is unique in behaviour so we cant use the mapping -_-
 	if parser == ParserType.CLICK:
-		return FullBuildSpec(**click2json.convert(buildSpec.run_function).__dict__, **buildSpec.__dict__)
+		return FullBuildSpec(
+			**click2json.convert(buildSpec.run_function).__dict__, **buildSpec.__dict__
+		)
 
 	msg = f"!Parser must be one of: {[x.value for x in ParserType]}"
 	raise RuntimeError(msg)

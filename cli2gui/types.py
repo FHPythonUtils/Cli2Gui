@@ -10,8 +10,9 @@ from typing import Any
 
 SEP = "#%#"
 
+
 @dataclass
-class BuildSpec():
+class BuildSpec:
 	"""Representation for the BuildSpec."""
 
 	run_function: Callable[..., Any]
@@ -27,7 +28,7 @@ class BuildSpec():
 
 
 @dataclass
-class Item():
+class Item:
 	"""Representation for an arg_item."""
 
 	type: ItemType
@@ -59,7 +60,7 @@ class ItemType(Enum):
 
 
 @dataclass
-class Group():
+class Group:
 	"""Representation for an argument group."""
 
 	name: str
@@ -68,7 +69,7 @@ class Group():
 
 
 @dataclass
-class ParserRep():
+class ParserRep:
 	"""Representation for a parser."""
 
 	parser_description: str
@@ -76,7 +77,7 @@ class ParserRep():
 
 
 @dataclass
-class FullBuildSpec():
+class FullBuildSpec:
 	"""Representation for the FullBuildSpec (BuildSpec + ParserRep)."""
 
 	run_function: Callable[..., Any]

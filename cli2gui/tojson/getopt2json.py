@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import Generator
 
-from cli2gui.types import ParserRep, Item, ItemType, Group
+from cli2gui.types import Group, Item, ItemType, ParserRep
 
 # ruff: noqa: SLF001
 
@@ -14,15 +14,15 @@ def actionToJson(action: str, widget: ItemType, *, short: bool = True) -> Item:
 	"""Convert an arg to json, behave in the same way as argparse hence the large
 	amount of duplication.
 	"""
-	return Item(**{
-		"type": widget,
-		"display_name": action,
-		"help": "",
-		"commands": [("-" if short else "--") + action],
-		"dest": ("-" if short else "--") + action,
-		"default": None,
-		"additional_properties": {},
-	})
+	return Item(
+		type=widget,
+		display_name=action,
+		help="",
+		commands=[("-" if short else "--") + action],
+		dest=("-" if short else "--") + action,
+		default=None,
+		additional_properties={},
+	)
 
 
 def catLong(actions: list[str]) -> Generator[Item, None, None]:
@@ -58,13 +58,7 @@ def process(
 	categorize: Callable[[list[str]], Generator[Item, None, None]],
 ) -> list[Group]:
 	"""Generate a group (or section)."""
-	return [
-		Group(**{
-			"name": groupName,
-			"arg_items": list(categorize(group)),
-			"groups": [],
-		})
-	]
+	return [Group(name=groupName, arg_items=list(categorize(group)), groups=[])]
 
 
 def convert(parser: tuple[list[str], list[str]]) -> ParserRep:
@@ -79,8 +73,8 @@ def convert(parser: tuple[list[str], list[str]]) -> ParserRep:
 		ParserRep: dictionary representing parser object
 
 	"""
-	return ParserRep(**{
-		"parser_description": "",
-		"widgets": process(parser[0], "Short Args", catShort)
+	return ParserRep(
+		parser_description="",
+		widgets=process(parser[0], "Short Args", catShort)
 		+ process(parser[1], "Long Args", catLong),
-	})
+	)
