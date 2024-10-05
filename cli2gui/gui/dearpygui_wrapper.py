@@ -5,7 +5,7 @@ from typing import Any, Callable
 
 import dearpygui.dearpygui as dpg
 
-from cli2gui import types
+from cli2gui.types import SEP, Item, ItemType, Group, FullBuildSpec
 from cli2gui.gui import helpers
 from cli2gui.gui.abstract_gui import AbstractGUI
 
@@ -28,87 +28,105 @@ class DearPyGuiWrapper(AbstractGUI):
 		self.base24Theme = base24Theme
 		super().__init__()
 
-	def _helpText(self, item: types.Item) -> None:
+	def _helpText(self, item: Item) -> None:
 		dpg.add_text(
-			helpers.stringSentencecase(f'\n- {item["dest"]}: {item["commands"]}'),
+			helpers.stringSentencecase(f'\n- {item.dest}: {item.commands}'),
 			color=hex_to_rgb(self.base24Theme[13]),
 		)
-		dpg.add_text(helpers.stringSentencecase(item["help"]))
+		dpg.add_text(helpers.stringSentencecase(item.help))
 
-	def _helpFlagWidget(self, item: types.Item) -> None:
+	def _helpFlagWidget(self, item: Item) -> None:
 		with dpg.group(horizontal=False):
 			self._helpText(item)
-			dpg.add_checkbox(tag=item["dest"], default_value=(item["default"] or False))
+			dpg.add_checkbox(tag=item.dest, default_value=(item.default or False))
 
-	def _helpTextWidget(self, item: types.Item) -> None:
+	def _helpTextWidget(self, item: Item) -> None:
 		with dpg.group(horizontal=False):
 			self._helpText(item)
-			dpg.add_input_text(tag=item["dest"], default_value=(item["default"] or ""))
+			dpg.add_input_text(tag=item.dest, default_value=(item.default or ""))
 
-	def _helpCounterWidget(self, item: types.Item) -> None:
+	def _helpFloatCounterWidget(self, item: Item) -> None:
 		with dpg.group(horizontal=False):
 			self._helpText(item)
 			dpg.add_input_float(
-				tag=item["dest"],
-				default_value=float(item["default"] or 0),
+				format="%.9f",
+				tag=item.dest,
+				default_value=float(item.default or 0),
 				min_value=-(2**16),
 				max_value=2**16,
 				step=1,
 				step_fast=10,
 			)
 
-	def _helpFileWidget(self, item: types.Item) -> None:
+	def _helpIntCounterWidget(self, item: Item) -> None:
 		with dpg.group(horizontal=False):
 			self._helpText(item)
-			dpg.add_input_text(tag=item["dest"], default_value=(item["default"] or ""))
+			dpg.add_input_int(
+				tag=item.dest,
+				default_value=int(item.default or 0),
+				min_value=-(2**16),
+				max_value=2**16,
+				step=1,
+				step_fast=10,
+			)
 
-	def _helpDropdownWidget(self, item: types.Item) -> None:
+	def _helpFileWidget(self, item: Item) -> None:
 		with dpg.group(horizontal=False):
 			self._helpText(item)
-			dpg.add_combo(tag=item["dest"], items=item["additional_properties"]["choices"])
+			dpg.add_input_text(tag=item.dest, default_value=(item.default or ""))
 
-	def addWidgetFromItem(self, item: types.Item) -> None:
+	def _helpDropdownWidget(self, item: Item) -> None:
+		with dpg.group(horizontal=False):
+			self._helpText(item)
+			dpg.add_combo(tag=item.dest, items=item.additional_properties["choices"])
+
+	def addWidgetFromItem(self, item: Item) -> None:
 		"""Select a widget based on the item type.
 
-		:param types.Item item: the item
+		:param Item item: the item
 		"""
 		functionMap = {
-			types.ItemType.Bool: self._helpFlagWidget,
-			types.ItemType.File: self._helpFileWidget,
-			types.ItemType.Choice: self._helpDropdownWidget,
-			types.ItemType.Int: self._helpCounterWidget,
-			types.ItemType.Text: self._helpTextWidget,
+			ItemType.Bool: self._helpFlagWidget,
+			ItemType.File: self._helpFileWidget,
+			ItemType.Path: self._helpFileWidget,
+			ItemType.Choice: self._helpDropdownWidget,
+			ItemType.Int: self._helpIntCounterWidget,
+			ItemType.Text: self._helpTextWidget,
+			ItemType.Float: self._helpFloatCounterWidget,
+			ItemType.List: self._helpTextWidget,
+			ItemType.Tuple: self._helpTextWidget,
+			ItemType.DateTime: self._helpTextWidget,
 		}
-		if item["type"] in functionMap:
-			return functionMap[item["type"]](item)
+		if item.type in functionMap:
+			return functionMap[item.type](item)
 		return None
 
 	def addItemsAndGroups(
 		self,
-		section: types.Group,
-	) -> list[types.Item]:
+		section: Group,
+	) -> list[Item]:
 		"""Items and groups and return a list of these so we can get values from the dpg widgets.
 
-		:param types.Group section: section with a name to display and items
-		:return list[types.Item]: flattened list of items
+		:param Group section: section with a name to display and items
+		:return list[Item]: flattened list of items
 		"""
 		dpg.add_text(
-			f'=== {helpers.stringTitlecase(section["name"], " ")} ===',
+			f'=== {helpers.stringTitlecase(section.name, " ")} ===',
 			color=hex_to_rgb(self.base24Theme[14]),
 		)
 
 		items = []
 
-		for item in section["arg_items"]:
-			if item["type"] == types.ItemType.RadioGroup:
-				rGroup = item["additional_properties"]["radio"]
+		for item in section.arg_items:
+			if item.type == ItemType.RadioGroup:
+				rGroup = item.additional_properties["radio"]
 				for rElement in rGroup:
 					self.addWidgetFromItem(rElement)
 					items.append(rElement)
 			else:
 				self.addWidgetFromItem(item)
 				items.append(item)
-		for group in section["groups"]:
+		for group in section.groups:
 			items.extend(self.addItemsAndGroups(group))
 
 		return items
@@ -129,7 +147,7 @@ class DearPyGuiWrapper(AbstractGUI):
 
 	def main(
 		self,
-		buildSpec: types.FullBuildSpec,
+		buildSpec: FullBuildSpec,
 		quit_callback: Callable[[], None],
 		run_callback: Callable[[dict[str, Any]], None],
 	) -> None:
@@ -140,7 +158,7 @@ class DearPyGuiWrapper(AbstractGUI):
 		- Create Window, set up Menu and Widgets
 		- Then, start dpg
 
-		:param types.FullBuildSpec buildSpec: Full cli parse/ build spec
+		:param FullBuildSpec buildSpec: Full cli parse/ build spec
 		:param Callable[[], None] quit_callback: generic callable used to quit
 		:param Callable[[dict[str, Any]], None] run_callback: generic callable used to run
 		"""
@@ -274,11 +292,11 @@ class DearPyGuiWrapper(AbstractGUI):
 		# Menu Prep
 		################
 
-		if len(buildSpec["menu"]) == 0:
-			buildSpec["menu"] = {}
+		if len(buildSpec.menu) == 0:
+			buildSpec.menu = {}
 
-		elif isinstance(buildSpec["menu"], str):
-			buildSpec["menu"] = {"File": buildSpec["menu"]}
+		elif isinstance(buildSpec.menu, str):
+			buildSpec.menu = {"File": buildSpec.menu}
 
 		################
 		# Create Window, set up Menu and Widgets
@@ -286,8 +304,8 @@ class DearPyGuiWrapper(AbstractGUI):
 
 		# Define "Run" and "Exit" buttons
 		def _run_callback() -> None:
-			_items = [item for item in items if "dest" in item]
-			myd = {item["dest"]: dpg.get_value(item["dest"]) for item in _items}
+			_items = [item for item in items if getattr(item, "dest")]
+			myd = {f"{item.dest}{SEP}{item.type}": dpg.get_value(item.dest) for item in _items}
 			run_callback(myd)
 
 		def close_dpg() -> None:
@@ -295,32 +313,32 @@ class DearPyGuiWrapper(AbstractGUI):
 			quit_callback()
 
 		dpg.create_viewport(
-			title=buildSpec["program_name"],
+			title=buildSpec.program_name,
 			width=875,
-			height=min(max(400, 120 * buildSpec["max_args_shown"]), 1080),
+			height=min(max(400, 120 * buildSpec.max_args_shown), 1080),
 		)
 
 		dpg.set_exit_callback(close_dpg)
 
 		with dpg.window(label="", tag="primary", on_close=close_dpg):
-			if len(buildSpec["menu"]) > 0:
+			if len(buildSpec.menu) > 0:
 				with dpg.menu_bar(), dpg.menu(label="Open"):
-					for menu_item in buildSpec["menu"]:
+					for menu_item in buildSpec.menu:
 						dpg.add_menu_item(
 							label=menu_item,
-							tag=buildSpec["menu"][menu_item],
+							tag=buildSpec.menu[menu_item],
 							callback=self.open_menu_item,
 						)
 			# Program Description
 			dpg.add_text(
 				helpers.stringSentencecase(
-					buildSpec["program_description"] or buildSpec["parser_description"]
+					buildSpec.program_description or buildSpec.parser_description
 				)
 			)
 
 			# Add widgets
 			items = []
-			for widget in buildSpec["widgets"]:
+			for widget in buildSpec.widgets:
 				items.extend(self.addItemsAndGroups(widget))
 
 			dpg.add_button(label="Run", callback=_run_callback)

@@ -41,6 +41,7 @@ def blocking_run(args):
 
 
 async def run(args):
+	print(args)
 	print(args.timeout)
 
 
@@ -50,8 +51,6 @@ def wrapper(args):
 	if THREAD is not None and THREAD.is_alive():
 		print("Task already running")
 		return
-
-	print(args)
 
 	THREAD = Thread(target=blocking_run, args=(args,))
 	THREAD.start()

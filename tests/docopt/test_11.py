@@ -33,6 +33,7 @@ from cli2gui import Cli2Gui
 
 def handle(args: dict[str, Any]) -> None:
 	"""Handle the args."""
+	print(type(args))
 	print(args)
 
 

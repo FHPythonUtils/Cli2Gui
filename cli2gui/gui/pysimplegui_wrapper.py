@@ -2,17 +2,13 @@ from __future__ import annotations
 
 import io
 import logging
-from typing import TYPE_CHECKING, Any, Callable
+from typing import Any, Callable
 
 from PIL import Image, ImageTk
 
-from cli2gui import types
+from cli2gui.types import ItemType, Item, SEP, FullBuildSpec
 from cli2gui.gui import helpers
 from cli2gui.gui.abstract_gui import AbstractGUI
-
-if TYPE_CHECKING:
-	import FreeSimpleGUI as gui_lib
-
 
 class PySimpleGUIWrapper(AbstractGUI):
 	"""Wrapper class for PySimpleGUI."""
@@ -66,7 +62,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 		}
 		self.sg.theme("theme")
 
-	def _inputText(self, key: str, default: str | None = None) -> gui_lib.Element:
+	def _inputText(self, key: str, default: str | None = None) -> Any:
 		"""Return an input text field."""
 		return self.sg.InputText(
 			default or "",
@@ -76,7 +72,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 			font=("sans", self.sizes["text_size"]),
 		)
 
-	def _spin(self, key: str, default: str | None = None) -> gui_lib.Element:
+	def _spin(self, key: str, default: str | None = None) -> Any:
 		"""Return an input text field."""
 		return self.sg.Spin(
 			list(range(-50, 51)),
@@ -87,7 +83,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 			font=("sans", self.sizes["text_size"]),
 		)
 
-	def _check(self, key: str, default: str | None = None) -> gui_lib.Element:
+	def _check(self, key: str, default: str | None = None) -> Any:
 		"""Return a checkbox."""
 		return self.sg.Check(
 			"",
@@ -97,7 +93,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 			default=bool(default or ""),
 		)
 
-	def _button(self, text: str) -> gui_lib.Element:
+	def _button(self, text: str) -> Any:
 		"""Return a button."""
 		return self.sg.Button(
 			text,
@@ -106,7 +102,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 			font=("sans", self.sizes["text_size"]),
 		)
 
-	def _label(self, text: str, font: int = 11) -> gui_lib.Element:
+	def _label(self, text: str, font: int = 11) -> Any:
 		"""Return a label."""
 		return self.sg.Text(
 			text,
@@ -118,7 +114,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 			font=("sans", font),
 		)
 
-	def _dropdown(self, key: str, argItems: list[str]) -> gui_lib.Element:
+	def _dropdown(self, key: str, argItems: list[str]) -> Any:
 		"""Return a dropdown."""
 		return self.sg.Drop(
 			tuple(argItems),
@@ -127,11 +123,11 @@ class PySimpleGUIWrapper(AbstractGUI):
 			key=key,
 		)
 
-	def _fileBrowser(self, key: str, default: str | None = None) -> list[gui_lib.Element]:
+	def _fileBrowser(self, key: str, default: str | None = None, _type: ItemType = ItemType.File) -> list[Any]:
 		"""Return a fileBrowser button and field."""
 		height = self.sizes["input_size"][1]
 		width = self.sizes["input_size"][0]
-		fb: list[gui_lib.Element] = [
+		fb: list[Any] = [
 			self.sg.InputText(
 				default or "",
 				size=(width - int(width / 3), height),
@@ -140,7 +136,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 				font=("sans", self.sizes["text_size"]),
 			),
 			self.sg.FileBrowse(
-				key=key + "#",
+				key=f"{key}{SEP}{_type}",
 				size=(int(width / 3), height),
 				pad=(0, self.sizes["padding"][1]),
 			),
@@ -150,26 +146,26 @@ class PySimpleGUIWrapper(AbstractGUI):
 	"""Different sized labels
 	"""
 
-	def _helpArgName(self, displayName: str, commands: list[str]) -> gui_lib.Element:
+	def _helpArgName(self, displayName: str, commands: list[str]) -> Any:
 		"""Return a label for the arg name."""
 		return self._label("- " + helpers.stringTitlecase(displayName) + ": " + str(commands), 14)
 
-	def _helpArgHelp(self, helpText: str) -> gui_lib.Element:
+	def _helpArgHelp(self, helpText: str) -> Any:
 		"""Return a label for the arg help text."""
 		return self._label(helpers.stringSentencecase(helpText))
 
 	def _helpArgNameAndHelp(
 		self, commands: list[str], helpText: str, displayName: str
-	) -> gui_lib.Element:
+	) -> Any:
 		"""Return a column containing the argument name and help text."""
 		return self.sg.Column(
 			[[self._helpArgName(displayName, commands)], [self._helpArgHelp(helpText)]],
 			pad=(0, 0),
 		)
 
-	def _title(self, text: str, image: str = "") -> list[gui_lib.Element]:
+	def _title(self, text: str, image: str = "") -> list[Any]:
 		"""Return a set of self that make up the application header."""
-		programTitle: list[gui_lib.Element] = [
+		programTitle: list[Any] = [
 			self.sg.Text(text, pad=self.sizes["padding"], font=("sans", self.sizes["title_size"]))
 		]
 		if image:
@@ -188,85 +184,90 @@ class PySimpleGUIWrapper(AbstractGUI):
 
 	def _helpFlagWidget(
 		self,
-		item: types.Item,
-	) -> list[gui_lib.Element]:
+		item: Item,
+	) -> list[Any]:
 		"""Return a set of self that make up an arg with true/ false."""
 		return [
-			self._helpArgNameAndHelp(item["commands"], item["help"], item["display_name"]),
-			self.sg.Column([[self._check(item["dest"], default=item["default"])]], pad=(0, 0)),
+			self._helpArgNameAndHelp(item.commands, item.help, item.display_name),
+			self.sg.Column([[self._check(f"{item.dest}{SEP}{item.type}", default=item.default)]], pad=(0, 0)),
 		]
 
 	def _helpTextWidget(
 		self,
-		item: types.Item,
-	) -> list[gui_lib.Element]:
+		item: Item,
+	) -> list[Any]:
 		"""Return a set of self that make up an arg with text."""
 		return [
-			self._helpArgNameAndHelp(item["commands"], item["help"], item["display_name"]),
-			self.sg.Column([[self._inputText(item["dest"], default=item["default"])]], pad=(0, 0)),
+			self._helpArgNameAndHelp(item.commands, item.help, item.display_name),
+			self.sg.Column([[self._inputText(f"{item.dest}{SEP}{item.type}", default=item.default)]], pad=(0, 0)),
 		]
 
 	def _helpCounterWidget(
 		self,
-		item: types.Item,
-	) -> list[gui_lib.Element]:
+		item: Item,
+	) -> list[Any]:
 		"""Return a set of self that make up an arg with text."""
 		return [
-			self._helpArgNameAndHelp(item["commands"], item["help"], item["display_name"]),
-			self.sg.Column([[self._spin(item["dest"], default=item["default"])]], pad=(0, 0)),
+			self._helpArgNameAndHelp(item.commands, item.help, item.display_name),
+			self.sg.Column([[self._spin(f"{item.dest}{SEP}{item.type}", default=item.default)]], pad=(0, 0)),
 		]
 
 	def _helpFileWidget(
 		self,
-		item: types.Item,
-	) -> list[gui_lib.Element]:
+		item: Item,
+	) -> list[Any]:
 		"""Return a set of self that make up an arg with a file."""
 		return [
-			self._helpArgNameAndHelp(item["commands"], item["help"], item["display_name"]),
-			self.sg.Column([self._fileBrowser(item["dest"], item["default"])], pad=(0, 0)),
+			self._helpArgNameAndHelp(item.commands, item.help, item.display_name),
+			self.sg.Column([self._fileBrowser(item.dest, item.default, item.type)], pad=(0, 0)),
 		]
 
 	def _helpDropdownWidget(
 		self,
-		item: types.Item,
-	) -> list[gui_lib.Element]:
+		item: Item,
+	) -> list[Any]:
 		"""Return a set of self that make up an arg with a choice."""
 		return [
-			self._helpArgNameAndHelp(item["commands"], item["help"], item["display_name"]),
+			self._helpArgNameAndHelp(item.commands, item.help, item.display_name),
 			self.sg.Column(
-				[[self._dropdown(item["dest"], item["additional_properties"]["choices"])]],
+				[[self._dropdown(f"{item.dest}{SEP}{item.type}", item.additional_properties["choices"])]],
 				pad=(0, 0),
 			),
 		]
 
-	def addWidgetFromItem(self, item: types.Item) -> list[gui_lib.Element]:
+	def addWidgetFromItem(self, item: Item) -> list[Any]:
 		"""Select a widget based on the item type.
 
-		:param types.Item item: the item
+		:param Item item: the item
 		"""
 		functionMap = {
-			types.ItemType.Bool: self._helpFlagWidget,
-			types.ItemType.File: self._helpFileWidget,
-			types.ItemType.Choice: self._helpDropdownWidget,
-			types.ItemType.Int: self._helpCounterWidget,
-			types.ItemType.Text: self._helpTextWidget,
+			ItemType.Bool: self._helpFlagWidget,
+			ItemType.File: self._helpFileWidget,
+			ItemType.Path: self._helpFileWidget,
+			ItemType.Choice: self._helpDropdownWidget,
+			ItemType.Int: self._helpCounterWidget,
+			ItemType.Text: self._helpTextWidget,
+			ItemType.Float: self._helpTextWidget,
+			ItemType.List: self._helpTextWidget,
+			ItemType.Tuple: self._helpTextWidget,
+			ItemType.DateTime: self._helpTextWidget,
 		}
-		if item["type"] in functionMap:
-			return functionMap[item["type"]](
+		if item.type in functionMap:
+			return functionMap[item.type](
 				item,
 			)
 		return []
 
 	def generatePopup(
 		self,
-		buildSpec: types.FullBuildSpec,
-		values: dict[Any, Any] | list[gui_lib.Element],
-	) -> gui_lib.Window:
+		buildSpec: FullBuildSpec,
+		values: dict[Any, Any] | list[Any],
+	) -> Any:
 		"""Create the popup window.
 
 		Args:
 		----
-			buildSpec (types.FullBuildSpec): [description]
+			buildSpec (FullBuildSpec): [description]
 			values (Union[dict[Any, Any]): Returned when a button is clicked. Such
 			as the menu
 
@@ -276,7 +277,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 
 		"""
 		maxLines = 30 if self.psg_lib == "pysimpleguiqt" else 200
-		popupText = helpers.read_file(buildSpec["menu"][values[0]], maxLines)
+		popupText = helpers.read_file(buildSpec.menu[values[0]], maxLines)
 
 		if self.psg_lib == "pysimplegui":
 			popupLayout = [
@@ -314,76 +315,76 @@ class PySimpleGUIWrapper(AbstractGUI):
 			values[0],
 			popupLayout,
 			alpha_channel=0.95,
-			icon=self.getImgData(buildSpec["image"], first=True) if buildSpec["image"] else None,
+			icon=self.getImgData(buildSpec.image, first=True) if buildSpec.image else None,
 		)
 
 	def addItemsAndGroups(
 		self,
-		section: types.Group,
-	) -> list[list[gui_lib.Element]]:
+		section: Group,
+	) -> list[list[Any]]:
 		"""Items and groups and return a list of psg Elements.
 
-		:param types.Group section: section with a name to display and items
+		:param Group section: section with a name to display and items
 		:return list[list[Element]]: updated argConstruct
 
 		"""
 
-		argConstruct: list[list[gui_lib.Element]] = []
+		argConstruct: list[list[Any]] = []
 
-		argConstruct.append([self._label(helpers.stringTitlecase(section["name"], " "), 14)])
-		for item in section["arg_items"]:
-			if item["type"] == types.ItemType.RadioGroup:
-				rGroup = item["additional_properties"]["radio"]
+		argConstruct.append([self._label(helpers.stringTitlecase(section.name, " "), 14)])
+		for item in section.arg_items:
+			if item.type == ItemType.RadioGroup:
+				rGroup = item.additional_properties["radio"]
 				for rElement in rGroup:
 					argConstruct.append(self.addWidgetFromItem(rElement))
 			else:
 				argConstruct.append(self.addWidgetFromItem(item))
-		for group in section["groups"]:
+		for group in section.groups:
 			argConstruct.extend(self.addItemsAndGroups(group))
 		return argConstruct
 
 	def createLayout(
 		self,
-		buildSpec: types.FullBuildSpec,
+		buildSpec: FullBuildSpec,
 		menu: str | list[str],
-	) -> list[list[gui_lib.Element]]:
+	) -> list[list[Any]]:
 		"""Create the pysimplegui layout from the build spec.
 
 		Args:
 		----
-			buildSpec (types.FullBuildSpec): build spec containing widget
+			buildSpec (FullBuildSpec): build spec containing widget
 			self (self): class to build self
 
 
 		Returns:
 		-------
-			list[list[gui_lib.Element]]: list of self (layout list)
+			list[list[Any]]: list of self (layout list)
 
 		"""
 		argConstruct = []
-		for widget in buildSpec["widgets"]:
+		for widget in buildSpec.widgets:
 			argConstruct.extend(self.addItemsAndGroups(widget))
 
 		# Set the layout
-		layout: list[list[gui_lib.Element]] = [[]]
+		layout: list[list[Any]] = [[]]
 		if isinstance(menu, list):
-			layout: list[list[gui_lib.Element]] = [[self.sg.Menu([["Open", menu]], tearoff=True)]]
+			layout: list[list[Any]] = [[self.sg.Menu([["Open", menu]], tearoff=True)]]
 
 		layout.extend(
 			[
-				self._title(str(buildSpec["program_name"]), buildSpec["image"]),
+				self._title(str(buildSpec.program_name), buildSpec.image),
 				[
 					self._label(
 						helpers.stringSentencecase(
-							buildSpec["program_description"]
-							if buildSpec["program_description"]
-							else buildSpec["parser_description"]
+							buildSpec.program_description
+							if buildSpec.program_description
+							else buildSpec.parser_description
 						)
 					)
 				],
 			]
 		)
-		if len(argConstruct) > buildSpec["max_args_shown"] and self.psg_lib in (
+		if len(argConstruct) > buildSpec.max_args_shown and self.psg_lib in (
 			"pysimplegui",
 			"freesimplegui",
 		):
@@ -396,7 +397,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 							min(
 								max(
 									280,
-									buildSpec["max_args_shown"]
+									buildSpec.max_args_shown
 									* 3.5
 									* (self.sizes["help_text_size"] + self.sizes["text_size"]),
 								),
@@ -416,31 +417,31 @@ class PySimpleGUIWrapper(AbstractGUI):
 
 	def main(
 		self,
-		buildSpec: types.FullBuildSpec,
+		buildSpec: FullBuildSpec,
 		quit_callback: Callable[[], None],
 		run_callback: Callable[[dict[str, Any]], None],
 	) -> None:
 		"""Run the gui (psg) with a given buildSpec, quit_callback, and run_callback.
 
-		:param types.FullBuildSpec buildSpec: Full cli parse/ build spec
+		:param FullBuildSpec buildSpec: Full cli parse/ build spec
 		:param Callable[[], None] quit_callback: generic callable used to quit
 		:param Callable[[dict[str, Any]], None] run_callback: generic callable used to run
 		"""
-		menu = list(buildSpec["menu"]) if buildSpec["menu"] else ""
+		menu = list(buildSpec.menu) if buildSpec.menu else ""
 
 		layout = self.createLayout(buildSpec=buildSpec, menu=menu)
 
 		# Build window from args
 		window = self.sg.Window(
-			buildSpec["program_name"],
+			buildSpec.program_name,
 			layout,
 			alpha_channel=0.95,
-			icon=self.getImgData(buildSpec["image"], first=True) if buildSpec["image"] else None,
+			icon=self.getImgData(buildSpec.image, first=True) if buildSpec.image else None,
 		)
 
 		# While the application is running
 		while True:
-			eventAndValues: tuple[Any, dict[Any, Any] | list[gui_lib.Element]] = window.read()
+			eventAndValues: tuple[Any, dict[Any, Any] | list[Any]] = window.read()
 			event, values = eventAndValues
 			if event in (None, "Exit"):
 				quit_callback()

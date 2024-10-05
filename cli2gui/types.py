@@ -6,11 +6,12 @@ from __future__ import annotations
 from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, TypedDict
+from typing import Any
 
+SEP = "#%#"
 
 @dataclass
-class BuildSpec(TypedDict):
+class BuildSpec():
 	"""Representation for the BuildSpec."""
 
 	run_function: Callable[..., Any]
@@ -26,7 +27,7 @@ class BuildSpec(TypedDict):
 
 
 @dataclass
-class Item(TypedDict):
+class Item():
 	"""Representation for an arg_item."""
 
 	type: ItemType
@@ -47,6 +48,7 @@ class ItemType(Enum):
 	RadioGroup = "RadioGroup"
 	Bool = "Bool"
 	File = "File"
+	Path = "Path"
 	Choice = "Choice"
 	Int = "Int"
 	Text = "Text"
@@ -57,7 +59,7 @@ class ItemType(Enum):
 
 
 @dataclass
-class Group(TypedDict):
+class Group():
 	"""Representation for an argument group."""
 
 	name: str
@@ -66,7 +68,7 @@ class Group(TypedDict):
 
 
 @dataclass
-class ParserRep(TypedDict):
+class ParserRep():
 	"""Representation for a parser."""
 
 	parser_description: str
@@ -74,7 +76,7 @@ class ParserRep(TypedDict):
 
 
 @dataclass
-class FullBuildSpec(TypedDict):
+class FullBuildSpec():
 	"""Representation for the FullBuildSpec (BuildSpec + ParserRep)."""
 
 	run_function: Callable[..., Any]

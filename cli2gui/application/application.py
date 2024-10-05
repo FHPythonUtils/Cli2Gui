@@ -24,9 +24,9 @@ def run(buildSpec: types.FullBuildSpec) -> Any:
 	"""
 
 	# Set the theme
-	theme = helpers.get_base24_theme(buildSpec["theme"], buildSpec["darkTheme"])
+	theme = helpers.get_base24_theme(buildSpec.theme, buildSpec.darkTheme)
 
-	if buildSpec["gui"] in [
+	if buildSpec.gui in [
 		"pysimplegui",
 		"pysimpleguiqt",
 		"pysimpleguiweb",
@@ -37,7 +37,7 @@ def run(buildSpec: types.FullBuildSpec) -> Any:
 		gui_wrapper = DearPyGuiWrapper
 
 	if gui_wrapper is PySimpleGUIWrapper:
-		gui = gui_wrapper(theme, buildSpec["gui"])
+		gui = gui_wrapper(theme, buildSpec.gui)
 	elif gui_wrapper is DearPyGuiWrapper:
 		gui = gui_wrapper(theme)
 
@@ -45,10 +45,10 @@ def run(buildSpec: types.FullBuildSpec) -> Any:
 		sys.exit(0)
 
 	def run_callback(values: dict[str, Any]) -> None:
-		args = argFormat(values, buildSpec["parser"])
-		if not buildSpec["run_function"]:
+		args = argFormat(values, buildSpec.parser)
+		if not buildSpec.run_function:
 			return args
-		buildSpec["run_function"](args)
+		buildSpec.run_function(args)
 		return None
 
 	try:

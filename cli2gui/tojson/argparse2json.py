@@ -16,10 +16,11 @@ from argparse import (
 	_SubParsersAction,
 )
 from os import path
+from pathlib import Path
 from sys import argv
 from typing import Any, Generator, TypedDict
 
-from cli2gui import types
+from cli2gui.types import ParserRep, Group, Item, ItemType
 
 
 class ArgparseGroup(TypedDict):
@@ -107,10 +108,10 @@ def extractRawGroups(actionGroup: argparse._ArgumentGroup) -> ArgparseGroup:
 	}
 
 
-def actionToJson(action: argparse.Action, widget: types.ItemType) -> types.Item:
+def actionToJson(action: argparse.Action, widget: ItemType) -> Item:
 	"""Generate json for an action and set the widget - used by the application."""
 	choices = [str(choice) for choice in action.choices] if action.choices else []
-	return {
+	return Item(**{
 		"type": widget,
 		"display_name": str(action.metavar or action.dest),
 		"help": str(action.help),
@@ -118,46 +119,56 @@ def actionToJson(action: argparse.Action, widget: types.ItemType) -> types.Item:
 		"dest": action.dest,
 		"default": action.default,
 		"additional_properties": {"choices": choices, "nargs": action.nargs},
-	}
+	})
 
 
-def buildRadioGroup(mutexGroup: _MutuallyExclusiveGroup) -> types.Item:
+def buildRadioGroup(mutexGroup: _MutuallyExclusiveGroup) -> Item:
 	"""Create a radio group for a mutex group of arguments."""
 	commands = [action.option_strings for action in mutexGroup._group_actions]
-	return {
-		"type": types.ItemType.RadioGroup,
+	return Item(**{
+		"display_name": "",
+		"help": "",
+		"dest": "",
+		"default": "",
+		"type": ItemType.RadioGroup,
 		"commands": commands,
 		"additional_properties": {"radio": list(categorizeItems(mutexGroup._group_actions))},
-	}  # type: ignore
+	} )
 
 
 def categorizeItems(
 	actions: list[argparse.Action],
-) -> Generator[types.Item, None, None]:
+) -> Generator[Item, None, None]:
 	"""Catergorise each action and generate json."""
 	for action in actions:
 		if isinstance(action, _MutuallyExclusiveGroup):
 			yield buildRadioGroup(action)
 		elif isinstance(action, (_StoreTrueAction, _StoreFalseAction)):
-			yield actionToJson(action, types.ItemType.Bool)
+			yield actionToJson(action, ItemType.Bool)
 		elif isinstance(action, _CountAction):
-			yield actionToJson(action, types.ItemType.Int)
+			yield actionToJson(action, ItemType.Int)
 		elif action.choices:
-			yield actionToJson(action, types.ItemType.Choice)
+			yield actionToJson(action, ItemType.Choice)
 		elif isinstance(action.type, argparse.FileType):
-			yield actionToJson(action, types.ItemType.File)
+			yield actionToJson(action, ItemType.File)
+		elif action.type == Path:
+			yield actionToJson(action, ItemType.Path)
+		elif action.type == int:
+			yield actionToJson(action, ItemType.Int)
+		elif action.type == float:
+			yield actionToJson(action, ItemType.Float)
 		else:
-			yield actionToJson(action, types.ItemType.Text)
+			yield actionToJson(action, ItemType.Text)
 
 
-def categorizeGroups(groups: list[ArgparseGroup]) -> list[types.Group]:
+def categorizeGroups(groups: list[ArgparseGroup]) -> list[Group]:
 	"""Categorize the parser groups and arg_items."""
 	return [
-		{
+		Group(**{
 			"name": group["name"],
 			"arg_items": list(categorizeItems(group["arg_items"])),
 			"groups": categorizeGroups(group["groups"]),
-		}
+		})
 		for group in groups
 	]
 
@@ -167,7 +178,7 @@ def stripEmpty(groups: list[ArgparseGroup]) -> list[ArgparseGroup]:
 	return [group for group in groups if group["arg_items"]]
 
 
-def process(parser: argparse.ArgumentParser) -> list[types.Group]:
+def process(parser: argparse.ArgumentParser) -> list[Group]:
 	"""Reapply the mutex groups and then categorize them and the arg_items under the parser."""
 	mutexGroups = parser._mutually_exclusive_groups
 	rawActionGroups = [
@@ -177,7 +188,7 @@ def process(parser: argparse.ArgumentParser) -> list[types.Group]:
 	return categorizeGroups(stripEmpty(correctedActionGroups))
 
 
-def convert(parser: argparse.ArgumentParser) -> types.ParserRep:
+def convert(parser: argparse.ArgumentParser) -> ParserRep:
 	"""Convert argparse to a dict.
 
 	Args:
@@ -186,11 +197,11 @@ def convert(parser: argparse.ArgumentParser) -> types.ParserRep:
 
 	Returns:
 	-------
-		types.ParserRep: dictionary representing parser object
+		ParserRep: dictionary representing parser object
 
 	"""
 	widgets = []
 	for _, subparser in iterParsers(parser):
 		widgets.extend(process(subparser))
 
-	return {"parser_description": f"{parser.prog}: {parser.description or ''}", "widgets": widgets}
+	return ParserRep(parser_description= f"{parser.prog}: {parser.description or ''}", widgets= widgets)

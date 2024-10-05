@@ -5,16 +5,16 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import Generator
 
-from cli2gui import types
+from cli2gui.types import ParserRep, Item, ItemType, Group
 
 # ruff: noqa: SLF001
 
 
-def actionToJson(action: str, widget: types.ItemType, *, short: bool = True) -> types.Item:
+def actionToJson(action: str, widget: ItemType, *, short: bool = True) -> Item:
 	"""Convert an arg to json, behave in the same way as argparse hence the large
 	amount of duplication.
 	"""
-	return {
+	return Item(**{
 		"type": widget,
 		"display_name": action,
 		"help": "",
@@ -22,52 +22,52 @@ def actionToJson(action: str, widget: types.ItemType, *, short: bool = True) -> 
 		"dest": ("-" if short else "--") + action,
 		"default": None,
 		"additional_properties": {},
-	}
+	})
 
 
-def catLong(actions: list[str]) -> Generator[types.Item, None, None]:
+def catLong(actions: list[str]) -> Generator[Item, None, None]:
 	"""Categorize long args."""
 	for action in actions:
 		# True/ false
 		if "=" in action:
-			yield actionToJson(action[:-1], types.ItemType.Text, short=False)
+			yield actionToJson(action[:-1], ItemType.Text, short=False)
 		else:
-			yield actionToJson(action, types.ItemType.Bool, short=False)
+			yield actionToJson(action, ItemType.Bool, short=False)
 
 
-def catShort(actions: list[str]) -> Generator[types.Item, None, None]:
+def catShort(actions: list[str]) -> Generator[Item, None, None]:
 	"""Categorize short args."""
 	index = 0
 	while index < len(actions):
 		try:
 			# True/ false
 			if ":" in actions[index + 1]:
-				yield actionToJson(actions[index], types.ItemType.Text)
+				yield actionToJson(actions[index], ItemType.Text)
 				index += 2
 			else:
-				yield actionToJson(actions[index], types.ItemType.Bool)
+				yield actionToJson(actions[index], ItemType.Bool)
 				index += 1
 		except IndexError:
-			yield actionToJson(actions[index], types.ItemType.Bool)
+			yield actionToJson(actions[index], ItemType.Bool)
 			break
 
 
 def process(
 	group: list[str],
 	groupName: str,
-	categorize: Callable[[list[str]], Generator[types.Item, None, None]],
-) -> list[types.Group]:
+	categorize: Callable[[list[str]], Generator[Item, None, None]],
+) -> list[Group]:
 	"""Generate a group (or section)."""
 	return [
-		{
+		Group(**{
 			"name": groupName,
 			"arg_items": list(categorize(group)),
 			"groups": [],
-		}
+		})
 	]
 
 
-def convert(parser: tuple[list[str], list[str]]) -> types.ParserRep:
+def convert(parser: tuple[list[str], list[str]]) -> ParserRep:
 	"""Convert getopt to a dict.
 
 	Args:
@@ -76,11 +76,11 @@ def convert(parser: tuple[list[str], list[str]]) -> types.ParserRep:
 
 	Returns:
 	-------
-		types.ParserRep: dictionary representing parser object
+		ParserRep: dictionary representing parser object
 
 	"""
-	return {
+	return ParserRep(**{
 		"parser_description": "",
 		"widgets": process(parser[0], "Short Args", catShort)
 		+ process(parser[1], "Long Args", catLong),
-	}
+	})

@@ -5,39 +5,39 @@ from __future__ import annotations
 import contextlib
 from typing import Any, Generator
 
-from cli2gui import types
+from cli2gui.types import ParserRep, Item, ItemType, Group
 
 
-def extract(parser: Any) -> list[types.Group]:
+def extract(parser: Any) -> list[Group]:
 	"""Get the actions as json for the parser."""
 	try:
 		argumentList = [
-			{
+			Group(**{
 				"name": "Positional Arguments",
 				"arg_items": list(categorize([parser.commands[key] for key in parser.commands])),
 				"groups": [],
-			}
+			})
 		]
 	except AttributeError:
-		argumentList: list[types.Group] = []
+		argumentList: list[Group] = []
 	argumentList.append(
-		{
+		Group(**{
 			"name": "Optional Arguments",
 			"arg_items": list(categorize(parser.params)),
 			"groups": [],
-		}
+		})
 	)
 	return argumentList
 
 
-def actionToJson(action: Any, widget: types.ItemType, other: dict | None = None) -> types.Item:
+def actionToJson(action: Any, widget: ItemType, other: dict | None = None) -> Item:
 	"""Generate json for an action and set the widget - used by the application."""
 	nargs = ""
 	with contextlib.suppress(AttributeError):
 		nargs = action.params[0].nargs if len(action.params) > 0 else "" or ""
 
 	commands = action.opts + action.secondary_opts
-	return {
+	return Item(**{
 		"type": widget,
 		"display_name": action.name,
 		"help": action.help,
@@ -45,25 +45,29 @@ def actionToJson(action: Any, widget: types.ItemType, other: dict | None = None)
 		"dest": action.callback or commands[0],
 		"default": action.default,
 		"additional_properties": {"nargs": nargs, **(other or {})},
-	}
+	})
 
 
-def categorize(actions: list[Any]) -> Generator[types.Item, None, None]:
+def categorize(actions: list[Any]) -> Generator[Item, None, None]:
 	"""Catergorise each action and generate json."""
 	import click
 
 	for action in actions:
 		if isinstance(action.type, click.Choice):
-			yield actionToJson(action, types.ItemType.Choice, {"choices": action.type.choices})
+			yield actionToJson(action, ItemType.Choice, {"choices": action.type.choices})
 		elif isinstance(action.type, click.types.IntParamType):
-			yield actionToJson(action, types.ItemType.Int)
+			yield actionToJson(action, ItemType.Int)
+		elif isinstance(action.type, click.types.FloatParamType):
+			yield actionToJson(action, ItemType.Float)
 		elif isinstance(action.type, click.types.BoolParamType):
-			yield actionToJson(action, types.ItemType.Bool)
+			yield actionToJson(action, ItemType.Bool)
+		elif isinstance(action.type, click.types.Path):
+			yield actionToJson(action, ItemType.Path)
 		else:
-			yield actionToJson(action, types.ItemType.Text)
+			yield actionToJson(action, ItemType.Text)
 
 
-def convert(parser: Any) -> types.ParserRep:
+def convert(parser: Any) -> ParserRep:
 	"""Convert click to a dict.
 
 	Args:
@@ -72,7 +76,7 @@ def convert(parser: Any) -> types.ParserRep:
 
 	Returns:
 	-------
-		types.ParserRep: dictionary representing parser object
+		ParserRep: dictionary representing parser object
 
 	"""
-	return {"parser_description": "", "widgets": extract(parser)}
+	return ParserRep(**{"parser_description": "", "widgets": extract(parser)})

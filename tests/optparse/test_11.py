@@ -15,7 +15,11 @@ from cli2gui import Cli2Gui
 
 def handle(args: tuple[Any, list[str]]) -> None:
 	"""Handle the args."""
+	print(type(args))
 	print(args)
+	print(type(args[0]))
+	print(args[0])
+	print(args[1])
 
 
 @Cli2Gui(run_function=handle, parser="optparse")
