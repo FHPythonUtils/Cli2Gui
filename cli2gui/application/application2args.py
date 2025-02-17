@@ -1,5 +1,5 @@
-"""Functions to create args from key/value pairs.
-"""
+"""Functions to create args from key/value pairs."""
+
 from __future__ import annotations
 
 import argparse
@@ -18,8 +18,11 @@ def processValue(key: str, value: str) -> tuple[str, Any]:
 		return key, None
 	if _type == "ItemType.Bool":
 		return key, bool(value)
-	if _type == "ItemType.File":
-		return key, open(value, encoding="utf-8")
+	if "ItemType.File" in _type:
+		_, mode, encoding = _type.split(";", maxsplit=2)
+		if "b" in mode:
+			return key, open(value, mode=mode)
+		return key, open(value, mode=mode, encoding=encoding)
 	if _type == "ItemType.Path":
 		return key, Path(value)
 	if _type == "ItemType.Int":

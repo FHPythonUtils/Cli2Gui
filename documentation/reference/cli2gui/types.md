@@ -16,7 +16,7 @@
 
 ## BuildSpec
 
-[Show source in types.py:15](../../../cli2gui/types.py#L15)
+[Show source in types.py:14](../../../cli2gui/types.py#L14)
 
 Representation for the BuildSpec.
 
@@ -77,7 +77,7 @@ class Group: ...
 
 ## Item
 
-[Show source in types.py:31](../../../cli2gui/types.py#L31)
+[Show source in types.py:30](../../../cli2gui/types.py#L30)
 
 Representation for an arg_item.
 
@@ -91,7 +91,7 @@ class Item: ...
 
 ## ItemType
 
-[Show source in types.py:46](../../../cli2gui/types.py#L46)
+[Show source in types.py:45](../../../cli2gui/types.py#L45)
 
 Enum of ItemTypes.
 

@@ -88,6 +88,7 @@ class DearPyGuiWrapper(AbstractGUI):
 		functionMap = {
 			ItemType.Bool: self._helpFlagWidget,
 			ItemType.File: self._helpFileWidget,
+			ItemType.FileWrite: self._helpFileWidget,
 			ItemType.Path: self._helpFileWidget,
 			ItemType.Choice: self._helpDropdownWidget,
 			ItemType.Int: self._helpIntCounterWidget,
@@ -111,7 +112,7 @@ class DearPyGuiWrapper(AbstractGUI):
 		:return list[Item]: flattened list of items
 		"""
 		dpg.add_text(
-			f'=== {helpers.stringTitlecase(section.name, " ")} ===',
+			f"=== {helpers.stringTitlecase(section.name, ' ')} ===",
 			color=hex_to_rgb(self.base24Theme[14]),
 		)
 

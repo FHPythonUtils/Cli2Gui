@@ -1,5 +1,4 @@
-"""Types for cli2gui.
-"""
+"""Types for cli2gui."""
 
 from __future__ import annotations
 
@@ -49,6 +48,7 @@ class ItemType(Enum):
 	RadioGroup = "RadioGroup"
 	Bool = "Bool"
 	File = "File"
+	FileWrite = "FileWrite"
 	Path = "Path"
 	Choice = "Choice"
 	Int = "Int"

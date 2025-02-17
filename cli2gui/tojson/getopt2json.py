@@ -1,5 +1,5 @@
-"""Generate a dict for getopt.
-"""
+"""Generate a dict for getopt."""
+
 from __future__ import annotations
 
 from collections.abc import Callable

@@ -1,5 +1,4 @@
-"""Decorator and entry point for the program.
-"""
+"""Decorator and entry point for the program."""
 
 from __future__ import annotations
 
@@ -70,7 +69,7 @@ def createFromParser(
 		buildSpec.parser = input(
 			f"!Custom parser selected! Choose one of: {[x.value for x in ParserType]}"
 		)
-		if buildSpec.parser not in ParserType._value2member_map_:  # noqa: SLF001
+		if buildSpec.parser not in ParserType._value2member_map_:
 			msg = f"!Custom parser must be one of: {[x.value for x in ParserType]}"
 			raise RuntimeError(msg)
 

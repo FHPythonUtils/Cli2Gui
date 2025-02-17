@@ -127,11 +127,35 @@ class PySimpleGUIWrapper(AbstractGUI):
 		)
 
 	def _fileBrowser(
-		self, key: str, default: str | None = None, _type: ItemType = ItemType.File
+		self,
+		key: str,
+		default: str | None = None,
+		_type: ItemType = ItemType.File,
+		additional_properties: dict | None = None,
 	) -> list[Any]:
 		"""Return a fileBrowser button and field."""
+		additional_properties = additional_properties or {}
+
 		height = self.sizes["input_size"][1]
 		width = self.sizes["input_size"][0]
+
+		key = f"{key}{SEP}{_type}"
+		if _type in [ItemType.FileWrite, ItemType.File]:
+			key += f";{additional_properties.get('file_mode')};{additional_properties.get('file_encoding')}"
+
+		browser = self.sg.FileBrowse(
+			key="@@" + key,
+			size=(int(width / 3), height),
+			pad=(0, self.sizes["padding"][1]),
+		)
+
+		if _type in [ItemType.FileWrite, ItemType.Path]:
+			browser = self.sg.SaveAs(
+				button_text="Select/Create",
+				key="@@" + key,
+				size=(int(width / 3), height),
+				pad=(0, self.sizes["padding"][1]),
+			)
 		fb: list[Any] = [
 			self.sg.InputText(
 				default or "",
@@ -140,11 +164,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 				key=key,
 				font=("sans", self.sizes["text_size"]),
 			),
-			self.sg.FileBrowse(
-				key=f"{key}{SEP}{_type}",
-				size=(int(width / 3), height),
-				pad=(0, self.sizes["padding"][1]),
-			),
+			browser,
 		]
 		return fb
 
@@ -229,7 +249,10 @@ class PySimpleGUIWrapper(AbstractGUI):
 		"""Return a set of self that make up an arg with a file."""
 		return [
 			self._helpArgNameAndHelp(item.commands, item.help, item.display_name),
-			self.sg.Column([self._fileBrowser(item.dest, item.default, item.type)], pad=(0, 0)),
+			self.sg.Column(
+				[self._fileBrowser(item.dest, item.default, item.type, item.additional_properties)],
+				pad=(0, 0),
+			),
 		]
 
 	def _helpDropdownWidget(
@@ -259,6 +282,7 @@ class PySimpleGUIWrapper(AbstractGUI):
 		functionMap = {
 			ItemType.Bool: self._helpFlagWidget,
 			ItemType.File: self._helpFileWidget,
+			ItemType.FileWrite: self._helpFileWidget,
 			ItemType.Path: self._helpFileWidget,
 			ItemType.Choice: self._helpDropdownWidget,
 			ItemType.Int: self._helpCounterWidget,

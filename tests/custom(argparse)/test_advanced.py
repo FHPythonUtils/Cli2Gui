@@ -1,5 +1,4 @@
-"""Tests an advanced parser
-"""
+"""Tests an advanced parser"""
 
 from __future__ import annotations
 

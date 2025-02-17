@@ -15,7 +15,7 @@
 
 ## argFormat
 
-[Show source in application2args.py:86](../../../../cli2gui/application/application2args.py#L86)
+[Show source in application2args.py:89](../../../../cli2gui/application/application2args.py#L89)
 
 Format the args for the desired parser.
 
@@ -40,7 +40,7 @@ def argFormat(values: dict[str, Any], argumentParser: str | ParserType) -> Any: 
 
 ## argparseFormat
 
-[Show source in application2args.py:41](../../../../cli2gui/application/application2args.py#L41)
+[Show source in application2args.py:44](../../../../cli2gui/application/application2args.py#L44)
 
 Format args for argparse.
 
@@ -54,7 +54,7 @@ def argparseFormat(values: dict[str, Any]) -> argparse.Namespace: ...
 
 ## clickFormat
 
-[Show source in application2args.py:75](../../../../cli2gui/application/application2args.py#L75)
+[Show source in application2args.py:78](../../../../cli2gui/application/application2args.py#L78)
 
 Format args for click.
 
@@ -68,7 +68,7 @@ def clickFormat(values: dict[str, Any]) -> list[Any]: ...
 
 ## docoptFormat
 
-[Show source in application2args.py:64](../../../../cli2gui/application/application2args.py#L64)
+[Show source in application2args.py:67](../../../../cli2gui/application/application2args.py#L67)
 
 Format args for docopt.
 
@@ -82,7 +82,7 @@ def docoptFormat(values: dict[str, Any]) -> dict[str, Any]: ...
 
 ## getoptFormat
 
-[Show source in application2args.py:59](../../../../cli2gui/application/application2args.py#L59)
+[Show source in application2args.py:62](../../../../cli2gui/application/application2args.py#L62)
 
 Format args for getopt.
 
@@ -96,7 +96,7 @@ def getoptFormat(values: dict[str, Any]) -> tuple[list[Any], list[Any]]: ...
 
 ## optparseFormat
 
-[Show source in application2args.py:50](../../../../cli2gui/application/application2args.py#L50)
+[Show source in application2args.py:53](../../../../cli2gui/application/application2args.py#L53)
 
 Format args for optparse.
 

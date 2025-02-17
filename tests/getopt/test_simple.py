@@ -1,5 +1,4 @@
-"""Tests a simple parser
-"""
+"""Tests a simple parser"""
 
 from __future__ import annotations
 

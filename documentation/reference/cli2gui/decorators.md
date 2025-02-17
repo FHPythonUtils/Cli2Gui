@@ -11,7 +11,7 @@
 
 ## Cli2Gui
 
-[Show source in decorators.py:172](../../../cli2gui/decorators.py#L172)
+[Show source in decorators.py:171](../../../cli2gui/decorators.py#L171)
 
 Use this decorator in the function containing the argument parser.
 Serialises data to JSON and launches the Cli2Gui application.
@@ -73,7 +73,7 @@ def Cli2Gui(
 
 ## Click2Gui
 
-[Show source in decorators.py:109](../../../cli2gui/decorators.py#L109)
+[Show source in decorators.py:108](../../../cli2gui/decorators.py#L108)
 
 Use this decorator in the function containing the argument parser.
 Serializes data to JSON and launches the Cli2Gui application.
@@ -129,7 +129,7 @@ def Click2Gui(
 
 ## createFromParser
 
-[Show source in decorators.py:30](../../../cli2gui/decorators.py#L30)
+[Show source in decorators.py:29](../../../cli2gui/decorators.py#L29)
 
 Generate a buildSpec from a parser.
 

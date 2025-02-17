@@ -31,7 +31,7 @@ class DearPyGuiWrapper(AbstractGUI):
 
 ### DearPyGuiWrapper().addItemsAndGroups
 
-[Show source in dearpygui_wrapper.py:104](../../../../cli2gui/gui/dearpygui_wrapper.py#L104)
+[Show source in dearpygui_wrapper.py:105](../../../../cli2gui/gui/dearpygui_wrapper.py#L105)
 
 Items and groups and return a list of these so we can get values from the dpg widgets.
 
@@ -77,7 +77,7 @@ def addWidgetFromItem(self, item: Item) -> None: ...
 
 ### DearPyGuiWrapper().main
 
-[Show source in dearpygui_wrapper.py:148](../../../../cli2gui/gui/dearpygui_wrapper.py#L148)
+[Show source in dearpygui_wrapper.py:149](../../../../cli2gui/gui/dearpygui_wrapper.py#L149)
 
 Run the gui (dpg) with a given buildSpec, quit_callback, and run_callback.
 
@@ -109,7 +109,7 @@ def main(
 
 ### DearPyGuiWrapper().open_menu_item
 
-[Show source in dearpygui_wrapper.py:134](../../../../cli2gui/gui/dearpygui_wrapper.py#L134)
+[Show source in dearpygui_wrapper.py:135](../../../../cli2gui/gui/dearpygui_wrapper.py#L135)
 
 Open a menu item.
 

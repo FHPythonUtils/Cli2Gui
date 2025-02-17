@@ -1,5 +1,5 @@
-"""Generate a dict for docopt.
-"""
+"""Generate a dict for docopt."""
+
 from __future__ import annotations
 
 import re
@@ -86,7 +86,7 @@ def parse(optionDescription: str) -> tuple[str, str, int, Any, str]:
 		else:
 			argcount = 1
 	if argcount > 0:
-		matched = re.findall(r"\[default: (.*)\]", description, flags=re.I)
+		matched = re.findall(r"\[default: (.*)\]", description, flags=re.IGNORECASE)
 		value = matched[0] if matched else ""
 	return (short, long, argcount, value, description.strip())
 

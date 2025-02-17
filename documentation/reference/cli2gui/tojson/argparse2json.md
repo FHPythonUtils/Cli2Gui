@@ -14,6 +14,7 @@
   - [containsActions](#containsactions)
   - [convert](#convert)
   - [extractRawGroups](#extractrawgroups)
+  - [fileActionToJson](#fileactiontojson)
   - [isDefaultProgname](#isdefaultprogname)
   - [iterParsers](#iterparsers)
   - [process](#process)
@@ -36,7 +37,7 @@ class ArgparseGroup(TypedDict): ...
 
 ## actionToJson
 
-[Show source in argparse2json.py:111](../../../../cli2gui/tojson/argparse2json.py#L111)
+[Show source in argparse2json.py:122](../../../../cli2gui/tojson/argparse2json.py#L122)
 
 Generate json for an action and set the widget - used by the application.
 
@@ -55,7 +56,7 @@ def actionToJson(action: argparse.Action, widget: ItemType) -> Item: ...
 
 ## buildRadioGroup
 
-[Show source in argparse2json.py:125](../../../../cli2gui/tojson/argparse2json.py#L125)
+[Show source in argparse2json.py:136](../../../../cli2gui/tojson/argparse2json.py#L136)
 
 Create a radio group for a mutex group of arguments.
 
@@ -73,7 +74,7 @@ def buildRadioGroup(mutexGroup: _MutuallyExclusiveGroup) -> Item: ...
 
 ## categorizeGroups
 
-[Show source in argparse2json.py:164](../../../../cli2gui/tojson/argparse2json.py#L164)
+[Show source in argparse2json.py:180](../../../../cli2gui/tojson/argparse2json.py#L180)
 
 Categorize the parser groups and arg_items.
 
@@ -92,7 +93,7 @@ def categorizeGroups(groups: list[ArgparseGroup]) -> list[Group]: ...
 
 ## categorizeItems
 
-[Show source in argparse2json.py:139](../../../../cli2gui/tojson/argparse2json.py#L139)
+[Show source in argparse2json.py:150](../../../../cli2gui/tojson/argparse2json.py#L150)
 
 Catergorise each action and generate json.
 
@@ -140,7 +141,7 @@ def containsActions(
 
 ## convert
 
-[Show source in argparse2json.py:191](../../../../cli2gui/tojson/argparse2json.py#L191)
+[Show source in argparse2json.py:207](../../../../cli2gui/tojson/argparse2json.py#L207)
 
 Convert argparse to a dict.
 
@@ -184,6 +185,23 @@ def extractRawGroups(actionGroup: argparse._ArgumentGroup) -> ArgparseGroup: ...
 
 
 
+## fileActionToJson
+
+[Show source in argparse2json.py:111](../../../../cli2gui/tojson/argparse2json.py#L111)
+
+#### Signature
+
+```python
+def fileActionToJson(action: argparse.Action, widget: ItemType) -> Item: ...
+```
+
+#### See also
+
+- [ItemType](../types.md#itemtype)
+- [Item](../types.md#item)
+
+
+
 ## isDefaultProgname
 
 [Show source in argparse2json.py:50](../../../../cli2gui/tojson/argparse2json.py#L50)
@@ -216,7 +234,7 @@ def iterParsers(
 
 ## process
 
-[Show source in argparse2json.py:181](../../../../cli2gui/tojson/argparse2json.py#L181)
+[Show source in argparse2json.py:197](../../../../cli2gui/tojson/argparse2json.py#L197)
 
 Reapply the mutex groups and then categorize them and the arg_items under the parser.
 
@@ -257,7 +275,7 @@ def reapplyMutexGroups(
 
 ## stripEmpty
 
-[Show source in argparse2json.py:176](../../../../cli2gui/tojson/argparse2json.py#L176)
+[Show source in argparse2json.py:192](../../../../cli2gui/tojson/argparse2json.py#L192)
 
 Remove groups where group['arg_items'] is false.
 

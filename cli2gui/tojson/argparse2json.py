@@ -108,6 +108,17 @@ def extractRawGroups(actionGroup: argparse._ArgumentGroup) -> ArgparseGroup:
 	}
 
 
+def fileActionToJson(action: argparse.Action, widget: ItemType) -> Item:
+	item = actionToJson(action=action, widget=widget)
+	if isinstance(action.type, argparse.FileType):
+		item.additional_properties = {
+			**item.additional_properties,
+			"file_mode": action.type._mode,
+			"file_encoding": action.type._encoding,
+		}
+	return item
+
+
 def actionToJson(action: argparse.Action, widget: ItemType) -> Item:
 	"""Generate json for an action and set the widget - used by the application."""
 	choices = [str(choice) for choice in action.choices] if action.choices else []
@@ -149,10 +160,15 @@ def categorizeItems(
 			yield actionToJson(action, ItemType.Int)
 		elif action.choices:
 			yield actionToJson(action, ItemType.Choice)
+
+		elif isinstance(action.type, argparse.FileType) and "w" in action.type._mode:
+			yield fileActionToJson(action, ItemType.FileWrite)
+
 		elif isinstance(action.type, argparse.FileType):
-			yield actionToJson(action, ItemType.File)
+			yield fileActionToJson(action, ItemType.File)
 		elif action.type == Path:
 			yield actionToJson(action, ItemType.Path)
+
 		elif action.type == int:
 			yield actionToJson(action, ItemType.Int)
 		elif action.type == float:
