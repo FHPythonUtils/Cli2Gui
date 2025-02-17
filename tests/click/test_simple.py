@@ -21,7 +21,7 @@ from cli2gui import Click2Gui
 def hello(count: int, name: str) -> None:
 	"""Simple program that greets NAME for a total of COUNT times."""
 	for _index in range(count):
-		click.echo("Hello %s!" % name)
+		click.echo(f"Hello {name}!")
 
 
 Click2Gui(run_function=hello)

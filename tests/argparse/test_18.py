@@ -8,7 +8,7 @@ import argparse
 from pathlib import Path
 
 
-def main():
+def main() -> None:
 	parser = argparse.ArgumentParser(description="Web scraper with aria2c output")
 	parser.add_argument(
 		"urls_file",
@@ -36,16 +36,16 @@ def main():
 	blocking_run(args)
 
 
-def blocking_run(args):
+def blocking_run(args) -> None:
 	asyncio.run(run(args))
 
 
-async def run(args):
+async def run(args) -> None:
 	print(args)
 	print(args.timeout)
 
 
-def wrapper(args):
+def wrapper(args) -> None:
 	global THREAD
 
 	if THREAD is not None and THREAD.is_alive():
