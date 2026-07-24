@@ -3,5 +3,5 @@
 -e .
 dearpygui==2.0.0
 getostheme==2024.0.1
-pillow==11.1.0
+pillow==12.3.0
 pyyaml==6.0.2
